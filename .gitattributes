@@ -1,2 +1,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+*.jsx text eol=lf
+# If you're using TypeScript, also add .ts, .tsx files
+*.ts text eol=lf
+*.tsx text eol=lf
+# If you're using Prettier, you probably want LF in .json, .md, .css,
+# and all the other files you're formatting with Prettier.
+*.json text eol=lf
