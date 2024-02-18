@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
@@ -24,9 +25,10 @@ export class UsersController {
     return this.userService.findUserByID(id);
   }
 
-  @Post('create')
+  @Post()
   @UsePipes(ValidationPipe)
-  createUser(createUserDto: CreateUserDto) {
+  createUser(@Body() createUserDto: CreateUserDto) {
+    console.log(createUserDto);
     return this.userService.createUser(createUserDto);
   }
 }

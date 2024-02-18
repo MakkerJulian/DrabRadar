@@ -6,10 +6,6 @@ export default () => ({
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    uri: `${process.env.DB_SOCKET === 'true' ? 'socket' : 'postgres'}://${
-      process.env.DB_USERNAME
-    }:${process.env.DB_PASSWORD}@${process.env.DB_HOST}${
-      process.env.DB_SOCKET === 'true' ? '' : `:${process.env.DB_PORT}`
-    }?db=${process.env.DB_DATABASE}`,
+    uri: 'postgres://postgres:postgres123@localhost:5432/postgres',
   },
 });

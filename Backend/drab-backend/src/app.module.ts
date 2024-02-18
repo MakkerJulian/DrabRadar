@@ -15,7 +15,7 @@ import configuration from './config/configuration';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        url: configService.get('DATABASE_URL'),
+        url: configService.get('database.uri'),
         entities: ['dist/**/*.entity.js'],
         autoLoadEntities: true,
         migrationsRun: true,
