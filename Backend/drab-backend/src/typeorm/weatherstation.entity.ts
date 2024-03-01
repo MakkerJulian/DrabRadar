@@ -13,7 +13,6 @@ export class Weatherstation {
   name: string;
 
   @Column()
-  
   longitude: number;
 
   @Column()
