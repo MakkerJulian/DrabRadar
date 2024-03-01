@@ -14,7 +14,7 @@ export class Account {
   email: string;
 
   @Column({ nullable: true })
-  phone: number;
+  phone: string;
 
   @Column()
   password: string;

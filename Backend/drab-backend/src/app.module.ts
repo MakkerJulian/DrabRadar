@@ -1,16 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
-import { CityModule } from './api/city/city.module';
-import { CountryModule } from './api/country/country.module';
-import { CountryLanguageModule } from './api/country-language/country-language.module';
-import { CountrylanguageModule } from './api/countrylanguage/countrylanguage.module';
-import { ContractsModule } from './api/contracts/contracts.module';
-import { WeatherdataModule } from './api/weatherdata/weatherdata.module';
-import { PermissionsModule } from './api/permissions/permissions.module';
-import { UserModule } from './api/user/user.module';
-import { CustomerModule } from './api/customer/customer.module';
+// import { UserModule } from './api/user/user.module';
+import { AccountModule } from './api/account/account.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -33,16 +25,8 @@ import configuration from './config/configuration';
       }),
       inject: [ConfigService],
     } as TypeOrmModuleAsyncOptions),
-    UsersModule,
-    CityModule,
-    CountryModule,
-    CountryLanguageModule,
-    CountrylanguageModule,
-    ContractsModule,
-    WeatherdataModule,
-    PermissionsModule,
-    UserModule,
-    CustomerModule,
+    // UserModule,
+    AccountModule,
   ],
   controllers: [],
   providers: [],
