@@ -11,5 +11,5 @@ export class Subscription {
 
   // Foreign key to customer
   @ManyToOne(() => Customer, (customer) => customer.id)
-  client: number;
+  customer: number;
 }
