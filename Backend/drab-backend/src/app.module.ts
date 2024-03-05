@@ -4,6 +4,7 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 // import { UserModule } from './api/user/user.module';
 import { AccountModule } from './api/account/account.module';
 import { CustomerModule } from './api/customer/customer.module';
+import { SubscriptionModule } from './api/subscription/subscription.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -29,6 +30,7 @@ import configuration from './config/configuration';
     // UserModule,
     AccountModule,
     CustomerModule,
+    SubscriptionModule,
   ],
   controllers: [],
   providers: [],
