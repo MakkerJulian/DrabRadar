@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -29,5 +30,10 @@ export class AccountController {
   @UsePipes(ValidationPipe)
   createAccount(@Body() createAccountDto: CreateAccountDto) {
     return this.accountService.createAccount(createAccountDto);
+  }
+
+  @Delete()
+  deleteAccount() {
+    return this.accountService.deleteAll();
   }
 }

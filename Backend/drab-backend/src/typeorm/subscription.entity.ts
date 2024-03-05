@@ -1,5 +1,5 @@
 import { Entity, ManyToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { Client } from './client.entity';
+import { Customer } from './customer.entity';
 
 @Entity()
 export class Subscription {
@@ -9,7 +9,7 @@ export class Subscription {
   @Column()
   token: string;
 
-  // Foreign key to client
-  @ManyToOne(() => Client, (client) => client.id)
+  // Foreign key to customer
+  @ManyToOne(() => Customer, (customer) => customer.id)
   client: number;
 }

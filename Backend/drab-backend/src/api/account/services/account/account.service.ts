@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAccountDto } from 'src/dto/account.dto';
 import { Account } from 'src/typeorm/account.entity';
 import { Repository } from 'typeorm';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AccountService {
@@ -12,7 +13,9 @@ export class AccountService {
   ) {}
 
   createAccount(CreateAccountDto: CreateAccountDto) {
-    const newAccount = this.accountRepository.create(CreateAccountDto);
+    const password = CreateAccountDto.password;
+    const hash = crypto.createHash('md5').update(password).digest('hex');
+    const newAccount = { ...CreateAccountDto, password: hash };
     return this.accountRepository.save(newAccount);
   }
 
@@ -22,5 +25,9 @@ export class AccountService {
 
   getAccounts() {
     return this.accountRepository.find();
+  }
+
+  deleteAll() {
+    return this.accountRepository.clear();
   }
 }

@@ -2,7 +2,7 @@ import { IsEmail } from 'class-validator';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class Client {
+export class Customer {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -14,5 +14,5 @@ export class Client {
   email: string;
 
   @Column({ nullable: true })
-  phone: number;
+  phone: string;
 }
