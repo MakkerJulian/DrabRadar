@@ -28,7 +28,7 @@ import {
   
     @Post()
     @UsePipes(ValidationPipe)
-    createWeatherstationdata(@Body() createWeatherstationdataDto: CreateWeatherstationdataDto) {
+    createWeatherstationdata(@Body() createWeatherstationdataDto: CreateWeatherstationdataDto[]) {
       return this.weatherdataService.createWeatherstationdata(createWeatherstationdataDto);
     }
   

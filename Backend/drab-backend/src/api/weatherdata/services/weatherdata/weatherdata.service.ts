@@ -12,12 +12,11 @@ export class WeatherstationdataService {
   ) {}
 
   createWeatherstationdata(
-    createWeatherstationdataDto: CreateWeatherstationdataDto,
+    createWeatherstationdataDtos: CreateWeatherstationdataDto[],
   ) {
-    console.log(new Date().toDateString());
-    console.log(createWeatherstationdataDto.DATE);
-    console.log(createWeatherstationdataDto.TIME);
-    const time = createWeatherstationdataDto.TIME.split(':');
+    const newweatherdatadtos =  createWeatherstationdataDtos.weatherdata.map((createWeatherstationdataDto)=>
+    {
+        const time = createWeatherstationdataDto.TIME.split(':');
     const datetime = new Date(
       createWeatherstationdataDto.DATE +
         'T' +
@@ -27,9 +26,7 @@ export class WeatherstationdataService {
         ':' +
         time[2],
     );
-    console.log(typeof datetime);
-    console.log(datetime);
-    const newweatherstationdata = {
+        return{
       weatherstation: createWeatherstationdataDto.STN.toString(),
       datetime: datetime,
       temp: createWeatherstationdataDto.TEMP,
@@ -48,8 +45,10 @@ export class WeatherstationdataService {
       tornado: !!+createWeatherstationdataDto.FRSHTT[5],
       clouds: createWeatherstationdataDto.CLDC,
       wind_direction: createWeatherstationdataDto.WNDDIR,
-    };
-    return this.weatherstationdataRepository.save(newweatherstationdata);
+    }
+    });
+    
+    return this.weatherstationdataRepository.save(newweatherdatadtos);
   }
 
   findWeatherstationdataByID(id: number) {
@@ -57,6 +56,8 @@ export class WeatherstationdataService {
   }
 
   getWeatherstationdata() {
+    return this.weatherstationdataRepository.find({ relations: ['weatherstation'] });
+
     return this.weatherstationdataRepository.find();
   }
 
