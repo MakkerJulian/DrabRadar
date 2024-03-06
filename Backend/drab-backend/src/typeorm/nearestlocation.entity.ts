@@ -22,9 +22,9 @@ export class NearestLocation {
   @ManyToOne(() => Country, (country) => country.code)
   country: string;
 
-  @Column()
+  @Column("decimal",{ precision: 6, scale: 2 })
   longitude: number;
 
-  @Column()
+  @Column("decimal",{ precision: 6, scale: 2 })
   latitude: number;
 }

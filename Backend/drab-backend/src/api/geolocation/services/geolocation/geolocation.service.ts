@@ -17,9 +17,9 @@ export class GeolocationService {
   ) {}
 
   async getGeolocation() {
-    await this.seedGeoLocations();
-    return this.geolocationRepository.find({ relations: ['country'] });
+    return this.geolocationRepository.find({ relations: ['country','weatherstation']});
   }
+
   async seedGeoLocations() {
     const totalgeolocation = [
       geolocation,
