@@ -7,6 +7,7 @@ import { NearestLocation } from 'src/typeorm/nearestlocation.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([NearestLocation])],
   controllers: [NearestlocationController],
-  providers: [NearestlocationService]
+  providers: [NearestlocationService],
+  exports: [NearestlocationService],
 })
 export class NearestlocationModule {}
