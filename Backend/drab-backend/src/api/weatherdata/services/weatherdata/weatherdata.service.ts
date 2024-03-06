@@ -11,9 +11,9 @@ export class WeatherstationdataService {
   ) {}
 
   createWeatherstationdata(createWeatherstationdataDtos: {
-    weatherdata: CreateWeatherstationdataDto[];
+    WEATHERDATA: CreateWeatherstationdataDto[];
   }) {
-    const newweatherdatadtos = createWeatherstationdataDtos.weatherdata.map(
+    const newweatherdatadtos = createWeatherstationdataDtos.WEATHERDATA.map(
       (createWeatherstationdataDto) => {
         const time = createWeatherstationdataDto.TIME.split(':');
         const datetime = new Date(

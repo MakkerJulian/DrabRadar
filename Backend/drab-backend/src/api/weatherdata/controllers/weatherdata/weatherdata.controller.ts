@@ -31,9 +31,10 @@ export class WeatherdataController {
   createWeatherstationdata(
     @Body()
     createWeatherstationdataDto: {
-      weatherdata: CreateWeatherstationdataDto[];
+      WEATHERDATA: CreateWeatherstationdataDto[];
     },
   ) {
+    console.log(createWeatherstationdataDto)
     return this.weatherdataService.createWeatherstationdata(
       createWeatherstationdataDto,
     );
