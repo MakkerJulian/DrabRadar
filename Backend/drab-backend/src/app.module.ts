@@ -6,6 +6,7 @@ import { CustomerModule } from './api/customer/customer.module';
 import { GeolocationModule } from './api/geolocation/geolocation.module';
 import { SubscriptionModule } from './api/subscription/subscription.module';
 import { CountryModule } from './api/country/country.module';
+import { NearestlocationModule } from './api/nearestlocation/nearestlocation.module';
 import { WeatherstationModule } from './api/weatherstation/weatherstation.module';
 import { ContractModule } from './api/contract/contract.module';
 import configuration from './config/configuration';
@@ -37,6 +38,7 @@ import { WeatherdataModule } from './api/weatherdata/weatherdata.module';
     GeolocationModule,
     SubscriptionModule,
     CountryModule,
+    NearestlocationModule,
     WeatherstationModule,
     ContractModule,
     WeatherdataModule,
