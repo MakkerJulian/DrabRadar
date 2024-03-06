@@ -11,6 +11,7 @@ import { WeatherstationModule } from './api/weatherstation/weatherstation.module
 import { ContractModule } from './api/contract/contract.module';
 import configuration from './config/configuration';
 import { AppService } from './app.service';
+import { WeatherdataModule } from './api/weatherdata/weatherdata.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { AppService } from './app.service';
     NearestlocationModule,
     WeatherstationModule,
     ContractModule,
+    WeatherdataModule,
   ],
   controllers: [],
   providers: [AppService],

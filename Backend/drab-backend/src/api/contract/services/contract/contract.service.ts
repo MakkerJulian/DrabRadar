@@ -17,7 +17,7 @@ export class ContractService {
     let weatherstations = await this.weatherstationService.getWeatherstations();
 
     weatherstations = weatherstations.filter((station) =>
-      createContractDto.weatherstations.includes(station.id),
+      createContractDto.weatherstations.includes(station.name),
     );
 
     const newContract = {
