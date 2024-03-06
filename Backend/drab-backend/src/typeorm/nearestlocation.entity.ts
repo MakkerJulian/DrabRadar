@@ -28,9 +28,3 @@ export class NearestLocation {
   @Column('decimal', { precision: 6, scale: 2 })
   latitude: number;
 }
-function JoinColumn(): (
-  target: NearestLocation,
-  propertyKey: 'weatherstation',
-) => void {
-  throw new Error('Function not implemented.');
-}
