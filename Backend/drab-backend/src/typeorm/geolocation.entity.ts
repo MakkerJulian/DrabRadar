@@ -1,4 +1,10 @@
-import { Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Column,
+} from 'typeorm';
 import { Country } from './country.entity';
 import { Weatherstation } from './weatherstation.entity';
 
@@ -7,7 +13,7 @@ export class Geolocation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Weatherstation, (Weatherstation) => Weatherstation.name)
+  @ManyToOne(() => Weatherstation, (Weatherstation) => Weatherstation.name)
   weatherstation: string;
 
   @ManyToOne(() => Country, (Country) => Country.code)

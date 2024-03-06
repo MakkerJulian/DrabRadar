@@ -1,13 +1,9 @@
-import { Entity, OneToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { Geolocation } from './geolocation.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Weatherstation {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @OneToOne(() => Geolocation, (geolocation) => geolocation.id)
-  geolocation: number;
 
   @Column()
   name: string;
