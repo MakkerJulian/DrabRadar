@@ -8,6 +8,7 @@ import { GeolocationModule } from './api/geolocation/geolocation.module';
 import { SubscriptionModule } from './api/subscription/subscription.module';
 import { CountryModule } from './api/country/country.module';
 import configuration from './config/configuration';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -37,6 +38,6 @@ import configuration from './config/configuration';
     CountryModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [AppService],
 })
 export class AppModule {}
