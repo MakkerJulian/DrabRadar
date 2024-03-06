@@ -18,6 +18,11 @@ export class NearestlocationService {
         await this.seedNearestlocations();
         return this.nearestlocationRepository.find({ relations: ['country', 'weatherstation']})
     }
+
+    findNearestlocationByID(id: number) {
+        return this.nearestlocationRepository.findOne({ where: { id: id } });
+      }
+    
     async seedNearestlocations() {
         const totalnearestlocation = [
             nearestlocation,
