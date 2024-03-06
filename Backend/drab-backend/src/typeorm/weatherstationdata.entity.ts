@@ -12,28 +12,28 @@ export class WeatherstationData {
   @Column()
   datetime: Date;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   temp: number;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   dew_point: number;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   s_airpressure: number;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   sea_airpressure: number;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   visibility: number;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   windspeed: number;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   precipitation: number;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   snow_amount: number;
 
   @Column({ default: false })
@@ -55,7 +55,7 @@ export class WeatherstationData {
   tornado: boolean;
 
   // Clouds are a percentage
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   clouds: number;
 
   @Column()

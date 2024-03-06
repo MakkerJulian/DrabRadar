@@ -22,9 +22,15 @@ export class NearestLocation {
   @ManyToOne(() => Country, (country) => country.code)
   country: string;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   longitude: number;
 
-  @Column("decimal",{ precision: 6, scale: 2 })
+  @Column('decimal', { precision: 6, scale: 2 })
   latitude: number;
+}
+function JoinColumn(): (
+  target: NearestLocation,
+  propertyKey: 'weatherstation',
+) => void {
+  throw new Error('Function not implemented.');
 }
