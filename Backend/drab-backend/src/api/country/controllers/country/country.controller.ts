@@ -9,9 +9,4 @@ export class CountryController {
   getCountry() {
     return this.countryService.getCountry();
   }
-
-  @Get('/seed')
-  seedCountries() {
-    return this.countryService.seedCountries();
-  }
 }

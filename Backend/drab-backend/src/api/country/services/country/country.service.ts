@@ -11,7 +11,8 @@ export class CountryService {
     private readonly countryRepository: Repository<Country>,
   ) {}
 
-  getCountry() {
+  async getCountry() {
+    await this.seedCountries();
     return this.countryRepository.find();
   }
 
