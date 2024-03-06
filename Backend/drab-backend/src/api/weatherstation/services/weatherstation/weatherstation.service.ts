@@ -11,8 +11,8 @@ export class WeatherstationService {
     private readonly weatherstationRepository: Repository<Weatherstation>,
   ) {}
 
-  async findById(id: number) {
-    return this.weatherstationRepository.find({ where: { id: id } });
+  async findByName(id: string) {
+    return this.weatherstationRepository.find({ where: { name: id } });
   }
 
   getWeatherstations() {

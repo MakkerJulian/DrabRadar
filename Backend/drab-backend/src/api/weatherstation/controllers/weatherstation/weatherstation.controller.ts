@@ -11,7 +11,7 @@ export class WeatherstationController {
   }
 
   @Get('id/:id')
-  findAccountById(@Param('id', ParseIntPipe) id: number) {
-    return this.weatherstationService.findById(id);
+  findAccountById(@Param('id', ParseIntPipe) id: string) {
+    return this.weatherstationService.findByName(id);
   }
 }
