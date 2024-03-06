@@ -20,7 +20,7 @@ export class AccountService {
   }
 
   findAccountByID(id: number) {
-    return this.accountRepository.findOne({ where: { id } });
+    return this.accountRepository.findOne({ where: { id: id } });
   }
 
   getAccounts() {

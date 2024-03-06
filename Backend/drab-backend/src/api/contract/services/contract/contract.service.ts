@@ -30,7 +30,7 @@ export class ContractService {
   }
 
   findContractByID(id: number) {
-    return this.contractRepository.findOne({ where: { id } });
+    return this.contractRepository.findOne({ where: { id: id } });
   }
 
   getContracts() {

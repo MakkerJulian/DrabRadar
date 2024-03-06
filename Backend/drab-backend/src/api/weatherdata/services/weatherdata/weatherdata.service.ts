@@ -52,7 +52,7 @@ export class WeatherstationdataService {
   }
 
   findWeatherstationdataByID(id: number) {
-    return this.weatherstationdataRepository.findOne({ where: { id } });
+    return this.weatherstationdataRepository.findOne({ where: { id: id } });
   }
 
   getWeatherstationdata() {
