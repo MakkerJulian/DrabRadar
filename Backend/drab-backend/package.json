@@ -22,6 +22,7 @@
     "migration:generate": "npm run migration:run && npm run typeorm -- -d ./src/datasource.ts migration:generate",
     "migration:run": "npm run typeorm migration:run -- -d ./src/datasource.ts",
     "migration:create": "npm run typeorm -- migration:create",
+    "seed": "ts-node -r tsconfig-paths/register ./src/seed/seed.ts",
     "column:create": "nest generate module /API/%npm_config_name% && nest g controller /API/%npm_config_name%/controllers/%npm_config_name% && nest g service /API/%npm_config_name%/services/%npm_config_name% " 
     },
   "dependencies": {
