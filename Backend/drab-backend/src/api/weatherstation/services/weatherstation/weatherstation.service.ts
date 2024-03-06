@@ -18,8 +18,4 @@ export class WeatherstationService {
   getAccounts() {
     return this.weatherstationRepository.find();
   }
-
-  deleteAll() {
-    return this.weatherstationRepository.clear();
-  }
 }

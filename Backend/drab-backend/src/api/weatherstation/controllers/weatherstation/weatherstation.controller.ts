@@ -6,7 +6,7 @@ import {
   } from '@nestjs/common';
   import { WeatherstationService } from '../../services/weatherstation/weatherstation.service';
   
-  @Controller('account')
+  @Controller('weatherstation')
   export class WeatherstationController {
     constructor(private readonly weatherstationService: WeatherstationService) {}
   
