@@ -16,7 +16,7 @@ export class GeolocationService {
     await this.seedGeoLocations(geolocation2);
     await this.seedGeoLocations(geolocation3);
     await this.seedGeoLocations(geolocation4);
-    return this.geolocationRepository.find();
+    return this.geolocationRepository.find({ relations: ['country'] }); 
   }
   async seedGeoLocations(geolocations ){
     const newGeoLocations = geolocations.map((geolocation) => {
