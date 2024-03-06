@@ -22,11 +22,11 @@ export class NearestlocationService {
     async seedNearestlocations(nearestlocations) {
         const newNearestlocations = nearestlocations.map((nearestlocation) => {
             return {
-                station_name: nearestlocation.weatherstation,
+                weatherstation: nearestlocation.station_name,
                 name: nearestlocation.name,
-                administrative_region1 : nearestlocation.admin_region_name1,
-                administrative_region2 : nearestlocation.admin_region_name2 === 'N/A' ? null : nearestlocation.admin_region_name2,
-                country_code: nearestlocation.country,
+                admin_region_name1 : nearestlocation.administrative_region1,
+                admin_region_name2 : nearestlocation.administrative_region2 === 'N/A' ? null : nearestlocation.administrative_region2,
+                country: nearestlocation.country_code,
                 longitude: nearestlocation.longitude,
                 latitude: nearestlocation.latitude,
 
