@@ -7,6 +7,7 @@ import { CustomerModule } from './api/customer/customer.module';
 import { GeolocationModule } from './api/geolocation/geolocation.module';
 import { SubscriptionModule } from './api/subscription/subscription.module';
 import { CountryModule } from './api/country/country.module';
+import { WeatherstationModule } from './api/weatherstation/weatherstation.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -35,6 +36,7 @@ import configuration from './config/configuration';
     GeolocationModule,
     SubscriptionModule,
     CountryModule,
+    WeatherstationModule,
   ],
   controllers: [],
   providers: [],
