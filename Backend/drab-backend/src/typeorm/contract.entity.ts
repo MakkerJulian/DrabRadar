@@ -1,5 +1,13 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Column,
+  JoinTable,
+} from 'typeorm';
 import { Subscription } from './subscription.entity';
+import { Weatherstation } from './weatherstation.entity';
 
 @Entity()
 export class Contract {
@@ -12,4 +20,8 @@ export class Contract {
 
   @Column()
   level: number;
+
+  @ManyToMany(() => Weatherstation)
+  @JoinTable()
+  weatherstations: Weatherstation[];
 }
