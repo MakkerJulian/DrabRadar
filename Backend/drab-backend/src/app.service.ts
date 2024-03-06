@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CountryService } from './api/country/services/country/country.service';
 import { GeolocationService } from './api/geolocation/services/geolocation/geolocation.service';
+import { NearestlocationService } from './api/nearestlocation/services/nearestlocation/nearestlocation.service';
 
 @Injectable()
 export class AppService {
   constructor(
     private readonly countryService: CountryService,
     private readonly geolocationService: GeolocationService,
+    private readonly nearestlocationService: NearestlocationService,
   ) {
     this.seedDatabase();
   }
@@ -14,5 +16,6 @@ export class AppService {
   async seedDatabase() {
     await this.countryService.seedCountries();
     await this.geolocationService.seedGeoLocations();
+    await this.nearestlocationService.seedNearestlocations();
   }
 }

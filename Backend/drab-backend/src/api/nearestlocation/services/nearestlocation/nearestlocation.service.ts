@@ -15,24 +15,30 @@ export class NearestlocationService {
     ) {}
 
     async getNearestlocation() {
-        await this.seedNearestlocations(nearestlocation)
-        await this.seedNearestlocations(nearestlocation2)
+        await this.seedNearestlocations();
         return this.nearestlocationRepository.find({ relations: ['country', 'weatherstation']})
     }
-    async seedNearestlocations(nearestlocations) {
-        const newNearestlocations = nearestlocations.map((nearestlocation) => {
-            return {
-                weatherstation: nearestlocation.station_name,
-                name: nearestlocation.name,
-                admin_region_name1 : nearestlocation.administrative_region1,
-                admin_region_name2 : nearestlocation.administrative_region2 === 'N/A' ? null : nearestlocation.administrative_region2,
-                country: nearestlocation.country_code,
-                longitude: nearestlocation.longitude,
-                latitude: nearestlocation.latitude,
+    async seedNearestlocations() {
+        const totalnearestlocation = [
+            nearestlocation,
+            nearestlocation2,
+        ];
 
-            };
+        totalnearestlocation.forEach(async (nearestlocations) => {
+            const newNearestlocations = nearestlocations.map((nearestlocation) => {
+                return {
+                    weatherstation: nearestlocation.station_name,
+                    name: nearestlocation.name,
+                    admin_region_name1 : nearestlocation.administrative_region1,
+                    admin_region_name2 : nearestlocation.administrative_region2 === 'N/A' ? null : nearestlocation.administrative_region2,
+                    country: nearestlocation.country_code,
+                    longitude: nearestlocation.longitude,
+                    latitude: nearestlocation.latitude,
+
+                };
+            });
+            await this.nearestlocationRepository.save(newNearestlocations);
+            return this.nearestlocationRepository.find();
         });
-        await this.nearestlocationRepository.save(newNearestlocations);
-        return this.nearestlocationRepository.find();
     }
 }
