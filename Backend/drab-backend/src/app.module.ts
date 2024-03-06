@@ -5,6 +5,8 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { AccountModule } from './api/account/account.module';
 import { CustomerModule } from './api/customer/customer.module';
 import { GeolocationModule } from './api/geolocation/geolocation.module';
+import { SubscriptionModule } from './api/subscription/subscription.module';
+import { CountryModule } from './api/country/country.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -31,6 +33,8 @@ import configuration from './config/configuration';
     AccountModule,
     CustomerModule,
     GeolocationModule,
+    SubscriptionModule,
+    CountryModule,
   ],
   controllers: [],
   providers: [],
