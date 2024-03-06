@@ -31,7 +31,7 @@ export class GeolocationService {
     totalgeolocation.forEach(async (geolocations) => {
       const newGeoLocations = geolocations.map((geolocation) => {
         return {
-          name: geolocation.station_name,
+          weatherstationName: geolocation.station_name,
           country: geolocation.country_code,
           island: geolocation.island === 'N/A' ? null : geolocation.island,
           county: geolocation.county === 'N/A' ? null : geolocation.county,
