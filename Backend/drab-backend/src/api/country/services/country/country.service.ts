@@ -12,7 +12,6 @@ export class CountryService {
   ) {}
 
   async getCountry() {
-    await this.seedCountries();
     return this.countryRepository.find();
   }
 

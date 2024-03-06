@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
-// import { UserModule } from './api/user/user.module';
 import { AccountModule } from './api/account/account.module';
 import { CustomerModule } from './api/customer/customer.module';
 import { GeolocationModule } from './api/geolocation/geolocation.module';
 import { SubscriptionModule } from './api/subscription/subscription.module';
 import { CountryModule } from './api/country/country.module';
 import { NearestlocationModule } from './api/nearestlocation/nearestlocation.module';
+import { WeatherstationModule } from './api/weatherstation/weatherstation.module';
 import { ContractModule } from './api/contract/contract.module';
 import configuration from './config/configuration';
 import { AppService } from './app.service';
@@ -32,13 +32,13 @@ import { AppService } from './app.service';
       }),
       inject: [ConfigService],
     } as TypeOrmModuleAsyncOptions),
-    // UserModule,
     AccountModule,
     CustomerModule,
     GeolocationModule,
     SubscriptionModule,
     CountryModule,
     NearestlocationModule,
+    WeatherstationModule,
     ContractModule,
   ],
   controllers: [],
