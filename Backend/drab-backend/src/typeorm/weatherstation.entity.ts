@@ -1,10 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column } from 'typeorm';
 
 @Entity()
 export class Weatherstation {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column({ primary: true })
   name: string;
 

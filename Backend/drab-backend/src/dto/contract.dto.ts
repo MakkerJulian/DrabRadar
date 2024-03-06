@@ -8,5 +8,5 @@ export class CreateContractDto {
   level: number;
 
   @IsNotEmpty()
-  weatherstations: number[];
+  weatherstations: string[];
 }

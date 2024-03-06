@@ -6,8 +6,8 @@ export class WeatherstationData {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Weatherstation, (weatherstation) => weatherstation.id)
-  weatherstation: number;
+  @ManyToOne(() => Weatherstation, (weatherstation) => weatherstation.name)
+  weatherstation: string;
 
   @Column()
   datetime: Date;
