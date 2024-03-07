@@ -17,7 +17,9 @@ export class GeolocationService {
   ) {}
 
   async getGeolocation() {
-    return this.geolocationRepository.find({ relations: ['country','weatherstation']});
+    return this.geolocationRepository.find({
+      relations: ['country', 'weatherstation'],
+    });
   }
 
   async seedGeoLocations() {
@@ -31,7 +33,7 @@ export class GeolocationService {
     totalgeolocation.forEach(async (geolocations) => {
       const newGeoLocations = geolocations.map((geolocation) => {
         return {
-          weatherstationName: geolocation.station_name,
+          weatherstation: geolocation.station_name,
           country: geolocation.country_code,
           island: geolocation.island === 'N/A' ? null : geolocation.island,
           county: geolocation.county === 'N/A' ? null : geolocation.county,
