@@ -16,9 +16,12 @@ export class AppService {
   }
 
   async seedDatabase() {
-    await this.countryService.seedCountries();
-    await this.weatherstationService.seedWeatherstations();
-    await this.geolocationService.seedGeoLocations();
-    await this.nearestlocationService.seedNearestlocations();
+    if (!(await this.countryService.getCountry())) {
+      console.log('Seeding database');
+      await this.countryService.seedCountries();
+      await this.weatherstationService.seedWeatherstations();
+      await this.geolocationService.seedGeoLocations();
+      await this.nearestlocationService.seedNearestlocations();
+    }
   }
 }

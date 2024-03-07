@@ -1,10 +1,4 @@
-import {
-  Entity,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  Column,
-} from 'typeorm';
+import { Entity, ManyToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { Country } from './country.entity';
 import { Weatherstation } from './weatherstation.entity';
 
