@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { WeatherdataController } from './controllers/weatherdata/weatherdata.controller';
-import { WeatherstationdataService } from './services/weatherdata/weatherdata.service';
+import { WeatherdataService } from './services/weatherdata/weatherdata.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { WeatherstationData } from 'src/typeorm/weatherstationdata.entity';
+import { WeatherData } from 'src/typeorm/weatherdata.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([WeatherstationData])],
+  imports: [TypeOrmModule.forFeature([WeatherData])],
   controllers: [WeatherdataController],
-  providers: [WeatherstationdataService]
+  providers: [WeatherdataService]
 })
 export class WeatherdataModule {}

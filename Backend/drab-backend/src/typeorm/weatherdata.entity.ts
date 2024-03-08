@@ -2,7 +2,7 @@ import { Entity, ManyToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { Weatherstation } from './weatherstation.entity';
 
 @Entity()
-export class WeatherstationData {
+export class WeatherData {
   @PrimaryGeneratedColumn()
   id: number;
 
