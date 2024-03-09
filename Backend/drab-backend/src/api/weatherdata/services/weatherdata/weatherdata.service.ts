@@ -13,7 +13,7 @@ export class WeatherdataService {
   createWeatherdata(createWeatherdataDtos: {
     WEATHERDATA: CreateWeatherdataDto[];
   }) {
-    const newweatherdatadtos = createWeatherdataDtos.WEATHERDATA.map(
+    const weatherdata_dtos = createWeatherdataDtos.WEATHERDATA.map(
       (createWeatherdataDto) => {
         const time = createWeatherdataDto.TIME.split(':');
         const datetime = new Date(
@@ -48,7 +48,7 @@ export class WeatherdataService {
       },
     );
 
-    return this.weatherdataRepository.save(newweatherdatadtos);
+    return this.weatherdataRepository.save(weatherdata_dtos);
   }
 
   findWeatherdataByID(id: number) {
