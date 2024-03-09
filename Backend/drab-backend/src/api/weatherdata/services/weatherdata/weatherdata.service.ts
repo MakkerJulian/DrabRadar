@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { WeatherstationData } from 'src/typeorm/weatherstationdata.entity';
-import { CreateWeatherstationdataDto } from 'src/dto/weatherstationdata.dto';
+import { WeatherData } from 'src/typeorm/weatherdata.entity';
+import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
 @Injectable()
-export class WeatherstationdataService {
+export class WeatherdataService {
   constructor(
-    @InjectRepository(WeatherstationData)
-    private readonly weatherstationdataRepository: Repository<WeatherstationData>,
+    @InjectRepository(WeatherData)
+    private readonly weatherdataRepository: Repository<WeatherData>,
   ) {}
 
-  createWeatherstationdata(createWeatherstationdataDtos: {
-    WEATHERDATA: CreateWeatherstationdataDto[];
+  createWeatherdata(createWeatherdataDtos: {
+    WEATHERDATA: CreateWeatherdataDto[];
   }) {
-    const newweatherdatadtos = createWeatherstationdataDtos.WEATHERDATA.map(
-      (createWeatherstationdataDto) => {
-        const time = createWeatherstationdataDto.TIME.split(':');
+    const weatherdata_dtos = createWeatherdataDtos.WEATHERDATA.map(
+      (createWeatherdataDto) => {
+        const time = createWeatherdataDto.TIME.split(':');
         const datetime = new Date(
-          createWeatherstationdataDto.DATE +
+          createWeatherdataDto.DATE +
             'T' +
             time[0] +
             ':' +
@@ -26,42 +26,42 @@ export class WeatherstationdataService {
             time[2],
         );
         return {
-          weatherstation: createWeatherstationdataDto.STN.toString(),
+          weatherstation: createWeatherdataDto.STN.toString(),
           datetime: datetime,
-          temp: createWeatherstationdataDto.TEMP,
-          dew_point: createWeatherstationdataDto.DEWP,
-          s_airpressure: createWeatherstationdataDto.STP,
-          sea_airpressure: createWeatherstationdataDto.SLP,
-          visibility: createWeatherstationdataDto.VISIB,
-          windspeed: createWeatherstationdataDto.WDSP,
-          precipitation: createWeatherstationdataDto.PRCP,
-          snow_amount: createWeatherstationdataDto.SNDP,
-          freezing: !!+createWeatherstationdataDto.FRSHTT[0],
-          rain: !!+createWeatherstationdataDto.FRSHTT[1],
-          snow: !!+createWeatherstationdataDto.FRSHTT[2],
-          hail: !!+createWeatherstationdataDto.FRSHTT[3],
-          thunder: !!+createWeatherstationdataDto.FRSHTT[4],
-          tornado: !!+createWeatherstationdataDto.FRSHTT[5],
-          clouds: createWeatherstationdataDto.CLDC,
-          wind_direction: createWeatherstationdataDto.WNDDIR,
+          temp: createWeatherdataDto.TEMP,
+          dew_point: createWeatherdataDto.DEWP,
+          s_airpressure: createWeatherdataDto.STP,
+          sea_airpressure: createWeatherdataDto.SLP,
+          visibility: createWeatherdataDto.VISIB,
+          windspeed: createWeatherdataDto.WDSP,
+          precipitation: createWeatherdataDto.PRCP,
+          snow_amount: createWeatherdataDto.SNDP,
+          freezing: !!+createWeatherdataDto.FRSHTT[0],
+          rain: !!+createWeatherdataDto.FRSHTT[1],
+          snow: !!+createWeatherdataDto.FRSHTT[2],
+          hail: !!+createWeatherdataDto.FRSHTT[3],
+          thunder: !!+createWeatherdataDto.FRSHTT[4],
+          tornado: !!+createWeatherdataDto.FRSHTT[5],
+          clouds: createWeatherdataDto.CLDC,
+          wind_direction: createWeatherdataDto.WNDDIR,
         };
       },
     );
 
-    return this.weatherstationdataRepository.save(newweatherdatadtos);
+    return this.weatherdataRepository.save(weatherdata_dtos);
   }
 
-  findWeatherstationdataByID(id: number) {
-    return this.weatherstationdataRepository.findOne({ where: { id: id } });
+  findWeatherdataByID(id: number) {
+    return this.weatherdataRepository.findOne({ where: { id: id } });
   }
 
-  getWeatherstationdata() {
-    return this.weatherstationdataRepository.find({
+  getWeatherdata() {
+    return this.weatherdataRepository.find({
       relations: ['weatherstation'],
     });
   }
 
   deleteAll() {
-    return this.weatherstationdataRepository.clear();
+    return this.weatherdataRepository.clear();
   }
 }

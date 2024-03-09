@@ -9,39 +9,39 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { WeatherstationdataService } from '../../services/weatherdata/weatherdata.service';
-import { CreateWeatherstationdataDto } from 'src/dto/weatherstationdata.dto';
+import { WeatherdataService } from '../../services/weatherdata/weatherdata.service';
+import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
 
 @Controller('weatherdata')
 export class WeatherdataController {
-  constructor(private readonly weatherdataService: WeatherstationdataService) {}
+  constructor(private readonly weatherdataService: WeatherdataService) {}
 
   @Get()
   getWeatherstationdata() {
-    return this.weatherdataService.getWeatherstationdata();
+    return this.weatherdataService.getWeatherdata();
   }
 
   @Get('id/:id')
   findWeatherstationdataById(@Param('id', ParseIntPipe) id: number) {
-    return this.weatherdataService.findWeatherstationdataByID(id);
+    return this.weatherdataService.findWeatherdataByID(id);
   }
 
   @Post()
   @UsePipes(ValidationPipe)
-  createWeatherstationdata(
+  createWeatherdata(
     @Body()
-    createWeatherstationdataDto: {
-      WEATHERDATA: CreateWeatherstationdataDto[];
+    createWeatherdataDto: {
+      WEATHERDATA: CreateWeatherdataDto[];
     },
   ) {
-    console.log(createWeatherstationdataDto)
-    return this.weatherdataService.createWeatherstationdata(
-      createWeatherstationdataDto,
+    console.log(createWeatherdataDto)
+    return this.weatherdataService.createWeatherdata(
+      createWeatherdataDto,
     );
   }
 
   @Delete()
-  deleteWeatherstationdata() {
+  deleteWeatherdata() {
     return this.weatherdataService.deleteAll();
   }
 }
