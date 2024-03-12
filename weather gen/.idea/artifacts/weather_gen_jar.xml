@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="weather gen:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/weather_gen_jar</output-path>
+    <root id="archive" name="weather gen.jar">
+      <element id="module-output" name="weather gen" />
+    </root>
+  </artifact>
+</component>

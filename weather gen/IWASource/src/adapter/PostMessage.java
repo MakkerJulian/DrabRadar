@@ -35,8 +35,8 @@ public class PostMessage {
 		try {
 			con = (HttpURLConnection)url.openConnection();
 			con.setRequestMethod("POST");
-			con.setRequestProperty("Content-Type", "application/json; utf-8");
-			con.setRequestProperty("Accept", "application/json");
+			con.setRequestProperty("Content-Type", "application/json");
+			con.setRequestProperty("Accept", "*/*");
 			con.setDoOutput(true);		
 			try(OutputStream os = con.getOutputStream()){
 				byte[] input = message.getBytes("utf-8");

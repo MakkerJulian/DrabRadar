@@ -82,8 +82,8 @@ public class HTTPConnectionManager {
 	public boolean openConnection() throws IOException  {
 		this.httpConnection = (HttpURLConnection)this.url.openConnection();
 		this.httpConnection.setRequestMethod("POST");
-		this.httpConnection.setRequestProperty("Content-Type", "application/json; utf-8");
-		this.httpConnection.setRequestProperty("Accept", "application/json");
+		this.httpConnection.setRequestProperty("Content-Type", "application/json");
+		this.httpConnection.setRequestProperty("Accept", "*/*");
 		this.httpConnection.setDoOutput(true);
 		return true;
 	}
