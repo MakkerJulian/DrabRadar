@@ -15,16 +15,7 @@ export class WeatherdataService {
   }) {
     const weatherdata_dtos = createWeatherdataDtos.WEATHERDATA.map(
       (createWeatherdataDto) => {
-        const time = createWeatherdataDto.TIME.split(':');
-        const datetime = new Date(
-          createWeatherdataDto.DATE +
-            'T' +
-            time[0] +
-            ':' +
-            time[1] +
-            ':' +
-            time[2],
-        );
+        const datetime = new Date();
         return {
           weatherstation: createWeatherdataDto.STN.toString(),
           datetime: datetime,
@@ -47,7 +38,6 @@ export class WeatherdataService {
         };
       },
     );
-
     return this.weatherdataRepository.save(weatherdata_dtos);
   }
 

@@ -7,8 +7,6 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  RawBodyRequest,
-  Req,
 } from '@nestjs/common';
 import { WeatherdataService } from '../../services/weatherdata/weatherdata.service';
 import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
@@ -29,15 +27,14 @@ export class WeatherdataController {
 
   @Post()
   @Header('Content-Type', 'application/json')
-  createWeatherdata(
+  async createWeatherdata(
     @Body()
     createWeatherdataDto: {
       WEATHERDATA: CreateWeatherdataDto[];
     },
   ) {
-    console.log(createWeatherdataDto);
     if (!createWeatherdataDto.WEATHERDATA) return [];
-    return this.weatherdataService.createWeatherdata(createWeatherdataDto);
+    this.weatherdataService.createWeatherdata(createWeatherdataDto);
   }
 
   @Delete()
