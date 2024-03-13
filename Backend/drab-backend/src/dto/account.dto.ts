@@ -25,3 +25,12 @@ export class CreateAccountDto {
   @IsIn(['ADMIN', 'Onderzoek', 'Sales', 'Onderhoud'])
   role: string;
 }
+
+export class LoginDto {
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  password: string;
+}

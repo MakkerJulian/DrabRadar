@@ -7,6 +7,8 @@ function App() {
   return (
     <>
     <Link href="/">Home</Link>
+    <br/>
+    <Link href="/Login">Login</Link>
     <BrowserRouter>
       <Routes>
         {routes.map((route)=>(

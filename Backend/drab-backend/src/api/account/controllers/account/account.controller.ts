@@ -10,7 +10,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AccountService } from '../../services/account/account.service';
-import { CreateAccountDto } from 'src/dto/account.dto';
+import { CreateAccountDto, LoginDto } from 'src/dto/account.dto';
 
 @Controller('account')
 export class AccountController {
@@ -30,6 +30,12 @@ export class AccountController {
   @UsePipes(ValidationPipe)
   createAccount(@Body() createAccountDto: CreateAccountDto) {
     return this.accountService.createAccount(createAccountDto);
+  }
+
+  @Post('login')
+  @UsePipes(ValidationPipe)
+  loginAccount(@Body() loginAccountDto: LoginDto) {
+    return this.accountService.loginAccount(loginAccountDto);
   }
 
   @Delete()
