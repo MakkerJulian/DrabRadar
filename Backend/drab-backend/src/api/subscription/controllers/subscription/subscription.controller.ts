@@ -11,6 +11,11 @@ export class SubscriptionController {
     return this.subscriptionService.getSubscriptions();
   }
 
+  @Get('contracts')
+  getSubscriptionsWithContracts() {
+    return this.subscriptionService.getSubscriptionsWithContracts();
+  }
+
   @Post()
   createSubscription(@Body() createSubscriptionDto: CreateSubscriptionDto) {
     return this.subscriptionService.createSubscription(createSubscriptionDto);
