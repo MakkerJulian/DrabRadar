@@ -19,7 +19,7 @@ export class SubscriptionService {
 
   async getSubscriptionsWithContracts() {
     return this.subscriptionRepository.find({
-      relations: ['customer', 'contracts'],
+      relations: ['customer', 'contracts', 'contracts.weatherstations'],
     });
   }
 
