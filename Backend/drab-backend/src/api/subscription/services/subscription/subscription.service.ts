@@ -15,11 +15,11 @@ export class SubscriptionService {
     return this.subscriptionRepository.find({ relations: ['customer'] });
   }
 
-  async updateToken(createSubscriptionDto: CreateSubscriptionDto) {
-    const subscription = await this.subscriptionRepository.findOne({ where: { customer: createSubscriptionDto.customer } });
+  async updateToken(customer_id: number) {
+    const subscription = await this.subscriptionRepository.findOne({ where: {customer: customer_id } });
     
     if (!subscription) {
-      throw new NotFoundException(`Subscription with customer ID ${createSubscriptionDto.customer} not found`);
+      throw new NotFoundException(`Subscription with customer ID ${customer_id} not found`);
     }
 
     const newToken = await this.generateUniqueToken(10); 

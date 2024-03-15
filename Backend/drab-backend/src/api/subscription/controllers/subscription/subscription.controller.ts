@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { SubscriptionService } from '../../services/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/dto/subscription.dto';
 
@@ -11,9 +11,9 @@ export class SubscriptionController {
     return this.subscriptionService.getSubscriptions();
   }
 
-  @Post('refresh_token')
-  refreshToken(@Body() createSubscriptionDto: CreateSubscriptionDto) {
-    return this.subscriptionService.updateToken(createSubscriptionDto);
+  @Post('refresh_token/:id')
+  refreshToken(@Param('id', ParseIntPipe) customer_id: number) {
+    return this.subscriptionService.updateToken(customer_id);
   }
   
   @Post()
