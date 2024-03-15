@@ -1,5 +1,6 @@
 import { IsEmail } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Subscription } from './subscription.entity';
 
 @Entity()
 export class Customer {
@@ -15,4 +16,7 @@ export class Customer {
 
   @Column({ nullable: true })
   phone: string;
+
+  @OneToMany(() => Subscription, (subscription) => subscription.customer)
+  subscriptions: Subscription[];
 }

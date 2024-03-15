@@ -22,7 +22,7 @@ export const Login = () => {
     useEffect(()=>{
         axiosInstance.get<Account[]>('/account')
             .then((res)=>{
-            setAccounts(res.data);
+                setAccounts(res.data);
             })
             .catch((err)=>{console.log(err)});
     },[]);
