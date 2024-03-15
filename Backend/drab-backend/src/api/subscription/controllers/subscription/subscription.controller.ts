@@ -11,6 +11,11 @@ export class SubscriptionController {
     return this.subscriptionService.getSubscriptions();
   }
 
+  @Post('refresh_token')
+  refreshToken(@Body() createSubscriptionDto: CreateSubscriptionDto) {
+    return this.subscriptionService.updateToken(createSubscriptionDto);
+  }
+  
   @Post()
   createSubscription(@Body() createSubscriptionDto: CreateSubscriptionDto) {
     return this.subscriptionService.createSubscription(createSubscriptionDto);
