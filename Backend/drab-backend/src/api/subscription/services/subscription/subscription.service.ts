@@ -34,6 +34,15 @@ export class SubscriptionService {
     return this.subscriptionRepository.save(subscription);
   }
 
+  async createSubscription(createSubscriptionDto: CreateSubscriptionDto) {
+    const customerId = createSubscriptionDto.customer;
+    const token = await this.generateUniqueToken(10);
+    return this.subscriptionRepository.save({
+      token: token,
+      customer: customerId,
+    });
+  }
+
   private async generateUniqueToken(length: number): Promise<string> {
     let token = this.generateRandomString(length);
     let existingSubscription = await this.subscriptionRepository.findOne({
@@ -65,9 +74,5 @@ export class SubscriptionService {
     return this.subscriptionRepository.find({
       relations: ['customer', 'contracts', 'contracts.weatherstations'],
     });
-  }
-
-  createSubscription(createSubscriptionDto: CreateSubscriptionDto) {
-    return this.subscriptionRepository.save(createSubscriptionDto);
   }
 }

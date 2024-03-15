@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { SubscriptionService } from '../../services/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/dto/subscription.dto';
 
@@ -15,7 +22,7 @@ export class SubscriptionController {
   refreshToken(@Param('id', ParseIntPipe) customer_id: number) {
     return this.subscriptionService.updateToken(customer_id);
   }
-  
+
   @Get('contracts')
   getSubscriptionsWithContracts() {
     return this.subscriptionService.getSubscriptionsWithContracts();
