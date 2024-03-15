@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axios';
 import { useForm } from 'react-hook-form';
-import { IWALogo } from '../assets';
+import { BG_Image, IWALogo } from '../assets';
 
 const emptyFrom = {
     email: '',
@@ -46,12 +46,28 @@ export const Login = () => {
 
     return (
         <>
-            <img src={IWALogo} alt='logo' style={{float:'right'}}></img>
-            <Box 
+            <img src={IWALogo} alt='logo' style={{
+                position:"absolute",
+                width:"15%",
+                left:"42%",
+                bottom:"20%"
+            }}></img>
+            <img src={BG_Image} alt='logo' style={{
+                display:"block",
+                position:"absolute",
+                width:"100%",
+                height:"100%",
+                zIndex:"-3",
+                top:"0%",
+                objectFit:"fill"
+            }}></img>
+            <Box
                 minWidth={'25%'} 
-                maxWidth={'50%'}
+                maxWidth={'30%'}
                 margin={'auto'}
-                sx={{background:"#f4ded6"}} 
+                position={'absolute'}
+                left={'36%'}
+                sx={{background:"white"}}
                 display={'flex'}
                 flexDirection={'column'}
                 alignItems={'center'}
