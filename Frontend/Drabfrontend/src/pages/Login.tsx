@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axios';
 import { useForm } from 'react-hook-form';
 import { BG_Image, IWALogo } from '../assets';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 const emptyFrom = {
     email: '',
@@ -15,6 +17,9 @@ export const Login = () => {
         email: string,
         password: string,
     }
+
+    const navigate = useNavigate();
+    const {enqueueSnackbar} = useSnackbar();
 
     const [accounts, setAccounts] = useState<Account[]>([]);
     const [form, setForm] = useState(emptyFrom);
@@ -32,8 +37,16 @@ export const Login = () => {
 	} = useForm();
 
     const handlePost = async () => {
-        await axiosInstance.post<Account>('/account/login', form)
-        .then((res)=>{console.log(res.data)}) //todo zet dit in session en redirect als de user deze variabele niet heeft, alleen in geval van true
+        await axiosInstance.post('/account/login', form)
+        .then((res)=>{
+            const login = res.data;
+            if(login===true){
+                console.log("login success");
+                return navigate('/');
+            }else{
+                enqueueSnackbar('Login failed', {variant: 'error'})
+            }
+        })
         .catch((err)=>{
         console.log(err.response.data.message);
         });
