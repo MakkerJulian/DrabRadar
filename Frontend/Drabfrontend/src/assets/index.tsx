@@ -1,3 +1,4 @@
-import IWALogo from './LogoIWA.jpg'
+import IWALogo from './LogoIWA_Remake.png'
+import BG_Image from './BG_Image.jpg';
 
-export { IWALogo };
+export { BG_Image, IWALogo };

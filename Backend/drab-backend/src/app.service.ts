@@ -16,11 +16,22 @@ export class AppService {
   }
 
   async seedDatabase() {
-    if (!(await this.countryService.getCountry())) {
-      console.log('Seeding database');
+    if ((await this.countryService.getCountry()).length === 0) {
+      console.log('Seeding countries');
       await this.countryService.seedCountries();
+    }
+    if ((await this.weatherstationService.getWeatherstations()).length === 0) {
+      console.log('Seeding weatherstations');
       await this.weatherstationService.seedWeatherstations();
+    }
+
+    if ((await this.geolocationService.getGeolocation()).length === 0) {
+      console.log('Seeding geolocations');
       await this.geolocationService.seedGeoLocations();
+    }
+
+    if ((await this.nearestlocationService.getNearestlocation()).length === 0) {
+      console.log('Seeding nearestlocations');
       await this.nearestlocationService.seedNearestlocations();
     }
   }
