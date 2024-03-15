@@ -12,7 +12,13 @@ export class CustomerService {
   ) {}
 
   getCustomers() {
-    return this.customerRepository.find();
+    return this.customerRepository.find({
+      relations: [
+        'subscriptions',
+        'subscriptions.contracts',
+        'subscriptions.contracts.weatherstations',
+      ],
+    });
   }
 
   createCustomer(createCustomerDto: CreateCustomerDto) {
