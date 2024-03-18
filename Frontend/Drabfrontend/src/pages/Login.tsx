@@ -76,6 +76,8 @@ export const Login = () => {
                 objectFit:"fill"
             }}></img>
             <Box
+                boxShadow={'0 0 10px rgba(51, 153, 255, 2)'}
+                borderRadius={'25px'}
                 minWidth={'25%'} 
                 maxWidth={'30%'}
                 margin={'auto'}
@@ -86,6 +88,7 @@ export const Login = () => {
                 flexDirection={'column'}
                 alignItems={'center'}
                 onSubmit={() => handlePost()}
+                
             >
                 <Typography 
                     variant={'h3'} 
