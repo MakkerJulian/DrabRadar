@@ -1,0 +1,27 @@
+html, body {
+    margin: 0;
+    background-color: #333;
+}
+
+.map-wrapper {
+    position: relative;
+}
+
+.extra-div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 200px; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000;
+    back
+}
+
+
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(120%) hue-rotate(200deg) brightness(100%) contrast(100%) grayscale(75%);
+}
