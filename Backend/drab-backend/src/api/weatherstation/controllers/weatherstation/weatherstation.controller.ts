@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { WeatherstationService } from '../../services/weatherstation/weatherstation.service';
 
 @Controller('weatherstation')
@@ -14,4 +14,4 @@ export class WeatherstationController {
   findAccountById(@Param('id', ParseIntPipe) id: string) {
     return this.weatherstationService.findByName(id);
   }
-}
+
