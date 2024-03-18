@@ -6,6 +6,7 @@ html, body {
 
 .map-wrapper {
     position: relative;
+    overflow: hidden;
 }
 
 .extra-div {
@@ -26,5 +27,22 @@ html, body {
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out,
 .leaflet-control-attribution {
-  filter: invert(120%) hue-rotate(200deg) brightness(100%) contrast(100%) grayscale(75%);
+  filter: invert(120%) hue-rotate(200deg) brightness(100%) contrast(100%) grayscale(100%);
+}
+
+.root {
+    height: 100%;
+    top:0%;
+}
+
+.button-div {
+    display: flex;
+    position: absolute;
+    right:20%;
+    bottom: 0px; 
+    height: 5%; 
+    background-color: rgba(0, 0, 0, 0.8); 
+    z-index: 1000;
+    font-size: 40px;
+    color: white;
 }
