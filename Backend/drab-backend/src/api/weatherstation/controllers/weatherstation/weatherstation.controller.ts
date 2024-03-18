@@ -14,4 +14,4 @@ export class WeatherstationController {
   findAccountById(@Param('id', ParseIntPipe) id: string) {
     return this.weatherstationService.findByName(id);
   }
-
+}
