@@ -17,21 +17,21 @@ export class AppService {
 
   async seedDatabase() {
     if ((await this.countryService.getCountry()).length === 0) {
-      console.log('Seeding countries');
+      console.log('Seeded countries');
       await this.countryService.seedCountries();
     }
     if ((await this.weatherstationService.getWeatherstations()).length === 0) {
-      console.log('Seeding weatherstations');
+      console.log('Seeded weatherstations');
       await this.weatherstationService.seedWeatherstations();
     }
 
     if ((await this.geolocationService.getGeolocation()).length === 0) {
-      console.log('Seeding geolocations');
+      console.log('Seeded geolocations');
       await this.geolocationService.seedGeoLocations();
     }
 
     if ((await this.nearestlocationService.getNearestlocation()).length === 0) {
-      console.log('Seeding nearestlocations');
+      console.log('Seeded nearestlocations');
       await this.nearestlocationService.seedNearestlocations();
     }
   }
