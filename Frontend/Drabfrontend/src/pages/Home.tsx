@@ -43,7 +43,7 @@ export const Home = () => {
         position={'relative'}
         sx={{background: 'linear-gradient(to right, rgba(0,0,0,0.3), black)'}}
         >
-        <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{"height": "968px"}}>
+        <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{"height": "100vh"}}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -74,7 +74,7 @@ export const Home = () => {
             display={'flex'}
             position={'absolute'}
             right={'20%'}
-            bottom={'5%'}
+            bottom={'0%'}
             height={'5%'}
             bgcolor={'rgba(0,0,0,0.8)'}
             zIndex={1000}
