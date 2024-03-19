@@ -3,6 +3,7 @@ import { CountryService } from './api/country/services/country/country.service';
 import { WeatherstationService } from './api/weatherstation/services/weatherstation/weatherstation.service';
 import { GeolocationService } from './api/geolocation/services/geolocation/geolocation.service';
 import { NearestlocationService } from './api/nearestlocation/services/nearestlocation/nearestlocation.service';
+import { CustomerService } from './api/customer/services/customer/customer.service';
 
 @Injectable()
 export class AppService {
@@ -11,6 +12,7 @@ export class AppService {
     private readonly weatherstationService: WeatherstationService,
     private readonly geolocationService: GeolocationService,
     private readonly nearestlocationService: NearestlocationService,
+    private readonly customerService: CustomerService,
   ) {
     this.seedDatabase();
   }
@@ -33,6 +35,10 @@ export class AppService {
     if ((await this.nearestlocationService.getNearestlocation()).length === 0) {
       console.log('Seeded nearestlocations');
       await this.nearestlocationService.seedNearestlocations();
+    }
+    if ((await this.customerService.getCustomers()).length === 0) {
+      console.log('Seeded customers');
+      await this.customerService.seedCustomers();
     }
   }
 }
