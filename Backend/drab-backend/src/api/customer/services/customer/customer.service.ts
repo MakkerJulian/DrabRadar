@@ -26,13 +26,6 @@ export class CustomerService {
     return this.customerRepository.save(createCustomerDto);
   }
   async seedCustomers() {
-    const newCustomers = customer.map((customer) => {
-      return {
-        name: customer.name,
-        email: customer.email,
-        phone: customer.phone,
-      };
-    });
-    return this.customerRepository.save(newCustomers);
+    return this.customerRepository.save(customer);
   }
 }
