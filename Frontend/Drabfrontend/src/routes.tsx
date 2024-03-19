@@ -1,3 +1,4 @@
+import { CustomerDetails } from "./pages/CustomerDetails";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Sales } from "./pages/Sales";
@@ -23,5 +24,10 @@ export const routes: Route[] = [
         name:'sales',
         path:'/sales',
         element: Sales
+    },
+    {
+        name: 'customer',
+        path: '/customer/:id',
+        element: CustomerDetails
     }
 ];
