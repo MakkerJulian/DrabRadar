@@ -3,7 +3,7 @@ import axiosInstance from '../axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styling/Map.css';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 let dark_mode = true;
 
@@ -41,8 +41,11 @@ export const Home = () => {
     },[]);
 
     return (
-        <div className="map-wrapper">
-            <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{"height": "968px"}}>
+        <Box
+        position={'relative'}
+        sx={{background: 'linear-gradient(to right, rgba(0,0,0,0.3), black)'}}
+        >
+        <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{"height": "968px"}}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -55,13 +58,34 @@ export const Home = () => {
                     </Marker>
                 ))}
             </MapContainer>
-            <div className="extra-div">
+            <Box
+            display={'flex'}
+            position={'absolute'}
+            right={0}
+            top={0}
+            width={'20%'}
+            height={'100%'}
+            bgcolor={'rgba(0,0,0,0.3)'}
+            zIndex={1000}
+            fontSize={'40px'}
+            color={'white'}
+            >
                 hi
-            </div>
-            <div className="button-div">
-                <Button id={"ThemeButton"} onClick={changeTheme}>Theme</Button>
-            </div>
-        </div>
+            </Box>
+            <Box
+            display={'flex'}
+            position={'absolute'}
+            right={'20%'}
+            bottom={'5%'}
+            height={'5%'}
+            bgcolor={'rgba(0,0,0,0.8)'}
+            zIndex={1000}
+            fontSize={'40px'}
+            color={'white'}
+            >
+                <Button id={"ThemeButton"} onClick={changeTheme} sx={{color: 'white'}}>Theme</Button>
+            </Box>
+        </Box>
     );
     
 }
