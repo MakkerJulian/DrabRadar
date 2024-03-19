@@ -14,13 +14,11 @@ function changeTheme() {
             (element as HTMLElement).style.filter = 'invert(0%) hue-rotate(0deg) brightness(100%) contrast(100%) grayscale(0%)';
         });
         dark_mode = false;
-        return;
     } else {
         elements.forEach(element => {
             (element as HTMLElement).style.filter = 'invert(120%) hue-rotate(200deg) brightness(100%) contrast(100%) grayscale(100%)';
         });
         dark_mode = true;
-        return;
     }
 }
 
