@@ -54,11 +54,6 @@ export const Home = () => {
                         </Popup>
                     </Marker>
                 ))}
-                <Marker position={[53.1, 6]}>
-                    <Popup>
-                        Kars Doxx
-                    </Popup>
-                </Marker>
             </MapContainer>
             <div className="extra-div">
                 hi
