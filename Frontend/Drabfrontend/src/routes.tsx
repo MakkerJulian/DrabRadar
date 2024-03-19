@@ -1,5 +1,6 @@
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
+import { Sales } from "./pages/Sales";
 
 interface Route {
     path: string;
@@ -17,5 +18,10 @@ export const routes: Route[] = [
         name:'login',
         path:'/login',
         element: Login,
+    },
+    {
+        name:'sales',
+        path:'/sales',
+        element: Sales
     }
 ];
