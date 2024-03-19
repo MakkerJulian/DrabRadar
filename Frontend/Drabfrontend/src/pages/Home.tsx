@@ -41,7 +41,6 @@ export const Home = () => {
     return (
         <Box
         position={'relative'}
-        sx={{background: 'linear-gradient(to right, rgba(0,0,0,0.3), black)'}}
         >
         <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{"height": "100vh"}}>
                 <TileLayer
@@ -63,7 +62,7 @@ export const Home = () => {
             top={0}
             width={'20%'}
             height={'100%'}
-            bgcolor={'rgba(0,0,0,0.3)'}
+            bgcolor={'rgba(0,0,0,0.8)'}
             zIndex={1000}
             fontSize={'40px'}
             color={'white'}
