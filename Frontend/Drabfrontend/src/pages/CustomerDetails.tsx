@@ -5,21 +5,25 @@ import { Customer } from '../types';
 
 
 export const CustomerDetails = () => {
-    const [user, setUser] = React.useState<Customer>();
+    const [customer, setCustomer] = React.useState<Customer>();
 
     useEffect(() => {
         const id = window.location.pathname.split("/")[2];
-        axiosInstance.get(`/customer/{id}`).then((response) => {
-            setUser(response.data);
+        axiosInstance.get(`/customer/${id}`).then((response) => {
+            setCustomer(response.data);
         });
     }, []);
 
-    const id = window.location.pathname.split("/")[2];
     return (
         <Box>
             <Typography variant="h1">
-                Customer {user?.name}
+                Customer {customer?.name}
             </Typography>
+
+            {customer?.email} <br></br>
+            {customer?.phone}
+            
+
         </Box>
     )
 }

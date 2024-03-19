@@ -1,0 +1,55 @@
+import { Modal } from "@mui/base"
+import { Button, Typography } from "@mui/material"
+import { Box, width } from "@mui/system"
+import React from "react"
+
+type Props = {
+    open: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    onSubmit: React.MouseEventHandler<HTMLButtonElement>,
+    title : string,
+    children: React.ReactNode 
+}
+
+export const CustomModal= ({
+    open,
+    setOpen,
+    title,
+    children,
+    onSubmit
+}: Props) => (    
+    <Modal
+        open={open}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        onClose={() => setOpen(false)}
+    >
+        <Box 
+            sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '30%',
+            transform: 'translate(-50%, -50%)',
+            bgcolor:'rgb(255,255,235,1)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            borderRadius: '10px',
+        }}>
+            <Typography id="modal-modal-title" variant="h2" component="h2">
+                {title}
+            </Typography>
+            {children}
+
+            <Box display='flex' flexDirection={'row'} width={'100%'} justifyContent={'space-around'} >
+                <Button onClick ={()=>setOpen(false) } sx={{bgcolor:'gray', color: 'white'}}>
+                    Close
+                </Button>
+                <Button onClick ={(e)=>onSubmit(e)} sx={{bgcolor:'green', color: 'white'}}>
+                    Submit
+                </Button>
+            </Box>
+        </Box>
+    </Modal>
+)

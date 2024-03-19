@@ -7,3 +7,9 @@ export type Customer = {
     phone: string;
     subscriptions: Subscription[];
 }
+
+export type CustomerCreate = {
+    name: string;
+    email: string;
+    phone: string;
+}

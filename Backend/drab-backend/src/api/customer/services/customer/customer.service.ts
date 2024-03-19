@@ -22,6 +22,17 @@ export class CustomerService {
     });
   }
 
+  getCustomerById(id: number) {
+    return this.customerRepository.findOne({
+      where: { id: id },
+      relations: [
+        'subscriptions',
+        'subscriptions.contracts',
+        'subscriptions.contracts.weatherstations',
+      ],
+    });
+  }
+
   createCustomer(createCustomerDto: CreateCustomerDto) {
     return this.customerRepository.save(createCustomerDto);
   }

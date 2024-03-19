@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -16,6 +17,11 @@ export class CustomerController {
   @Get()
   getCustomer() {
     return this.customerService.getCustomers();
+  }
+
+  @Get(':id')
+  getCustomerById(@Param('id') id: number) {
+    return this.customerService.getCustomerById(id);
   }
 
   @Post()
