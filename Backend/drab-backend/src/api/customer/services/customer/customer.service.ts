@@ -12,23 +12,23 @@ export class CustomerService {
     private readonly customerRepository: Repository<Customer>,
   ) {}
 
-  getCustomers() {
+  async getCustomers() {
     return this.customerRepository.find({
       relations: [
-        'subscriptions',
-        'subscriptions.contracts',
-        'subscriptions.contracts.weatherstations',
+        'subscription',
+        'subscription.contracts',
+        'subscription.contracts.weatherstations',
       ],
     });
   }
 
-  getCustomerById(id: number) {
+  async getCustomerById(id: number) {
     return this.customerRepository.findOne({
       where: { id: id },
       relations: [
-        'subscriptions',
-        'subscriptions.contracts',
-        'subscriptions.contracts.weatherstations',
+        'subscription',
+        'subscription.contracts',
+        'subscription.contracts.weatherstations',
       ],
     });
   }

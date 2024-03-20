@@ -1,9 +1,10 @@
 import {
   Entity,
-  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Customer } from './customer.entity';
 import { Contract } from './contract.entity';
@@ -16,9 +17,9 @@ export class Subscription {
   @Column()
   token: string;
 
-  // Foreign key to customer
-  @ManyToOne(() => Customer, (customer) => customer.id)
-  customer: number;
+  @OneToOne(() => Customer, (customer) => customer.id)
+  @JoinColumn()
+  customer: Customer;
 
   @OneToMany(() => Contract, (contract) => contract.subscription)
   contracts: Contract[];

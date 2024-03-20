@@ -3,10 +3,10 @@ import { SubscriptionController } from './controllers/subscription/subscription.
 import { SubscriptionService } from './services/subscription/subscription.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Subscription } from 'src/typeorm/subscription.entity';
-import { ContractModule } from '../contract/contract.module';
+import { CustomerModule } from '../customer/customer.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Subscription]), ContractModule],
+  imports: [TypeOrmModule.forFeature([Subscription]), CustomerModule],
   controllers: [SubscriptionController],
   providers: [SubscriptionService],
 })

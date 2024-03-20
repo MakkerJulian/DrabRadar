@@ -5,7 +5,7 @@ export type Customer = {
     name: string;
     email: string;
     phone: string;
-    subscriptions: Subscription[];
+    subscription: Subscription;
 }
 
 export type CustomerCreate = {
