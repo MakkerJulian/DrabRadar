@@ -31,6 +31,7 @@ export const Home = () => {
         latitude: number,
     }
     const [locations, setLocations] = useState<locations[]>([]);
+    const [activeAccordion, setActiveAccordion] = useState<number>();
 
     useEffect(() => {
         axiosInstance.get('/weatherstation/details')
@@ -39,6 +40,10 @@ export const Home = () => {
             })
             .catch((err) => { console.log(err) });
     }, []);
+
+    const handleMarkerClick = (index: number) => {
+        setActiveAccordion(index);
+    };
 
     return (
         <Box
@@ -50,7 +55,7 @@ export const Home = () => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {locations.map((location, index) => (
-                    <Marker key={index} position={[location.latitude, location.longitude]}>
+                    <Marker key={index} position={[location.latitude, location.longitude]} eventHandlers={{ click: () => handleMarkerClick(index) }}>
                         <Popup>
                             {location.name}
                         </Popup>
@@ -74,27 +79,30 @@ export const Home = () => {
                 >
                 {locations.map((location, index) => (
                     <Accordion
-                    sx={{backgroundColor: "inherit",
-                    color: "white",
-                    fontSize: "25px"
+                    key={index}
+                    sx={{
+                        backgroundColor: "inherit",
+                        color: "white",
+                        fontSize: "25px"
                     }}
+                    expanded={activeAccordion === index}
+                >
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls={`panel-${index}-content`}
+                        id={`panel-${index}-header`}
                     >
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel3-content"
-                            id="panel3-header"
-                        >
-                            Weatherstation Nr. {location.name}
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                        </AccordionDetails>
-                        <AccordionActions>
-                            <Button>Cancel</Button>
-                            <Button>Agree</Button>
-                        </AccordionActions>
-                    </Accordion>
+                        Weatherstation Nr. {location.name}
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                        malesuada lacus ex, sit amet blandit leo lobortis eget.
+                    </AccordionDetails>
+                    <AccordionActions>
+                        <Button>Cancel</Button>
+                        <Button>Agree</Button>
+                    </AccordionActions>
+                </Accordion>
                     ))}
                 </Box>
             </Box>
