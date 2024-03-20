@@ -3,7 +3,9 @@ import axiosInstance from '../axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styling/Map.css';
-import { Box, Button } from '@mui/material';
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { inherits } from 'util';
 
 let dark_mode = true;
 
@@ -30,19 +32,19 @@ export const Home = () => {
     }
     const [locations, setLocations] = useState<locations[]>([]);
 
-    useEffect(()=>{
-        axiosInstance.get('/weatherstation')
-            .then((res)=>{
+    useEffect(() => {
+        axiosInstance.get('/weatherstation/details')
+            .then((res) => {
                 setLocations(res.data);
             })
-            .catch((err)=>{console.log(err)});
-    },[]);
+            .catch((err) => { console.log(err) });
+    }, []);
 
     return (
         <Box
-        position={'relative'}
+            position={'relative'}
         >
-        <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{"height": "100vh"}}>
+            <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{ "height": "100vh" }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -56,33 +58,60 @@ export const Home = () => {
                 ))}
             </MapContainer>
             <Box
-            display={'flex'}
-            position={'absolute'}
-            right={0}
-            top={0}
-            width={'20%'}
-            height={'100%'}
-            bgcolor={'rgba(0,0,0,0.8)'}
-            zIndex={1000}
-            fontSize={'40px'}
-            color={'white'}
+                display={'flex'}
+                position={'absolute'}
+                right={0}
+                top={0}
+                width={'20%'}
+                height={'100%'}
+                bgcolor={'rgba(0,0,0,0.8)'}
+                zIndex={1000}
+                fontSize={'40px'}
+                color={'white'}
             >
-                hi
+                <Box
+                overflow={'auto'}
+                >
+                {locations.map((location, index) => (
+                    <Accordion
+                    sx={{backgroundColor: "inherit",
+                    color: "white",
+                    fontSize: "25px"
+                    }}
+                    >
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel3-content"
+                            id="panel3-header"
+                        >
+                            Weatherstation Nr. {location.name}
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                            malesuada lacus ex, sit amet blandit leo lobortis eget.
+                        </AccordionDetails>
+                        <AccordionActions>
+                            <Button>Cancel</Button>
+                            <Button>Agree</Button>
+                        </AccordionActions>
+                    </Accordion>
+                    ))}
+                </Box>
             </Box>
             <Box
-            display={'flex'}
-            position={'absolute'}
-            right={'20%'}
-            bottom={'0%'}
-            height={'5%'}
-            bgcolor={'rgba(0,0,0,0.8)'}
-            zIndex={1000}
-            fontSize={'40px'}
-            color={'white'}
+                display={'flex'}
+                position={'absolute'}
+                right={'20%'}
+                bottom={'0%'}
+                height={'5%'}
+                bgcolor={'rgba(0,0,0,0.8)'}
+                zIndex={1000}
+                fontSize={'40px'}
+                color={'white'}
             >
-                <Button id={"ThemeButton"} onClick={changeTheme} sx={{color: 'white'}}>Theme</Button>
+                <Button id={"ThemeButton"} onClick={changeTheme} sx={{ color: 'white' }}>Theme</Button>
             </Box>
         </Box>
     );
-    
+
 }

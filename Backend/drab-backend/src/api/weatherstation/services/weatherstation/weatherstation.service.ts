@@ -9,7 +9,7 @@ export class WeatherstationService {
   constructor(
     @InjectRepository(Weatherstation)
     private readonly weatherstationRepository: Repository<Weatherstation>,
-  ) {}
+  ) { }
 
   async findByName(id: string) {
     return this.weatherstationRepository.find({ where: { name: id } });
@@ -21,20 +21,16 @@ export class WeatherstationService {
     });
   }
 
-  // async getWeatherstations() {
-  //   const count = await this.weatherstationRepository.count();
-  //   const offsets = Array.from({ length: 100 }, () => Math.floor(Math.random() * count));
-  //   const promises = offsets.map(offset =>
-  //     this.weatherstationRepository
-  //       .createQueryBuilder()
-  //       .orderBy('RANDOM()')
-  //       .skip(offset)
-  //       .take(1)
-  //       .getOne()
-  //   );
-
-  //   return Promise.all(promises);
-  // }
+  async getWeatherstationsDetails() {
+    const allStations = await this.getWeatherstations();
+    const count = allStations.length;
+    const offsets = Array.from({ length: 100 }, () => Math.floor(Math.random() * count));
+    const offsetslist = offsets.filter((value, index) => offsets.indexOf(value) === index);
+    const randoms = offsetslist.map((index) => {
+      return allStations[index];
+    })
+    return randoms;
+  }
 
   async seedWeatherstations() {
     const newWeatherstations = station.map((station) => {
