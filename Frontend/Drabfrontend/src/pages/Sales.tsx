@@ -66,7 +66,7 @@ export const Sales = () => {
       headerName: 'Subscriptions',
       renderCell: (params) => (
         <>
-          <Typography>{params.row.subscriptions.length}</Typography>
+          <Typography>{params.row.subscriptions.length === 0? "inactive": "active"}</Typography>
           <IconButton
             onClick={()=>navigate(`/customer/${params.row.id}`)}>
             <VisibilityIcon/>
