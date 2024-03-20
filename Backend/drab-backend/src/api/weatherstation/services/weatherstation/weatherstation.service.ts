@@ -15,20 +15,24 @@ export class WeatherstationService {
     return this.weatherstationRepository.find({ where: { name: id } });
   }
 
-  async getWeatherstations() {
-    const count = await this.weatherstationRepository.count();
-    const offsets = Array.from({ length: 100 }, () => Math.floor(Math.random() * count));
-    const promises = offsets.map(offset =>
-      this.weatherstationRepository
-        .createQueryBuilder()
-        .orderBy('RANDOM()')
-        .skip(offset)
-        .take(1)
-        .getOne()
-    );
-
-    return Promise.all(promises);
+  getWeatherstations() {
+    return this.weatherstationRepository.find({ relations: ['geolocations'] });
   }
+
+  // async getWeatherstations() {
+  //   const count = await this.weatherstationRepository.count();
+  //   const offsets = Array.from({ length: 100 }, () => Math.floor(Math.random() * count));
+  //   const promises = offsets.map(offset =>
+  //     this.weatherstationRepository
+  //       .createQueryBuilder()
+  //       .orderBy('RANDOM()')
+  //       .skip(offset)
+  //       .take(1)
+  //       .getOne()
+  //   );
+
+  //   return Promise.all(promises);
+  // }
 
   async seedWeatherstations() {
     const newWeatherstations = station.map((station) => {

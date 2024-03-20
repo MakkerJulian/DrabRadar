@@ -1,4 +1,5 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
+import { Geolocation } from './geolocation.entity';
 
 @Entity()
 export class Weatherstation {
@@ -13,4 +14,7 @@ export class Weatherstation {
 
   @Column('decimal', { precision: 6, scale: 2 })
   elevation: number;
+
+  @OneToMany(() => Geolocation, (geolocation) => geolocation.weatherstation)
+  geolocations: Geolocation[];
 }
