@@ -1,5 +1,6 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import { Geolocation } from './geolocation.entity';
+import { WeatherData } from './weatherdata.entity';
 
 @Entity()
 export class Weatherstation {
@@ -17,4 +18,7 @@ export class Weatherstation {
 
   @OneToMany(() => Geolocation, (geolocation) => geolocation.weatherstation)
   geolocations: Geolocation[];
+
+  @OneToMany(() => WeatherData, (weatherdata) => weatherdata.weatherstation)
+  weatherdatas: WeatherData[];
 }
