@@ -19,6 +19,7 @@ export const CustomerDetails = () => {
     const [newContractForm, setNewContractForm] = React.useState(emptyNewContractForm);
     const [openNewContract, setOpenNewContract] = React.useState<boolean>(false);
     const [weatherstations, setWeatherstations] = React.useState<Weatherstation[]>([]);
+    const [usedWeatherstations, setUsedWeatherstations] = React.useState<Weatherstation[]>([]);
 
     const {
         register, formState: { errors }, handleSubmit,
@@ -32,7 +33,8 @@ export const CustomerDetails = () => {
     const createContract = (subscriptionId: number) => {
         const newContract = {
             ...newContractForm,
-            subscriptionId: subscriptionId
+            subscriptionId: subscriptionId,
+            weatherstations: usedWeatherstations.map(ws => ws.name)
         }
         console.log(newContract);
         axiosInstance.post('/contract', newContract).then(() => {
@@ -146,6 +148,7 @@ export const CustomerDetails = () => {
                             </AccordionSummary>
                             <AccordionDetails>
                                 Level: {contract.level}
+                                <Typography variant='h6'>Weatherstations</Typography>
                                 {contract.weatherstations.map(ws => (
                                     <Box>
                                         {ws.name}
@@ -175,16 +178,38 @@ export const CustomerDetails = () => {
                 >
                 </TextField>
 
+                {usedWeatherstations.length > 0 && (
+                    <Box display={'flex'} alignContent={'space-between'} flexDirection={'column'}>
+                        <Typography variant="h5">
+                            Weatherstations
+                        </Typography>
+                        {usedWeatherstations.map((ws) => (
+                            <Box key={ws.id}>
+                                {ws.name}
+                                <Button onClick={() => {
+                                    const newUsedWeatherstations = usedWeatherstations.filter((usedWs) => usedWs.name !== ws.name);
+                                    setUsedWeatherstations(newUsedWeatherstations);
+                                }}>x</Button>
+                            </Box>
+                        ))}
+                    </Box>
+                )}
+
                 <Autocomplete
                     disablePortal
                     id="weatherstations"
                     options={weatherstations}
                     sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Weatherstations" />}
                     getOptionLabel={(option) => option.geolocation.country.name + " " + option.name}
+                    renderInput={(params) => <TextField {...params} label="Weatherstations" />}
+                    onChange={(event, weatherstation) => {
+                        if (weatherstation) {
+                            setUsedWeatherstations([...usedWeatherstations, weatherstation]);
+                        }
+                    }}
                 />
 
-            </CustomModal>
-        </Box>
+            </CustomModal >
+        </Box >
     )
 }
