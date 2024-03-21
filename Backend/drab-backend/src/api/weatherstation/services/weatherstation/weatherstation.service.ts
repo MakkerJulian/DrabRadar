@@ -9,7 +9,7 @@ export class WeatherstationService {
   constructor(
     @InjectRepository(Weatherstation)
     private readonly weatherstationRepository: Repository<Weatherstation>,
-  ) { }
+  ) {}
 
   async findByName(id: string) {
     return this.weatherstationRepository.find({ where: { name: id } });
@@ -24,11 +24,15 @@ export class WeatherstationService {
   async getWeatherstationsDetails() {
     const allStations = await this.getWeatherstations();
     const count = allStations.length;
-    const offsets = Array.from({ length: 100 }, () => Math.floor(Math.random() * count));
-    const offsetslist = offsets.filter((value, index) => offsets.indexOf(value) === index);
+    const offsets = Array.from({ length: 100 }, () =>
+      Math.floor(Math.random() * count),
+    );
+    const offsetslist = offsets.filter(
+      (value, index) => offsets.indexOf(value) === index,
+    );
     const randoms = offsetslist.map((index) => {
       return allStations[index];
-    })
+    });
     return randoms;
   }
 
