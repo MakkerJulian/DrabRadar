@@ -124,18 +124,18 @@ export const CustomerDetails = () => {
 
             )}
             {customer.subscription && customer.subscription.contracts.length > 0 && (
-                <Box>
-                    <Typography variant="h3">
+                <Box width={'50%'} margin={'auto'}>
+                    <Typography variant="h3" margin={'auto'}>
                         Contracts
                     </Typography>
                     {customer.subscription.contracts.map(contract => (
-                        <Accordion>
+                        <Accordion key={contract.id}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1-content"
                                 id={contract.id.toString()}
                             >
-                                {contract.id}
+                                Id: {contract.id}
                             </AccordionSummary>
                             <AccordionDetails>
                                 Level: {contract.level}
