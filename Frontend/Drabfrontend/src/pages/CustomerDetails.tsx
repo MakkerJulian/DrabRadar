@@ -92,51 +92,54 @@ export const CustomerDetails = () => {
     }, []);
 
     return customer && (
-        <Box>
-            <Typography variant="h1">
-                Customer {customer.name}
+        <Box display={'flex'} flexDirection={'column'}>
+            <Typography variant="h1" margin={'auto'}>
+                Customer: {customer.name}
             </Typography>
 
-            {customer.email} <br></br>
-            {customer.phone} <br></br>
+            <Box display={'flex'} justifyContent={'space-between'}>
+                <Typography variant="h4">
+                    Name: {customer.name}<br></br>
+                    Phone number: {customer.phone} <br></br>
+                    Mail: {customer.email} <br></br>
+                </Typography>
 
-
-            <Button
-                sx={{
-                    backgroundColor: "#4CAF50",
-                    color: "white",
-                }}
-                onClick={!customer.subscription ? () => addSubscription(customer.id) : () => refreshSubscription(customer.id)}
-            >
-                {!customer.subscription ? 'Add Subscription' : 'Refresh Token'}
-            </Button>
-
-            {customer.subscription && (
-                <Button
-                    sx={{
-                        backgroundColor: "#4CAF50",
-                        color: "white",
-                    }}
-                    onClick={() => setOpenNewContract(true)}
-                >
-                    Create contract
-                </Button>
-            )}
-
-            {customer.subscription && (
-                <Box>
+                <Box display={'flex'} flexDirection={'column'}>
                     <Typography variant="h2">
-                        Subscription {customer.subscription.id}
+                        Subscription: {customer.subscription ? customer.subscription.id : "No subscription"}
                     </Typography>
-                    {customer.subscription.token} <br></br>
-                </Box>
 
-            )}
+                    <Button
+                        sx={{
+                            backgroundColor: "#4CAF50",
+                            color: "white",
+                        }}
+                        onClick={!customer.subscription ? () => addSubscription(customer.id) : () => refreshSubscription(customer.id)}
+                    >
+                        {!customer.subscription ? 'Add Subscription' : 'Refresh Token'}
+                    </Button>
+
+                </Box>
+            </Box>
+
             {customer.subscription && customer.subscription.contracts.length > 0 && (
                 <Box width={'50%'} margin={'auto'}>
-                    <Typography variant="h3" margin={'auto'}>
-                        Contracts
-                    </Typography>
+                    <Box display={'flex'}>
+                        <Typography variant="h3" margin={'auto'}>
+                            Contracts
+                        </Typography>
+                        {customer.subscription && (
+                            <Button
+                                sx={{
+                                    backgroundColor: "#4CAF50",
+                                    color: "white",
+                                }}
+                                onClick={() => setOpenNewContract(true)}
+                            >
+                                Create contract
+                            </Button>
+                        )}
+                    </Box>
                     {customer.subscription.contracts.map(contract => (
                         <Accordion key={contract.id}>
                             <AccordionSummary
@@ -150,7 +153,7 @@ export const CustomerDetails = () => {
                                 Level: {contract.level}
                                 <Typography variant='h6'>Weatherstations</Typography>
                                 {contract.weatherstations.map(ws => (
-                                    <Box>
+                                    <Box key={ws.id}>
                                         {ws.name}
                                     </Box>
                                 ))}
@@ -201,7 +204,7 @@ export const CustomerDetails = () => {
                     options={weatherstations}
                     sx={{ width: 300 }}
                     getOptionLabel={(option) => option.geolocation.country.name + " " + option.name}
-                    renderInput={(params) => <TextField {...params} label="Weatherstations" />}
+                    renderInput={(params) => <TextField {...params} label="Weatherstations" key={params.id} />}
                     onChange={(event, weatherstation) => {
                         if (weatherstation) {
                             setUsedWeatherstations([...usedWeatherstations, weatherstation]);
