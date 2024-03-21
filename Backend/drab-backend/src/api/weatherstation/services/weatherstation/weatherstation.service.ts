@@ -16,7 +16,24 @@ export class WeatherstationService {
   }
 
   getWeatherstations() {
-    return this.weatherstationRepository.find();
+    return this.weatherstationRepository.find({
+      relations: ['geolocations', 'geolocations.country', 'weatherdatas'],
+    });
+  }
+
+  async getWeatherstationsDetails() {
+    const allStations = await this.getWeatherstations();
+    const count = allStations.length;
+    const offsets = Array.from({ length: 100 }, () =>
+      Math.floor(Math.random() * count),
+    );
+    const offsetslist = offsets.filter(
+      (value, index) => offsets.indexOf(value) === index,
+    );
+    const randoms = offsetslist.map((index) => {
+      return allStations[index];
+    });
+    return randoms;
   }
 
   async seedWeatherstations() {

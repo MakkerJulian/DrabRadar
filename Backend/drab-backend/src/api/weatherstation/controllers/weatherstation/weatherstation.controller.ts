@@ -10,6 +10,11 @@ export class WeatherstationController {
     return this.weatherstationService.getWeatherstations();
   }
 
+  @Get('details')
+  getGeolocationDetails() {
+    return this.weatherstationService.getWeatherstationsDetails();
+  }
+
   @Get('id/:id')
   findAccountById(@Param('id', ParseIntPipe) id: string) {
     return this.weatherstationService.findByName(id);

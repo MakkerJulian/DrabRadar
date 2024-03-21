@@ -63,7 +63,7 @@ export const Login = () => {
             <img src={IWALogo} alt='logo' style={{
                 position:"absolute",
                 width:"15%",
-                left:"42%",
+                left:"44%",
                 bottom:"20%"
             }}></img>
             <img src={BG_Image} alt='logo' style={{
@@ -76,13 +76,14 @@ export const Login = () => {
                 objectFit:"fill"
             }}></img>
             <Box
-                boxShadow={'0 0 10px rgba(51, 153, 255, 2)'}
+                boxShadow={'0 0 10px rgba(0, 0, 0, 2)'}
                 borderRadius={'25px'}
                 minWidth={'25%'} 
                 maxWidth={'30%'}
                 margin={'auto'}
                 position={'absolute'}
-                left={'36%'}
+                top={'10%'}
+                left={'38%'}
                 sx={{background:"white"}}
                 display={'flex'}
                 flexDirection={'column'}
