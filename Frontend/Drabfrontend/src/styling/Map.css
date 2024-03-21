@@ -2,10 +2,3 @@ html, body {
     overflow: hidden;
     background-color: black;
 }
-
-.leaflet-layer,
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out,
-.leaflet-control-attribution {
-  filter: invert(120%) hue-rotate(200deg) brightness(100%) contrast(100%) grayscale(100%);
-}
