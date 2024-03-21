@@ -1,7 +1,7 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, AutocompleteRenderInputParams, Box, Button, TextField, Typography } from '@mui/material';
 import React, { useEffect } from "react";
 import axiosInstance from '../axios';
-import { Customer } from '../types';
+import { Customer, Weatherstation } from '../types';
 import { enqueueSnackbar } from 'notistack';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CustomModal } from '../components/customModal';
@@ -18,6 +18,7 @@ export const CustomerDetails = () => {
     const [customer, setCustomer] = React.useState<Customer>();
     const [newContractForm, setNewContractForm] = React.useState(emptyNewContractForm);
     const [openNewContract, setOpenNewContract] = React.useState<boolean>(false);
+    const [weatherstations, setWeatherstations] = React.useState<Weatherstation[]>([]);
 
     const {
         register, formState: { errors }, handleSubmit,
@@ -80,6 +81,12 @@ export const CustomerDetails = () => {
         axiosInstance.get<Customer>(`/customer/${id}`).then((response) => {
             setCustomer(response.data);
         });
+
+        axiosInstance.get<Weatherstation[]>('/weatherstation')
+            .then((res) => {
+                setWeatherstations(res.data);
+            })
+            .catch((err) => { console.log(err) });
     }, []);
 
     return customer && (
@@ -167,6 +174,15 @@ export const CustomerDetails = () => {
                     error={errors.level?.message !== undefined}
                 >
                 </TextField>
+
+                <Autocomplete
+                    disablePortal
+                    id="weatherstations"
+                    options={weatherstations}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Weatherstations" />}
+                    getOptionLabel={(option) => option.geolocation.country.name + " " + option.name}
+                />
 
             </CustomModal>
         </Box>

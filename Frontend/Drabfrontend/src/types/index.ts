@@ -4,4 +4,6 @@ import { Subscription } from "./Subscription";
 import { Weatherstation } from "./WeatherStation";
 import { Contract } from "./Contract";
 import { CustomerCreate } from "./Customer";
-export type { Account, Customer, Subscription, Weatherstation, Contract, CustomerCreate};
+import { Country } from "./Country";
+import { Geolocation } from "./Geolocation";
+export type { Account, Customer, Subscription, Weatherstation, Contract, CustomerCreate, Country, Geolocation};

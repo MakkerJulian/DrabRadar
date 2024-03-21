@@ -22,11 +22,11 @@ export class AppService {
       await this.countryService.seedCountries();
       console.log('Seeded countries');
     }
+
     if ((await this.weatherstationService.getWeatherstations()).length === 0) {
       await this.weatherstationService.seedWeatherstations();
       console.log('Seeded weatherstations');
     }
-
     if ((await this.geolocationService.getGeolocation()).length === 0) {
       await this.geolocationService.seedGeoLocations();
       console.log('Seeded geolocations');
