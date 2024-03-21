@@ -32,7 +32,7 @@ export const Home = () => {
     }
     const [locations, setLocations] = useState<locations[]>([]);
     const [activeAccordion, setActiveAccordion] = useState<number>();
-    const mapRef = useRef<any>(null); // Ref voor de MapContainer
+    const mapRef = useRef<any>(null); 
 
 
     useEffect(() => {
