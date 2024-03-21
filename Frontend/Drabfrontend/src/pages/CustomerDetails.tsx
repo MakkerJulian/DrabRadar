@@ -29,14 +29,17 @@ export const CustomerDetails = () => {
 
 
     const createContract = (subscriptionId: number) => {
-        setNewContractForm({
+        const newContract = {
             ...newContractForm,
-            subscriptionId: subscriptionId,
-        });
-        console.log(newContractForm);
-        axiosInstance.post('/contract', newContractForm).then(() => {
+            subscriptionId: subscriptionId
+        }
+        console.log(newContract);
+        axiosInstance.post('/contract', newContract).then(() => {
             enqueueSnackbar('Contract created', { variant: 'success' });
             setOpenNewContract(false);
+            axiosInstance.get<Customer>(`/customer/${customer?.id}`).then((response) => {
+                setCustomer(response.data);
+            });
         }).catch(() => {
             enqueueSnackbar('Failed to create contract', { variant: 'error' });
         });
