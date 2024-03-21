@@ -3,9 +3,9 @@ import axiosInstance from '../axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styling/Map.css';
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button } from '@mui/material';
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { inherits } from 'util';
+import { ExpandLess } from '@mui/icons-material';
 
 let dark_mode = true;
 
@@ -75,34 +75,44 @@ export const Home = () => {
                 color={'white'}
             >
                 <Box
-                overflow={'auto'}
+                    overflow={'auto'}
                 >
-                {locations.map((location, index) => (
-                    <Accordion
-                    key={index}
-                    sx={{
-                        backgroundColor: "inherit",
-                        color: "white",
-                        fontSize: "25px"
-                    }}
-                    expanded={activeAccordion === index}
-                >
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls={`panel-${index}-content`}
-                        id={`panel-${index}-header`}
-                    >
-                        Weatherstation Nr. {location.name}
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                        malesuada lacus ex, sit amet blandit leo lobortis eget.
-                    </AccordionDetails>
-                    <AccordionActions>
-                        <Button>Cancel</Button>
-                        <Button>Agree</Button>
-                    </AccordionActions>
-                </Accordion>
+                    {locations.map((location, index) => (
+                        <Accordion
+                            key={index}
+                            sx={{
+                                backgroundColor: "inherit",
+                                color: "white",
+                                fontSize: "25px"
+                            }}
+                            expanded={activeAccordion === index}
+                        >
+                            <AccordionSummary
+                                aria-controls={`panel-${index}-content`}
+                                id={`panel-${index}-header`}
+                            >
+                                Weatherstation Nr. {location.name}
+
+                                <IconButton onClick={() => {
+                                    if (activeAccordion === index) {
+                                        setActiveAccordion(undefined)
+                                    } else {
+                                        setActiveAccordion(index)
+                                    }
+                                }
+                                }>
+                                    {activeAccordion === index ? <ExpandLess sx={{ color: 'white' }} /> : <ExpandMoreIcon sx={{ color: 'white' }} />}
+                                </IconButton>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                            </AccordionDetails>
+                            <AccordionActions>
+                                <Button>Cancel</Button>
+                                <Button>Agree</Button>
+                            </AccordionActions>
+                        </Accordion>
                     ))}
                 </Box>
             </Box>
