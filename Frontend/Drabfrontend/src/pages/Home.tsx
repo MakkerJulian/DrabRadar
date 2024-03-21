@@ -7,7 +7,7 @@ import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, B
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
 
-let dark_mode = true;
+let dark_mode = false;
 
 function changeTheme() {
     const elements = document.querySelectorAll('.leaflet-layer, .leaflet-control-zoom-in, .leaflet-control-zoom-out, .leaflet-control-attribution');
@@ -67,7 +67,7 @@ export const Home = () => {
                 position={'absolute'}
                 right={0}
                 top={0}
-                width={'20%'}
+                width={'25%'}
                 height={'100%'}
                 bgcolor={'rgba(0,0,0,0.8)'}
                 zIndex={1000}
@@ -83,7 +83,7 @@ export const Home = () => {
                             sx={{
                                 backgroundColor: "inherit",
                                 color: "white",
-                                fontSize: "25px"
+                                fontSize: "25px",
                             }}
                             expanded={activeAccordion === index}
                         >
@@ -91,18 +91,18 @@ export const Home = () => {
                                 aria-controls={`panel-${index}-content`}
                                 id={`panel-${index}-header`}
                             >
-                                Weatherstation Nr. {location.name}
-
-                                <IconButton onClick={() => {
+                                <Button onClick={() => {
                                     if (activeAccordion === index) {
                                         setActiveAccordion(undefined)
                                     } else {
                                         setActiveAccordion(index)
                                     }
-                                }
-                                }>
+                                }}
+                                sx={{color: "white", fontSize: "22px", fontWeight: "bold"}}
+                                >
+                                    Weatherstation Nr. {location.name}
                                     {activeAccordion === index ? <ExpandLess sx={{ color: 'white' }} /> : <ExpandMoreIcon sx={{ color: 'white' }} />}
-                                </IconButton>
+                                </Button>
                             </AccordionSummary>
                             <AccordionDetails>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
