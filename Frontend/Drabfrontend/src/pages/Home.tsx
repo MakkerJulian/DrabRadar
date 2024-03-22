@@ -43,14 +43,24 @@ export const Home = () => {
 
     const handleMarkerClick = (index: number): void => {
         if (mapRef.current !== null) {
-            mapRef.current.setView([weatherstations[index].latitude, weatherstations[index].longitude], 12);
+            mapRef.current.flyTo([weatherstations[index].latitude, weatherstations[index].longitude], 12, {
+                "animate": true,
+                "pan": {
+                  "duration": 10
+                }
+              });
         }
         setActiveAccordion(index);
     };
 
     const handleAccordionClick = (index: number): void => {
         if (mapRef.current !== null) {
-            mapRef.current.setView([weatherstations[index].latitude, weatherstations[index].longitude], 12);
+            mapRef.current.flyTo([weatherstations[index].latitude, weatherstations[index].longitude], 12, {
+                "animate": true,
+                "pan": {
+                  "duration": 10
+                }
+              });
         }
     }
     return (
