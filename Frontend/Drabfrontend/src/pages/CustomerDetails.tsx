@@ -122,7 +122,7 @@ export const CustomerDetails = () => {
                 </Box>
             </Box>
 
-            {customer.subscription && customer.subscription.contracts.length > 0 && (
+            {customer.subscription && (
                 <Box width={'50%'} margin={'auto'}>
                     <Box display={'flex'}>
                         <Typography variant="h3" margin={'auto'}>
