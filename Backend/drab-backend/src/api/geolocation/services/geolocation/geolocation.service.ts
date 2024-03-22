@@ -40,34 +40,30 @@ export class GeolocationService {
           (station) => station.name === geolocation.station_name,
         );
         return {
+          id: geolocation.id,
           country: geolocation.country_code,
-          island: geolocation.island === 'N/A' ? null : geolocation.island,
-          county: geolocation.county === 'N/A' ? null : geolocation.county,
-          place: geolocation.place === 'N/A' ? null : geolocation.place,
-          hamlet: geolocation.hamlet === 'N/A' ? null : geolocation.hamlet,
-          town: geolocation.town === 'N/A' ? null : geolocation.town,
+          island: geolocation.island === '' ? null : geolocation.island,
+          county: geolocation.county === '' ? null : geolocation.county,
+          place: geolocation.place === '' ? null : geolocation.place,
+          hamlet: geolocation.hamlet === '' ? null : geolocation.hamlet,
+          town: geolocation.town === '' ? null : geolocation.town,
           municipality:
-            geolocation.municipality === 'N/A'
-              ? null
-              : geolocation.municipality,
+            geolocation.municipality === '' ? null : geolocation.municipality,
           state_district:
-            geolocation.state_district === 'N/A'
+            geolocation.state_district === ''
               ? null
               : geolocation.state_district,
           administrative:
-            geolocation.administrative === 'N/A'
+            geolocation.administrative === ''
               ? null
               : geolocation.administrative,
-          state: geolocation.state === 'N/A' ? null : geolocation.state,
-          village: geolocation.village === 'N/A' ? null : geolocation.village,
-          region: geolocation.region === 'N/A' ? null : geolocation.region,
-          province:
-            geolocation.province === 'N/A' ? null : geolocation.province,
-          city: geolocation.city === 'N/A' ? null : geolocation.city,
-          locality:
-            geolocation.locality === 'N/A' ? null : geolocation.locality,
-          postcode:
-            geolocation.postcode === 'N/A' ? null : geolocation.postcode,
+          state: geolocation.state === '' ? null : geolocation.state,
+          village: geolocation.village === '' ? null : geolocation.village,
+          region: geolocation.region === '' ? null : geolocation.region,
+          province: geolocation.province === '' ? null : geolocation.province,
+          city: geolocation.city === '' ? null : geolocation.city,
+          locality: geolocation.locality === '' ? null : geolocation.locality,
+          postcode: geolocation.postcode === '' ? null : geolocation.postcode,
           weatherstation: weatherstation,
         };
       });
