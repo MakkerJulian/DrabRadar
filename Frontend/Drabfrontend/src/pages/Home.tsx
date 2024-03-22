@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import axiosInstance from '../axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import '../styling/Map.css';
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, IconButton, duration } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
@@ -34,7 +33,7 @@ export const Home = () => {
     }
     const [locations, setLocations] = useState<locations[]>([]);
     const [activeAccordion, setActiveAccordion] = useState<number>();
-    const mapRef = useRef<any>(null); 
+    const mapRef = useRef<any>(null);
 
 
     useEffect(() => {
@@ -112,7 +111,7 @@ export const Home = () => {
                                         setActiveAccordion(index)
                                     }
                                 }}
-                                sx={{color: "white", fontSize: "22px", fontWeight: "bold"}}
+                                    sx={{ color: "white", fontSize: "22px", fontWeight: "bold" }}
                                 >
                                     Weatherstation Nr. {location.name}
                                     {activeAccordion === index ? <ExpandLess sx={{ color: 'white' }} /> : <ExpandMoreIcon sx={{ color: 'white' }} />}
