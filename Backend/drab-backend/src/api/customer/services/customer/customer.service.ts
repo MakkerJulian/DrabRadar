@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCustomerDto } from 'src/dto/customer.dto';
 import { Customer } from 'src/typeorm/customer.entity';
 import { Repository } from 'typeorm';
+import { customer } from 'src/seed';
 
 @Injectable()
 export class CustomerService {
@@ -11,17 +12,31 @@ export class CustomerService {
     private readonly customerRepository: Repository<Customer>,
   ) {}
 
-  getCustomers() {
+  async getCustomers() {
     return this.customerRepository.find({
       relations: [
-        'subscriptions',
-        'subscriptions.contracts',
-        'subscriptions.contracts.weatherstations',
+        'subscription',
+        'subscription.contracts',
+        'subscription.contracts.weatherstations',
+      ],
+    });
+  }
+
+  async getCustomerById(id: number) {
+    return this.customerRepository.findOne({
+      where: { id: id },
+      relations: [
+        'subscription',
+        'subscription.contracts',
+        'subscription.contracts.weatherstations',
       ],
     });
   }
 
   createCustomer(createCustomerDto: CreateCustomerDto) {
     return this.customerRepository.save(createCustomerDto);
+  }
+  async seedCustomers() {
+    return this.customerRepository.save(customer);
   }
 }

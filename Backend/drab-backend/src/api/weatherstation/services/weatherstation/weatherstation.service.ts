@@ -17,7 +17,7 @@ export class WeatherstationService {
 
   getWeatherstations() {
     return this.weatherstationRepository.find({
-      relations: ['geolocations', 'geolocations.country', 'weatherdatas'],
+      relations: ['geolocation', 'geolocation.country', 'weatherdatas'],
     });
   }
 
