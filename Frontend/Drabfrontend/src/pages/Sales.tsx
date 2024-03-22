@@ -119,7 +119,7 @@ export const Sales = () => {
           sx={{ width: '50%', margin: '20px' }}
           label="Name"
           value={form.name}
-          {...register('name', { required: "name can't be empty", minLength: { value: 5, message: "email must be at least 5 characters" } })}
+          {...register('name', { required: "name can't be empty", minLength: { value: 5, message: "name must be at least 5 characters" } })}
           onChange={handleChange}
           helperText={errors.name?.message?.toString()}
           error={errors.name?.message !== undefined}
@@ -130,7 +130,12 @@ export const Sales = () => {
           sx={{ width: '50%', margin: '20px' }}
           label="E-mail"
           value={form.email}
-          {...register('email', { required: "E-mail can't be empty" })}
+          {...register('email', {
+            required: "E-mail can't be empty", pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "invalid email address"
+            }
+          })}
           onChange={handleChange}
           helperText={errors.email?.message?.toString()}
           error={errors.email?.message !== undefined}
@@ -141,7 +146,7 @@ export const Sales = () => {
         <TextField
           sx={{ width: '50%', margin: '20px' }}
           label="Phone number"
-          type='number'
+          type='phone'
           value={form.phone}
           {...register('phone', { required: "password can't be empty" })}
           onChange={handleChange}
