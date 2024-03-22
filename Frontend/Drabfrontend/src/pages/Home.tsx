@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axiosInstance from '../axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styling/Map.css';
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, IconButton } from '@mui/material';
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, IconButton, duration } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
 
-let dark_mode = true;
+let dark_mode = false;
 
 function changeTheme() {
     const elements = document.querySelectorAll('.leaflet-layer, .leaflet-control-zoom-in, .leaflet-control-zoom-out, .leaflet-control-attribution');
@@ -34,6 +34,8 @@ export const Home = () => {
     }
     const [locations, setLocations] = useState<locations[]>([]);
     const [activeAccordion, setActiveAccordion] = useState<number>();
+    const mapRef = useRef<any>(null); 
+
 
     useEffect(() => {
         axiosInstance.get('/weatherstation/details')
@@ -43,15 +45,24 @@ export const Home = () => {
             .catch((err) => { console.log(err) });
     }, []);
 
-    const handleMarkerClick = (index: number) => {
+    const handleMarkerClick = (index: number): void => {
+        if (mapRef.current !== null) {
+            mapRef.current.setView([locations[index].latitude, locations[index].longitude], 12);
+        }
         setActiveAccordion(index);
     };
+
+    const handleAccordionClick = (index: number): void => {
+        if (mapRef.current !== null) {
+            mapRef.current.setView([locations[index].latitude, locations[index].longitude], 12);
+        }
+    }
 
     return (
         <Box
             position={'relative'}
         >
-            <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{ "height": "100vh" }}>
+            <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{ "height": "100vh" }} ref={mapRef}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -69,7 +80,7 @@ export const Home = () => {
                 position={'absolute'}
                 right={0}
                 top={0}
-                width={'20%'}
+                width={'25%'}
                 height={'100%'}
                 bgcolor={'rgba(0,0,0,0.8)'}
                 zIndex={1000}
@@ -85,26 +96,27 @@ export const Home = () => {
                             sx={{
                                 backgroundColor: "inherit",
                                 color: "white",
-                                fontSize: "25px"
+                                fontSize: "25px",
                             }}
                             expanded={activeAccordion === index}
+                            onClick={() => handleAccordionClick(index)}
                         >
                             <AccordionSummary
                                 aria-controls={`panel-${index}-content`}
                                 id={`panel-${index}-header`}
                             >
-                                Weatherstation Nr. {location.name}
-
-                                <IconButton onClick={() => {
+                                <Button onClick={() => {
                                     if (activeAccordion === index) {
                                         setActiveAccordion(undefined)
                                     } else {
                                         setActiveAccordion(index)
                                     }
-                                }
-                                }>
+                                }}
+                                sx={{color: "white", fontSize: "22px", fontWeight: "bold"}}
+                                >
+                                    Weatherstation Nr. {location.name}
                                     {activeAccordion === index ? <ExpandLess sx={{ color: 'white' }} /> : <ExpandMoreIcon sx={{ color: 'white' }} />}
-                                </IconButton>
+                                </Button>
                             </AccordionSummary>
                             <AccordionDetails>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
