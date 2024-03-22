@@ -6,6 +6,7 @@ import '../styling/Map.css';
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, IconButton, duration } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
+import { Weatherstation } from '../types';
 
 let dark_mode = false;
 
@@ -27,37 +28,31 @@ function changeTheme() {
 }
 
 export const Home = () => {
-    type locations = {
-        name: string,
-        longitude: number,
-        latitude: number,
-    }
-    const [locations, setLocations] = useState<locations[]>([]);
+    const [weatherstations, setweatherstations] = useState<Weatherstation[]>([]);
     const [activeAccordion, setActiveAccordion] = useState<number>();
-    const mapRef = useRef<any>(null); 
+    const mapRef = useRef<any>(null);
 
 
     useEffect(() => {
         axiosInstance.get('/weatherstation/details')
             .then((res) => {
-                setLocations(res.data);
+                setweatherstations(res.data);
             })
             .catch((err) => { console.log(err) });
     }, []);
 
     const handleMarkerClick = (index: number): void => {
         if (mapRef.current !== null) {
-            mapRef.current.setView([locations[index].latitude, locations[index].longitude], 12);
+            mapRef.current.setView([weatherstations[index].latitude, weatherstations[index].longitude], 12);
         }
         setActiveAccordion(index);
     };
 
     const handleAccordionClick = (index: number): void => {
         if (mapRef.current !== null) {
-            mapRef.current.setView([locations[index].latitude, locations[index].longitude], 12);
+            mapRef.current.setView([weatherstations[index].latitude, weatherstations[index].longitude], 12);
         }
     }
-
     return (
         <Box
             position={'relative'}
@@ -67,11 +62,8 @@ export const Home = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {locations.map((location, index) => (
-                    <Marker key={index} position={[location.latitude, location.longitude]} eventHandlers={{ click: () => handleMarkerClick(index) }}>
-                        <Popup>
-                            {location.name}
-                        </Popup>
+                {weatherstations.map((weatherstation, index) => (
+                    <Marker key={index} position={[weatherstation.latitude, weatherstation.longitude]} eventHandlers={{ click: () => handleMarkerClick(index) }}>
                     </Marker>
                 ))}
             </MapContainer>
@@ -89,14 +81,16 @@ export const Home = () => {
             >
                 <Box
                     overflow={'auto'}
+                    width={'100%'}
                 >
-                    {locations.map((location, index) => (
+                    {weatherstations.map((weatherstation, index) => (
                         <Accordion
                             key={index}
                             sx={{
                                 backgroundColor: "inherit",
                                 color: "white",
                                 fontSize: "25px",
+                                width: "100%",
                             }}
                             expanded={activeAccordion === index}
                             onClick={() => handleAccordionClick(index)}
@@ -112,15 +106,41 @@ export const Home = () => {
                                         setActiveAccordion(index)
                                     }
                                 }}
-                                sx={{color: "white", fontSize: "22px", fontWeight: "bold"}}
+                                    sx={{ color: "white", fontSize: "22px", fontWeight: "bold" }}
                                 >
-                                    Weatherstation Nr. {location.name}
+                                    Weatherstation Nr. {weatherstation.name}
                                     {activeAccordion === index ? <ExpandLess sx={{ color: 'white' }} /> : <ExpandMoreIcon sx={{ color: 'white' }} />}
                                 </Button>
                             </AccordionSummary>
-                            <AccordionDetails>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                            <AccordionDetails
+                                sx={{
+                                    gridTemplateColumns: "repeat(2, 1fr)",
+                                    gridTemplateRows: "repeat(2, 1fr)"
+                                }}
+                            >
+                                <Box
+                                    sx={{ gridColumn: "1", gridRow: "1" }}
+                                >
+                                    country: {weatherstation.geolocation.country.name}
+                                </Box>
+                                <Box
+                                    sx={{ gridColumn: "2", gridRow: "1" }}
+                                >
+                                    temperature
+                                    {/* temperature: {weatherstation.weatherdata.temp} */}
+                                </Box>
+                                <Box
+                                    sx={{ gridColumn: "1", gridRow: "2" }}
+                                >
+                                    windspeed and direction
+                                    {/* wind: {weatherstation.weatherdata.windspeed} KM/H 
+                                    in direction: {weatherstation.weatherdata.wind_direction}° */}
+                                </Box>
+                                <Box
+                                    sx={{ gridColumn: "2", gridRow: "2" }}
+                                >
+                                    //todo icons
+                                </Box>
                             </AccordionDetails>
                             <AccordionActions>
                                 <Button>Cancel</Button>
@@ -133,7 +153,7 @@ export const Home = () => {
             <Box
                 display={'flex'}
                 position={'absolute'}
-                right={'20%'}
+                right={'25%'}
                 bottom={'0%'}
                 height={'5%'}
                 bgcolor={'rgba(0,0,0,0.8)'}
@@ -147,3 +167,4 @@ export const Home = () => {
     );
 
 }
+
