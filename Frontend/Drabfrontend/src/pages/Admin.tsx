@@ -69,7 +69,7 @@ export const Admin = () => {
                 Admin
             </Typography>
 
-            <Button
+            <Button //green button
                 sx={{ backgroundColor: 'blue', color: 'white' }}
                 onClick={() => {
                     setOpenAccount(!openAccount);
@@ -147,7 +147,7 @@ export const Admin = () => {
                 >
                 </TextField>
 
-                <TextField
+                <TextField //Todo change to select
                     sx={{ width: '50%', margin: '20px' }}
                     label="Role"
                     value={form.role}
