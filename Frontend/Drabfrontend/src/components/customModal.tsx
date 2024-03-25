@@ -45,7 +45,13 @@ export const CustomModal = ({
                     <Button onClick={() => setOpen(false)} sx={{ bgcolor: 'gray', color: 'white' }}>
                         Close
                     </Button>
-                    <Button onClick={(e) => onSubmit(e)} sx={{ bgcolor: 'green', color: 'white' }}>
+                    <Button onClick={(e) => onSubmit(e)} sx={{
+                        backgroundColor: 'green',
+                        color: 'white',
+                        ":hover": {
+                            backgroundColor: 'darkgreen',
+                        }
+                    }}>
                         Submit
                     </Button>
                 </Box>

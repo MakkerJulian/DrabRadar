@@ -2,6 +2,7 @@ import { CustomerDetails } from "./pages/CustomerDetails";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Sales } from "./pages/Sales";
+import { WeatherStationDetail } from "./pages/WeatherStationDetail";
 import { WeatherStations } from "./pages/WeatherStations";
 
 interface Route {
@@ -35,5 +36,10 @@ export const routes: Route[] = [
         name: 'weatherstations',
         path: '/weatherstations',
         element: WeatherStations
+    },
+    {
+        name: 'weatherstation',
+        path: '/weatherstation/:id',
+        element: WeatherStationDetail
     }
 ];
