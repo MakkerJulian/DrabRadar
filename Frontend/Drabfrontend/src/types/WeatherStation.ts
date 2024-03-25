@@ -2,7 +2,6 @@ import { Geolocation } from "./Geolocation";
 import { Weatherdatas } from "./Weatherdata";
 
 export type Weatherstation = {
-    id: number;
     name: string;
     longitude: number;
     latitude: number;

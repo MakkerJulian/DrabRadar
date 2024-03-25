@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, AutocompleteRenderInputParams, Box, Button, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Box, Button, TextField, Typography } from '@mui/material';
 import React, { useEffect } from "react";
 import axiosInstance from '../axios';
 import { Customer, Weatherstation } from '../types';
@@ -91,7 +91,7 @@ export const CustomerDetails = () => {
             .catch((err) => { console.log(err) });
     }, []);
 
-    return customer && (
+    return customer ? (
         <Box display={'flex'} flexDirection={'column'}>
             <Typography variant="h1" margin={'auto'}>
                 Customer: {customer.name}
@@ -214,5 +214,6 @@ export const CustomerDetails = () => {
 
             </CustomModal >
         </Box >
-    )
+    ) :
+        <Typography>No Customer Found</Typography>
 }

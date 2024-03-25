@@ -94,6 +94,15 @@ export const Home = () => {
             .catch((err) => { console.log(err) });
     }, []);
 
+    useEffect(() => {
+        if (activeAccordion !== null) {
+            const accordionElement = document.getElementById(`panel-${activeAccordion}-header`);
+            if (accordionElement) {
+                accordionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    }, [activeAccordion]);
+
     const handleMarkerClick = (index: number): void => {
         if (mapRef.current !== null) {
             mapRef.current.flyTo([weatherstations[index].latitude, weatherstations[index].longitude], 12, {
