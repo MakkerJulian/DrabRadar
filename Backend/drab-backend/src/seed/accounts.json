@@ -1,0 +1,30 @@
+[
+    {
+        "name" : "Research",
+        "email" : "Research@gmail.com",
+        "phone" : "0627620981",
+        "password": "Test",
+        "role": "Onderzoek"
+     },
+     {
+        "name" : "Sales",
+        "email" : "Sales@gmail.com",
+        "phone" : "0627620981",
+        "password": "Test",
+        "role": "Sales"
+     },
+     {
+        "name" : "Maintenance",
+        "email" : "Maintenace@gmail.com",
+        "phone" : "0627620981",
+        "password": "Test",
+        "role": "Onderhoud"
+     },
+     {
+        "name" : "Admin",
+        "email" : "Admin@gmail.com",
+        "phone" : "0627620981",
+        "password": "Test",
+        "role": "ADMIN"
+     }
+]

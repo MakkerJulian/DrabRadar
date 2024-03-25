@@ -4,6 +4,7 @@ import { WeatherstationService } from './api/weatherstation/services/weatherstat
 import { GeolocationService } from './api/geolocation/services/geolocation/geolocation.service';
 import { NearestlocationService } from './api/nearestlocation/services/nearestlocation/nearestlocation.service';
 import { CustomerService } from './api/customer/services/customer/customer.service';
+import { AccountService } from './api/account/services/account/account.service';
 
 @Injectable()
 export class AppService {
@@ -13,6 +14,7 @@ export class AppService {
     private readonly geolocationService: GeolocationService,
     private readonly nearestlocationService: NearestlocationService,
     private readonly customerService: CustomerService,
+    private readonly accountServie: AccountService,
   ) {
     this.seedDatabase();
   }
@@ -39,6 +41,10 @@ export class AppService {
     if ((await this.customerService.getCustomers()).length === 0) {
       await this.customerService.seedCustomers();
       console.log('Seeded customers');
+    }
+    if ((await this.accountServie.getAccounts()).length === 0) {
+      await this.accountServie.seedAccounts();
+      console.log('Seeded accounts');
     }
   }
 }

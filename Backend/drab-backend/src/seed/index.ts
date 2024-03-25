@@ -8,6 +8,7 @@ import station from './stations.json';
 import nearestlocation from './nearestlocation.json';
 import nearestlocation2 from './nearestlocation2.json';
 import customer from './customers.json';
+import account from './accounts.json'
 
 export {
   countries,
@@ -18,5 +19,6 @@ export {
   geolocation2,
   geolocation3,
   geolocation4,
-  customer
+  customer,
+  account
 };
