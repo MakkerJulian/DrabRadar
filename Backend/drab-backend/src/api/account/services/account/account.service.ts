@@ -4,6 +4,7 @@ import { CreateAccountDto, LoginDto } from 'src/dto/account.dto';
 import { Account } from 'src/typeorm/account.entity';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
+import { account } from 'src/seed';
 
 @Injectable()
 export class AccountService {
@@ -47,4 +48,9 @@ export class AccountService {
   deleteAll() {
     return this.accountRepository.clear();
   }
+  
+  async seedAccounts() {
+    return this.accountRepository.save(account);
+  }
 }
+
