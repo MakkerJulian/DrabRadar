@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { map } from 'rxjs';
 import { station } from 'src/seed';
 import { Weatherstation } from 'src/typeorm/weatherstation.entity';
 import { Repository } from 'typeorm';
@@ -33,7 +34,13 @@ export class WeatherstationService {
     const randoms = offsetslist.map((index) => {
       return allStations[index];
     });
-    return randoms;
+    const allStations1Data = randoms.map((station)=>{
+        return{
+          ...station,
+          weatherdatas: station.weatherdatas[0] || null
+        }
+    })
+    return allStations1Data;
   }
 
   async seedWeatherstations() {

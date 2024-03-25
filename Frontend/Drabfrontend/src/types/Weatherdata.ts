@@ -1,6 +1,6 @@
 import { Weatherstation } from ".";
 
-export type Weatherdata = {
+export type Weatherdatas = {
     id: number;
     weatherstation: Weatherstation;
     datetime: string;
@@ -10,7 +10,7 @@ export type Weatherdata = {
     sea_airpressure: number;
     visibility: number;
     windspeed: number;
-    preciptation: number;
+    precipitation: number;    
     snow_amount: number;
     freezing: boolean;
     rain: boolean;

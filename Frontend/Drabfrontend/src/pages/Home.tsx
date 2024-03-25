@@ -6,7 +6,7 @@ import '../styling/Map.css';
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, FormControlLabel, IconButton, Switch, duration, styled } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
-import { Weatherstation } from '../types';
+import { Weatherstation, WeatherstationDetail } from '../types';
 
 let dark_mode = false;
 
@@ -74,13 +74,13 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   }));
 
 export const Home = () => {
-    const [weatherstations, setweatherstations] = useState<Weatherstation[]>([]);
+    const [weatherstations, setweatherstations] = useState<WeatherstationDetail[]>([]);
     const [activeAccordion, setActiveAccordion] = useState<number>();
     const mapRef = useRef<any>(null);
 
 
     useEffect(() => {
-        axiosInstance.get('/weatherstation/details')
+        axiosInstance.get<WeatherstationDetail[]>('/weatherstation/details')
             .then((res) => {
                 setweatherstations(res.data);
             })
@@ -174,34 +174,23 @@ export const Home = () => {
                                     gridTemplateRows: "repeat(2, 1fr)"
                                 }}
                             >
-                                <Box
-                                    sx={{ gridColumn: "1", gridRow: "1" }}
-                                >
+                                <Box>
                                     country: {weatherstation.geolocation.country.name}
                                 </Box>
-                                <Box
-                                    sx={{ gridColumn: "2", gridRow: "1" }}
-                                >
-                                    temperature
-                                    {/* temperature: {weatherstation.weatherdata.temp} */}
+                                <Box>
+                                    temperature: {weatherstation.weatherdatas ? weatherstation.weatherdatas.temp  : "NO DATA"}
                                 </Box>
-                                <Box
-                                    sx={{ gridColumn: "1", gridRow: "2" }}
-                                >
-                                    windspeed and direction
-                                    {/* wind: {weatherstation.weatherdata.windspeed} KM/H 
-                                    in direction: {weatherstation.weatherdata.wind_direction}° */}
+                                <Box>
+                                    wind: {weatherstation.weatherdatas ? weatherstation.weatherdatas.windspeed : "NO DATA"} KM/H          
+                                    in direction: {weatherstation.weatherdatas ? weatherstation.weatherdatas.wind_direction : "NO DATA"}°
                                 </Box>
-                                <Box
-                                    sx={{ gridColumn: "2", gridRow: "2" }}
-                                >
+                                <Box>
+                                    in direction: {weatherstation.weatherdatas ? weatherstation.weatherdatas.wind_direction : "NO DATA"}°
+                                </Box>
+                                <Box>
                                     //todo icons
                                 </Box>
                             </AccordionDetails>
-                            <AccordionActions>
-                                <Button>Cancel</Button>
-                                <Button>Agree</Button>
-                            </AccordionActions>
                         </Accordion>
                     ))}
                 </Box>
@@ -220,7 +209,7 @@ export const Home = () => {
                 alignItems={'center'}
             >
                 <Button
-                href=''
+                href='/weatherstations'
                 sx={{color: "white",
                     fontSize: "35px",
                     fontWeight: "bold"}}
