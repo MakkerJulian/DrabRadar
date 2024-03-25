@@ -10,7 +10,7 @@ export type Weatherdatas = {
     sea_airpressure: number;
     visibility: number;
     windspeed: number;
-    precipitation: number;    
+    precipitation: number;
     snow_amount: number;
     freezing: boolean;
     rain: boolean;

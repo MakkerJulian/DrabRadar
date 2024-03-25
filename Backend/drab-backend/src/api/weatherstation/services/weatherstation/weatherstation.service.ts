@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { map } from 'rxjs';
 import { station } from 'src/seed';
 import { Weatherstation } from 'src/typeorm/weatherstation.entity';
 import { Repository } from 'typeorm';
@@ -10,7 +9,7 @@ export class WeatherstationService {
   constructor(
     @InjectRepository(Weatherstation)
     private readonly weatherstationRepository: Repository<Weatherstation>,
-  ) {}
+  ) { }
 
   async findByName(id: string) {
     return this.weatherstationRepository.find({ where: { name: id } });
@@ -34,11 +33,11 @@ export class WeatherstationService {
     const randoms = offsetslist.map((index) => {
       return allStations[index];
     });
-    const allStations1Data = randoms.map((station)=>{
-        return{
-          ...station,
-          weatherdatas: station.weatherdatas[0] || null
-        }
+    const allStations1Data = randoms.map((station) => {
+      return {
+        ...station,
+        weatherdatas: station.weatherdatas[0] || null
+      }
     })
     return allStations1Data;
   }
