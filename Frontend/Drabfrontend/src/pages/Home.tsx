@@ -1,4 +1,4 @@
-import React,{ useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axiosInstance from '../axios';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -12,7 +12,6 @@ import {
     Switch,
     styled,
 } from '@mui/material';
-import '../styling/Map.css';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
 import { WeatherstationDetail } from '../types';
