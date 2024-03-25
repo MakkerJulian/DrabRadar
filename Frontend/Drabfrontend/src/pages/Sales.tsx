@@ -82,33 +82,45 @@ export const Sales = () => {
     });
   }, []);
 
+  useEffect(() => {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
-    <Box flex={1} flexDirection={'column'}>
-      <Typography variant="h1">
+    <Box flex={1} flexDirection={'column'} >
+      <Typography variant="h2" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         Sales
       </Typography>
 
-      <Button
-        sx={{ backgroundColor: 'green', color: 'white' }}
-        onClick={() => {
-          setOpenCustomer(!openCustomer);
-        }}
-      >
-        Add new customer
-      </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px', overflowY: '-moz-hidden-unscrollable' }}>
+        <Button
+          sx={{ backgroundColor: 'green', color: 'white', borderRadius: '20px', '&:hover': { backgroundColor: 'darkgreen' } }}
+          onClick={() => {
+            setOpenCustomer(!openCustomer);
+          }}
+        >
+          Add new customer
+        </Button>
+      </Box>
 
       <DataGrid
         rows={customers}
         columns={columns}
-        sx={{ maxWidth: '60%', margin: 'auto' }}
-        initialState={{
-          sorting: {
-            sortModel: [{ field: 'id', sort: 'asc' }],
-          },
-        }}
-      >
-      </DataGrid>
-
+        pagination 
+        autoHeight
+        sx={{ maxWidth: '60%', margin: 'auto', maxHeight: '800px' }}
+        initialState={{ sorting: { sortModel: [{ field: 'id', sort: 'asc' }] },   pagination: {
+          paginationModel: { pageSize: 10, page: 0 },
+        },
+      }}
+    />
+      
       <CustomModal
         open={openCustomer}
         title="Add new customer"
@@ -123,9 +135,7 @@ export const Sales = () => {
           onChange={handleChange}
           helperText={errors.name?.message?.toString()}
           error={errors.name?.message !== undefined}
-        >
-        </TextField>
-
+        />
         <TextField
           sx={{ width: '50%', margin: '20px' }}
           label="E-mail"
@@ -139,10 +149,7 @@ export const Sales = () => {
           onChange={handleChange}
           helperText={errors.email?.message?.toString()}
           error={errors.email?.message !== undefined}
-        >
-        </TextField>
-
-
+        />
         <TextField
           sx={{ width: '50%', margin: '20px' }}
           label="Phone number"
@@ -152,11 +159,8 @@ export const Sales = () => {
           onChange={handleChange}
           helperText={errors.phone?.message?.toString()}
           error={errors.phone?.message !== undefined}
-        >
-        </TextField>
+        />
       </CustomModal>
-
-
     </Box>
   )
 }
