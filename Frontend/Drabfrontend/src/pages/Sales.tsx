@@ -88,7 +88,7 @@ export const Sales = () => {
         Sales
       </Typography>
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px', overflowY: '-moz-hidden-unscrollable' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
         <Button
           sx={{ backgroundColor: 'green', color: 'white', borderRadius: '20px', '&:hover': { backgroundColor: 'darkgreen' } }}
           onClick={() => {
