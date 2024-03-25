@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React,{ useEffect, useRef, useState } from 'react';
 import axiosInstance from '../axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -9,9 +9,6 @@ import {
     AccordionSummary,
     Box,
     Button,
-    IconButton,
-    duration,
-    setRef
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';

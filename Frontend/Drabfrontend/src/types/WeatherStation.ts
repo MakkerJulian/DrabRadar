@@ -1,4 +1,5 @@
 import { Geolocation } from "./Geolocation";
+import { Weatherdata } from "./WeatherStationData";
 
 export type Weatherstation = {
     name: string;
@@ -6,4 +7,5 @@ export type Weatherstation = {
     latitude: number;
     elevation: number;
     geolocation: Geolocation;
+    weatherdatas: Weatherdata[];
 }

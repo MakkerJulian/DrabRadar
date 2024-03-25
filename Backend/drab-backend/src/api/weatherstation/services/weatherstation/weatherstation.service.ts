@@ -12,7 +12,10 @@ export class WeatherstationService {
   ) {}
 
   async findByName(id: string) {
-    return this.weatherstationRepository.find({ where: { name: id } });
+    return this.weatherstationRepository.findOne({
+      where: { name: id },
+      relations: ['geolocation', 'geolocation.country', 'weatherdatas'],
+    });
   }
 
   getWeatherstations() {
