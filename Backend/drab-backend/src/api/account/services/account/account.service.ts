@@ -50,7 +50,9 @@ export class AccountService {
   }
   
   async seedAccounts() {
-    return this.accountRepository.save(account);
+    account.map((account)=> {
+      this.createAccount(account)
+    })
   }
 }
 
