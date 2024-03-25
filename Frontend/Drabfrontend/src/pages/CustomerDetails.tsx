@@ -109,6 +109,10 @@ export const CustomerDetails = () => {
                         Subscription: {customer.subscription ? customer.subscription.id : "No subscription"}
                     </Typography>
 
+                    <Typography variant="h4">
+                        token: {customer.subscription ? customer.subscription.token : ""}
+                    </Typography>
+
                     <Button
                         sx={{
                             backgroundColor: 'green',
