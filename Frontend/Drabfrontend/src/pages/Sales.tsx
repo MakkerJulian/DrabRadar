@@ -81,19 +81,9 @@ export const Sales = () => {
       setCustomers(response.data);
     });
   }, []);
-
-  useEffect(() => {
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
-    };
-  }, []);
-
+  
   return (
-    <Box flex={1} flexDirection={'column'} >
+    <Box flex={1} flexDirection={'column'} overflow={'hidden'} >
       <Typography variant="h2" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         Sales
       </Typography>
@@ -108,19 +98,20 @@ export const Sales = () => {
           Add new customer
         </Button>
       </Box>
+      <Box height={'80vh'}> {/* Set the height to a percentage of the viewport height */}
+        <DataGrid
+          rows={customers}
+          columns={columns}
+          pagination
+          sx={{ maxWidth: '60%', margin: 'auto' }}
+          initialState={{
+            sorting: { sortModel: [{ field: 'id', sort: 'asc' }] }, pagination: {
+              paginationModel: { pageSize: 10, page: 0 },
+            },
+          }}
+        />
+      </Box>
 
-      <DataGrid
-        rows={customers}
-        columns={columns}
-        pagination 
-        autoHeight
-        sx={{ maxWidth: '60%', margin: 'auto', maxHeight: '800px' }}
-        initialState={{ sorting: { sortModel: [{ field: 'id', sort: 'asc' }] },   pagination: {
-          paginationModel: { pageSize: 10, page: 0 },
-        },
-      }}
-    />
-      
       <CustomModal
         open={openCustomer}
         title="Add new customer"
