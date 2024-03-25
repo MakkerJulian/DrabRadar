@@ -4,7 +4,7 @@
         "email" : "Research@gmail.com",
         "phone" : "0627620981",
         "password": "Test",
-        "role": "Research"
+        "role": "Onderzoek"
      },
      {
         "name" : "Sales",
@@ -18,13 +18,13 @@
         "email" : "Maintenace@gmail.com",
         "phone" : "0627620981",
         "password": "Test",
-        "role": "Maintenance"
+        "role": "Onderhoud"
      },
      {
         "name" : "Admin",
         "email" : "Admin@gmail.com",
         "phone" : "0627620981",
         "password": "Test",
-        "role": "Admin"
+        "role": "ADMIN"
      }
 ]
