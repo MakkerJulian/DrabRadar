@@ -111,8 +111,11 @@ export const CustomerDetails = () => {
 
                     <Button
                         sx={{
-                            backgroundColor: "#4CAF50",
-                            color: "white",
+                            backgroundColor: 'green',
+                            color: 'white',
+                            ":hover": {
+                                backgroundColor: 'darkgreen',
+                            }
                         }}
                         onClick={!customer.subscription ? () => addSubscription(customer.id) : () => refreshSubscription(customer.id)}
                     >
@@ -131,8 +134,11 @@ export const CustomerDetails = () => {
                         {customer.subscription && (
                             <Button
                                 sx={{
-                                    backgroundColor: "#4CAF50",
-                                    color: "white",
+                                    backgroundColor: 'green',
+                                    color: 'white',
+                                    ":hover": {
+                                        backgroundColor: 'darkgreen',
+                                    }
                                 }}
                                 onClick={() => setOpenNewContract(true)}
                             >
@@ -153,7 +159,7 @@ export const CustomerDetails = () => {
                                 Level: {contract.level}
                                 <Typography variant='h6'>Weatherstations</Typography>
                                 {contract.weatherstations.map(ws => (
-                                    <Box key={ws.id}>
+                                    <Box key={ws.name}>
                                         {ws.name}
                                     </Box>
                                 ))}
@@ -187,7 +193,7 @@ export const CustomerDetails = () => {
                             Weatherstations
                         </Typography>
                         {usedWeatherstations.map((ws) => (
-                            <Box key={ws.id}>
+                            <Box key={ws.name}>
                                 {ws.name}
                                 <Button onClick={() => {
                                     const newUsedWeatherstations = usedWeatherstations.filter((usedWs) => usedWs.name !== ws.name);

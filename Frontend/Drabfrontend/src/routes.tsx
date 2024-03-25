@@ -3,6 +3,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Sales } from "./pages/Sales";
 import { Admin } from "./pages/Admin"
+import { WeatherStationDetail } from "./pages/WeatherStationDetail";
 import { WeatherStations } from "./pages/WeatherStations";
 
 interface Route {
@@ -41,5 +42,10 @@ export const routes: Route[] = [
         name: 'admin',
         path: '/admin',
         element: Admin
+    },
+    {
+        name: 'weatherstation',
+        path: '/weatherstation/:id',
+        element: WeatherStationDetail
     }
 ];

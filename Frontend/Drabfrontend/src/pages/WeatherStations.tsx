@@ -1,12 +1,17 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../axios";
 import { Weatherstation } from "../types";
 import { enqueueSnackbar } from "notistack";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 export const WeatherStations = () => {
     const [weatherstations, setWeatherstations] = useState<Weatherstation[]>([]);
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         axiosInstance.get<Weatherstation[]>('weatherstation')
             .then((response) => {
@@ -125,6 +130,11 @@ export const WeatherStations = () => {
             valueGetter: (params) => {
                 return params.row.geolocation.postcode;
             }
+        },{
+            field: 'actions', flex: 1, headerName: 'Actions',
+            renderCell: (params) => <IconButton onClick={()=>navigate(`/weatherstation/${params.row.name}`)}>
+                <RemoveRedEyeIcon></RemoveRedEyeIcon>
+            </IconButton>
         }
     ];
 
@@ -167,6 +177,14 @@ export const WeatherStations = () => {
                     }
                 />
             </Box>
+
+            <Button
+            sx={{backgroundColor:'green', color:'white', width:'20%', margin:'auto', mt:2}} 
+            onClick={()=>{
+                navigate('/')
+            }}>
+                Back
+            </Button>
         </Box>
     )
 
