@@ -3,10 +3,17 @@ import axiosInstance from '../axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styling/Map.css';
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, FormControlLabel, IconButton, Switch, duration, styled } from '@mui/material';
+import { Accordion,  AccordionDetails, AccordionSummary, Box, Button, FormControlLabel, Switch, styled } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
-import { Weatherstation, WeatherstationDetail } from '../types';
+import { WeatherstationDetail } from '../types';
+
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat'; //freezing
+import WaterDropIcon from '@mui/icons-material/WaterDrop';//rain
+import AcUnitIcon from '@mui/icons-material/AcUnit'; //snow
+import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
+import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
+import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
 
 let dark_mode = false;
 
@@ -188,7 +195,12 @@ export const Home = () => {
                                     in direction: {weatherstation.weatherdatas ? weatherstation.weatherdatas.wind_direction : "NO DATA"}°
                                 </Box>
                                 <Box>
-                                    //todo icons
+                                    {weatherstation.weatherdatas.freezing ? <DeviceThermostatIcon /> : null}
+                                    {weatherstation.weatherdatas.rain ? <WaterDropIcon /> : null}
+                                    {weatherstation.weatherdatas.snow ? <AcUnitIcon /> : null}
+                                    {weatherstation.weatherdatas.hail ? <SevereColdIcon /> : null}
+                                    {weatherstation.weatherdatas.thunder ? <ThunderstormIcon /> : null}
+                                    {weatherstation.weatherdatas.tornado ? <TornadoIcon /> : null}
                                 </Box>
                             </AccordionDetails>
                         </Accordion>
