@@ -6,3 +6,11 @@ export type Account ={
     password: string;
     role: string;
 }
+
+export type AccountCreate = {
+    name: string;
+    email: string;
+    phone: string;
+    password: string;
+    role: string;
+}

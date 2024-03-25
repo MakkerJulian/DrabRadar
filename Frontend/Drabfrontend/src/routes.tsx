@@ -2,6 +2,7 @@ import { CustomerDetails } from "./pages/CustomerDetails";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Sales } from "./pages/Sales";
+import { Admin } from "./pages/Admin"
 import { WeatherStationDetail } from "./pages/WeatherStationDetail";
 import { WeatherStations } from "./pages/WeatherStations";
 
@@ -36,6 +37,11 @@ export const routes: Route[] = [
         name: 'weatherstations',
         path: '/weatherstations',
         element: WeatherStations
+    },
+    {
+        name: 'admin',
+        path: '/admin',
+        element: Admin
     },
     {
         name: 'weatherstation',
