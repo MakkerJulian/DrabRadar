@@ -97,13 +97,7 @@ export const Home = () => {
     useEffect(() => {
         axiosInstance.get<WeatherstationDetail[]>('/weatherstation/details')
             .then((res) => {
-                setweatherstations(res.data.map((weatherstation) => {
-                    return {
-                        ...weatherstation,
-                        weatherdatas: weatherstation.weatherdatas ?? []
-                    }
-                }));
-            })
+                setweatherstations(res.data)})
             .catch((err) => { console.log(err) });
     }, []);
 
@@ -217,12 +211,12 @@ export const Home = () => {
                                     in direction: {weatherstation.weatherdatas ? weatherstation.weatherdatas.wind_direction : "NO DATA"}°
                                 </Box>
                                 <Box>
-                                    {weatherstation.weatherdatas.freezing ? <DeviceThermostatIcon /> : null}
-                                    {weatherstation.weatherdatas.rain ? <WaterDropIcon /> : null}
-                                    {weatherstation.weatherdatas.snow ? <AcUnitIcon /> : null}
-                                    {weatherstation.weatherdatas.hail ? <SevereColdIcon /> : null}
-                                    {weatherstation.weatherdatas.thunder ? <ThunderstormIcon /> : null}
-                                    {weatherstation.weatherdatas.tornado ? <TornadoIcon /> : null}
+                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <DeviceThermostatIcon /> : null}
+                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <WaterDropIcon /> : null}
+                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <AcUnitIcon /> : null}
+                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing? <SevereColdIcon /> : null}
+                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <ThunderstormIcon /> : null}
+                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <TornadoIcon /> : null}
                                 </Box>
                             </AccordionDetails>
                         </Accordion>
