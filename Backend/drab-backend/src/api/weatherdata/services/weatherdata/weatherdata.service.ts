@@ -14,13 +14,41 @@ export class WeatherdataService {
   async createWeatherdata(createWeatherdataDtos: {
     WEATHERDATA: CreateWeatherdataDto[];
   }) {
+    const x = Array.from(Array(30).keys());
+
     const weatherdata_dtos = createWeatherdataDtos.WEATHERDATA.map(
-      (createWeatherdataDto) => {
+      async (createWeatherdataDto) => {
         const datetime = new Date();
+        const weatherdatas = await this.weatherdataRepository.find({
+          where: {
+            weatherstation: { name: createWeatherdataDto.STN.toString() },
+          },
+          order: { datetime: 'DESC' },
+          take: 30,
+        });
+
+        const temps = weatherdatas.map((weatherdata) => {
+          return Number(weatherdata.temp);
+        });
+
+        let newTemp = createWeatherdataDto.TEMP;
+
+        if (temps.length >= 30) {
+          const regression = new SimpleLinearRegression(x, temps);
+          const prediction = regression.predict(30);
+
+          //calculate percentage difference
+          const diff = 100 - (100 / prediction) * createWeatherdataDto.TEMP;
+          if (diff > 20) {
+            newTemp = createWeatherdataDto.TEMP * 1.2;
+          } else if (diff < -20) {
+            newTemp = createWeatherdataDto.TEMP * 0.8;
+          }
+        }
         return {
-          weatherstation: createWeatherdataDto.STN.toString(),
+          weatherstation: { name: createWeatherdataDto.STN.toString() },
           datetime: datetime,
-          temp: createWeatherdataDto.TEMP,
+          temp: newTemp,
           dew_point: createWeatherdataDto.DEWP,
           s_airpressure: createWeatherdataDto.STP,
           sea_airpressure: createWeatherdataDto.SLP,
@@ -39,56 +67,7 @@ export class WeatherdataService {
         };
       },
     );
-
-    weatherdata_dtos.forEach(async (weatherdata_dto) => {
-      //get the last 30 temps
-      const weatherdatas = await this.weatherdataRepository.find({
-        where: {
-          weatherstation: { name: weatherdata_dto.weatherstation },
-        },
-        order: { datetime: 'DESC' },
-        take: 30,
-      });
-
-
-      const temps = weatherdatas.map((weatherdata) => {
-        return Number(weatherdata.temp);
-      });
-
-      if (temps.length >= 30) {
-        const x = Array.from(Array(30).keys());
-        const y = temps;
-
-        const regression = new SimpleLinearRegression(x, y);
-        const prediction = regression.predict(30);
-        //calculate percentage difference
-        const diff = 100 - (100 / prediction) * weatherdata_dto.temp;
-        if (diff > 20) {
-          this.weatherdataRepository.insert({
-            ...weatherdata_dto,
-            weatherstation: { name: weatherdata_dto.weatherstation },
-            temp: weatherdata_dto.temp * 1.2,
-          });
-        } else if (diff < -20) {
-          this.weatherdataRepository.insert({
-            ...weatherdata_dto,
-            weatherstation: { name: weatherdata_dto.weatherstation },
-            temp: weatherdata_dto.temp * 0.8,
-          });
-        } else {
-          console.log('data is OK');
-          this.weatherdataRepository.insert({
-            ...weatherdata_dto,
-            weatherstation: { name: weatherdata_dto.weatherstation },
-          });
-        }
-      } else {
-        this.weatherdataRepository.insert({
-          ...weatherdata_dto,
-          weatherstation: { name: weatherdata_dto.weatherstation },
-        });
-      }
-    });
+    this.weatherdataRepository.insert(await Promise.all(weatherdata_dtos));
   }
 
   findWeatherdataByID(id: number) {
