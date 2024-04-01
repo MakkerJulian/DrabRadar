@@ -12,6 +12,7 @@ import { ContractModule } from './api/contract/contract.module';
 import configuration from './config/configuration';
 import { AppService } from './app.service';
 import { WeatherdataModule } from './api/weatherdata/weatherdata.module';
+import { AuthGuard } from './api/auth/Authguard';
 
 @Module({
   imports: [
@@ -44,6 +45,6 @@ import { WeatherdataModule } from './api/weatherdata/weatherdata.module';
     WeatherdataModule,
   ],
   controllers: [],
-  providers: [AppService],
+  providers: [AppService, { provide: 'APP_GUARD', useValue: AuthGuard }],
 })
 export class AppModule {}

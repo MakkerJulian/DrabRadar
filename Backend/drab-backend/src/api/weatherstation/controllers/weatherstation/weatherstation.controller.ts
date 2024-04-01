@@ -6,7 +6,7 @@ export class WeatherstationController {
   constructor(private readonly weatherstationService: WeatherstationService) {}
 
   @Get()
-  getAccount() {
+  getWeatherStations() {
     return this.weatherstationService.getWeatherstations();
   }
 

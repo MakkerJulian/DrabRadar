@@ -39,9 +39,9 @@ export const Login = () => {
     const handlePost = async () => {
         await axiosInstance.post('/account/login', form)
             .then((res) => {
-                const Login = res.data.login;
+                const Login = res.data.access_token;
                 if (Login) {
-                    console.log("login success");
+                    sessionStorage.setItem('token', Login);
                     return navigate('/');
                 } else {
                     enqueueSnackbar('Login failed', { variant: 'error' })
