@@ -33,8 +33,10 @@ export class WeatherdataService {
 
         let newTemp = createWeatherdataDto.TEMP;
 
+        //todo check for missing values and extrapolate those aswell
+
         if (temps.length >= 30) {
-          const regression = new SimpleLinearRegression(x, temps);
+          const regression = new SimpleLinearRegression(x, temps); //todo maybe faster with own implementation or average values
           const prediction = regression.predict(30);
 
           //calculate percentage difference
