@@ -17,5 +17,5 @@ export type WeatherstationDetail = {
     latitude: number;
     elevation: number;
     geolocation: Geolocation;
-    weatherdatas: Weatherdata[];
+    weatherdatas: Weatherdata;
 }
