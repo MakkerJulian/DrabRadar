@@ -39,8 +39,7 @@ export const Login = () => {
     const handlePost = async () => {
         await axiosInstance.post('/account/login', form)
             .then((res) => {
-                const Login = res.data;
-
+                const Login = res.data.login;
                 if (Login) {
                     console.log("login success");
                     return navigate('/');

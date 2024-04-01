@@ -15,7 +15,7 @@ export class AccountService {
 
   createAccount(CreateAccountDto: CreateAccountDto) {
     const password = CreateAccountDto.password;
-    const hash = crypto.createHash('md5').update(password).digest('hex');
+    const hash = crypto.createHash('sha256').update(password).digest('hex');
     const newAccount = { ...CreateAccountDto, password: hash };
     return this.accountRepository.save(newAccount);
   }
@@ -30,7 +30,7 @@ export class AccountService {
 
   async loginAccount(loginAccountDto: LoginDto) {
     const password = crypto
-      .createHash('md5')
+      .createHash('sha256')
       .update(loginAccountDto.password)
       .digest('hex');
     const account = await this.findbyEmail(loginAccountDto.email);
@@ -48,11 +48,10 @@ export class AccountService {
   deleteAll() {
     return this.accountRepository.clear();
   }
-  
+
   async seedAccounts() {
-    account.map((account)=> {
-      this.createAccount(account)
-    })
+    account.map((account) => {
+      this.createAccount(account);
+    });
   }
 }
-
