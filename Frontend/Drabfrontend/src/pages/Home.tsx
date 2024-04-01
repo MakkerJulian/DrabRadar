@@ -97,7 +97,12 @@ export const Home = () => {
     useEffect(() => {
         axiosInstance.get<WeatherstationDetail[]>('/weatherstation/details')
             .then((res) => {
-                setweatherstations(res.data);
+                setweatherstations(res.data.map((weatherstation) => {
+                    return {
+                        ...weatherstation,
+                        weatherdatas: weatherstation.weatherdatas ?? []
+                    }
+                }));
             })
             .catch((err) => { console.log(err) });
     }, []);
