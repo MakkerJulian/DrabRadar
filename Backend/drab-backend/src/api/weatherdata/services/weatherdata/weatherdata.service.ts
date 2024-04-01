@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WeatherData } from 'src/typeorm/weatherdata.entity';
 import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
+import { SimpleLinearRegression } from 'ml-regression-simple-linear';
 @Injectable()
 export class WeatherdataService {
   constructor(
@@ -10,7 +11,7 @@ export class WeatherdataService {
     private readonly weatherdataRepository: Repository<WeatherData>,
   ) {}
 
-  createWeatherdata(createWeatherdataDtos: {
+  async createWeatherdata(createWeatherdataDtos: {
     WEATHERDATA: CreateWeatherdataDto[];
   }) {
     const weatherdata_dtos = createWeatherdataDtos.WEATHERDATA.map(
@@ -38,7 +39,56 @@ export class WeatherdataService {
         };
       },
     );
-    return this.weatherdataRepository.save(weatherdata_dtos);
+
+    weatherdata_dtos.forEach(async (weatherdata_dto) => {
+      //get the last 30 temps
+      const weatherdatas = await this.weatherdataRepository.find({
+        where: {
+          weatherstation: { name: weatherdata_dto.weatherstation },
+        },
+        order: { datetime: 'DESC' },
+        take: 30,
+      });
+
+
+      const temps = weatherdatas.map((weatherdata) => {
+        return Number(weatherdata.temp);
+      });
+
+      if (temps.length >= 30) {
+        const x = Array.from(Array(30).keys());
+        const y = temps;
+
+        const regression = new SimpleLinearRegression(x, y);
+        const prediction = regression.predict(30);
+        //calculate percentage difference
+        const diff = 100 - (100 / prediction) * weatherdata_dto.temp;
+        if (diff > 20) {
+          this.weatherdataRepository.insert({
+            ...weatherdata_dto,
+            weatherstation: { name: weatherdata_dto.weatherstation },
+            temp: weatherdata_dto.temp * 1.2,
+          });
+        } else if (diff < -20) {
+          this.weatherdataRepository.insert({
+            ...weatherdata_dto,
+            weatherstation: { name: weatherdata_dto.weatherstation },
+            temp: weatherdata_dto.temp * 0.8,
+          });
+        } else {
+          console.log('data is OK');
+          this.weatherdataRepository.insert({
+            ...weatherdata_dto,
+            weatherstation: { name: weatherdata_dto.weatherstation },
+          });
+        }
+      } else {
+        this.weatherdataRepository.insert({
+          ...weatherdata_dto,
+          weatherstation: { name: weatherdata_dto.weatherstation },
+        });
+      }
+    });
   }
 
   findWeatherdataByID(id: number) {
