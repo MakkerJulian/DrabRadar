@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WeatherData } from 'src/typeorm/weatherdata.entity';
 import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
+import { Weatherstation } from 'src/typeorm/weatherstation.entity';
 @Injectable()
 export class WeatherdataService {
   constructor(
@@ -54,4 +55,14 @@ export class WeatherdataService {
   deleteAll() {
     return this.weatherdataRepository.clear();
   }
+  async getLatestWeatherDataForStation(weatherstation: Weatherstation) {
+    const latestWeatherData = await this.weatherdataRepository.find({
+      where: { weatherstation: weatherstation.toString() }, // Use the Weatherstation object directly
+      order: { datetime: 'DESC' },
+      take: 30,
+    });
+
+    return latestWeatherData[0] || null;
+  }
 }
+

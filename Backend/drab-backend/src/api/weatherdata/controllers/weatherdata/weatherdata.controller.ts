@@ -13,7 +13,7 @@ import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
 
 @Controller('weatherdata')
 export class WeatherdataController {
-  constructor(private readonly weatherdataService: WeatherdataService) {}
+  constructor(private readonly weatherdataService: WeatherdataService) { }
 
   @Get()
   getWeatherstationdata() {

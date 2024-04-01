@@ -12,6 +12,7 @@ import { ContractModule } from './api/contract/contract.module';
 import configuration from './config/configuration';
 import { AppService } from './app.service';
 import { WeatherdataModule } from './api/weatherdata/weatherdata.module';
+import { ExternModule } from './api/extern/extern.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { WeatherdataModule } from './api/weatherdata/weatherdata.module';
     WeatherstationModule,
     ContractModule,
     WeatherdataModule,
+    ExternModule,
   ],
   controllers: [],
   providers: [AppService],
