@@ -1,5 +1,5 @@
 import { Modal } from "@mui/base"
-import { Button, Fade, Typography } from "@mui/material"
+import { Backdrop, Button, Fade, Typography } from "@mui/material"
 import { Box, width } from "@mui/system"
 import React from "react"
 import { set } from "react-hook-form"
@@ -20,7 +20,12 @@ export const CustomModal = ({
     onSubmit
 }: Props) => (
     <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
         open={open}
+        onClose={() => setOpen(false)}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
     >
         <Fade in={open}>
             <Box

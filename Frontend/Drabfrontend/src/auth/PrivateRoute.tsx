@@ -1,5 +1,8 @@
-import React from "react";
+import { Box, Button } from "@mui/material";
+import React, { ReactNode } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { AdminIcon } from "../components/adminBar";
+import { jwtDecode } from "jwt-decode";
 
 
 export type Route = {
@@ -9,12 +12,25 @@ export type Route = {
     requiredRoles?: string[]
 }
 
+type Props = {
+    children: ReactNode;
+}
+
+const Layout = ({ children }: Props) => (
+    <Box overflow={"hidden"}>
+        {jwtDecode(sessionStorage.getItem('token')).role === "ADMIN" && (
+            <AdminIcon />
+        )}
+        {children}
+    </Box>
+)
+
 export const PrivateRoutes = () => {
     const authenticated = sessionStorage.getItem('token') !== null;
 
     return (
         authenticated ? (
-            <Outlet />
+            <Layout><Outlet /></Layout>
 
         ) : <Navigate to="/login" />
     );

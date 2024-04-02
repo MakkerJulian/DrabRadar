@@ -48,8 +48,8 @@ export const Login = () => {
                     enqueueSnackbar('Login failed', { variant: 'error' })
                 }
             })
-            .catch((err) => {
-                console.log(err.response.data.message);
+            .catch(() => {
+                enqueueSnackbar('Login failed', { variant: 'error' })
             });
     };
 

@@ -176,7 +176,7 @@ export const CustomerDetails = () => {
 
             <CustomModal
                 open={openNewContract}
-                title="Add new customer"
+                title="Add new Contract"
                 setOpen={setOpenNewContract}
                 onSubmit={handleSubmit(() => createContract(customer.subscription.id))}
             >
