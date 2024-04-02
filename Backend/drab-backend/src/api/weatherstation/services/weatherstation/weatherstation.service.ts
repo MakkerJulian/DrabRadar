@@ -45,7 +45,7 @@ export class WeatherstationService {
     return allStations1Data;
   }
 
-  async seedWeatherstations() {
+  seedWeatherstations() {
     const newWeatherstations = station.map((station) => {
       return {
         name: station.name,
@@ -54,6 +54,6 @@ export class WeatherstationService {
         elevation: station.elevation,
       };
     });
-    return this.weatherstationRepository.save(newWeatherstations);
+    this.weatherstationRepository.save(newWeatherstations);
   }
 }

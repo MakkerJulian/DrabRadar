@@ -6,16 +6,19 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ContractService } from '../../services/contract/contract.service';
 import { CreateContractDto } from 'src/dto/contract.dto';
+import { AuthGuard } from 'src/api/auth/Authguard';
 
 @Controller('contract')
 export class ContractController {
   constructor(private readonly contractService: ContractService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
   getContract() {
     return this.contractService.getContracts();

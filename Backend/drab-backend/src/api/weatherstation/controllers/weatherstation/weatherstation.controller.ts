@@ -1,10 +1,18 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { WeatherstationService } from '../../services/weatherstation/weatherstation.service';
+import { AuthGuard } from 'src/api/auth/Authguard';
 
 @Controller('weatherstation')
 export class WeatherstationController {
   constructor(private readonly weatherstationService: WeatherstationService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
   getWeatherStations() {
     return this.weatherstationService.getWeatherstations();

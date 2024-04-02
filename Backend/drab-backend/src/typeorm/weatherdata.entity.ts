@@ -1,4 +1,10 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+} from 'typeorm';
 import { Weatherstation } from './weatherstation.entity';
 
 @Entity()
@@ -6,9 +12,11 @@ export class WeatherData {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index()
   @ManyToOne(() => Weatherstation, (weatherstation) => weatherstation.name)
   weatherstation: Weatherstation;
 
+  @Index()
   @Column()
   datetime: Date;
 

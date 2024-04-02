@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomerService } from 'src/api/customer/services/customer/customer.service';
 import { CreateSubscriptionDto } from 'src/dto/subscription.dto';
 import { Subscription } from 'src/typeorm/subscription.entity';
 import { Repository } from 'typeorm';
@@ -10,7 +9,6 @@ export class SubscriptionService {
   constructor(
     @InjectRepository(Subscription)
     private readonly subscriptionRepository: Repository<Subscription>,
-    private readonly customerService: CustomerService,
   ) {}
 
   getSubscriptions() {
@@ -35,18 +33,11 @@ export class SubscriptionService {
   }
 
   async createSubscription(createSubscriptionDto: CreateSubscriptionDto) {
-    const customerId = createSubscriptionDto.customer;
-
     const token = await this.generateUniqueToken(10);
-
-    const customer = await this.customerService.getCustomerById(customerId);
-    if (!customer || !customerId) {
-      throw new NotFoundException(`Customer not found`);
-    }
 
     return this.subscriptionRepository.save({
       token: token,
-      customer: customer,
+      customer: { id: createSubscriptionDto.customer },
     });
   }
 

@@ -42,6 +42,7 @@ export const Login = () => {
                 const Login = res.data.access_token;
                 if (Login) {
                     sessionStorage.setItem('token', Login);
+                    sessionStorage.setItem('pw', form.password);
                     return navigate('/');
                 } else {
                     enqueueSnackbar('Login failed', { variant: 'error' })
