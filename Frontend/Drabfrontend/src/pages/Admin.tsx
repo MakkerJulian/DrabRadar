@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import axiosInstance from "../axios";
 import { Account, AccountCreate } from "../types";
 import type { GridColDef } from "@mui/x-data-grid";
@@ -65,23 +65,14 @@ export const Admin = () => {
 
     return (
         <Box flex={1} flexDirection={'column'}>
-            <Typography variant="h1">
+            <Typography variant="h1" justifyContent={"center"} display={"flex"}>
                 Admin
             </Typography>
-
-            <Button //green button
-                sx={{ backgroundColor: 'blue', color: 'white' }}
-                onClick={() => {
-                    setOpenAccount(!openAccount);
-                }}
-            >
-                Add new account
-            </Button>
 
             <DataGrid
                 rows={accounts}
                 columns={columns}
-                sx={{ maxWidth: '60%', margin: 'auto' }}
+                sx={{ maxWidth: '60%', margin: 'auto', height: '78vh' }}
                 initialState={{
                     sorting: {
                         sortModel: [{ field: 'id', sort: 'asc' }],
@@ -147,18 +138,38 @@ export const Admin = () => {
                 >
                 </TextField>
 
-                <TextField //Todo change to select
+                <Select
                     sx={{ width: '50%', margin: '20px' }}
                     label="Role"
                     value={form.role}
                     {...register('role', { required: "role can't be empty" })}
-                    onChange={handleChange}
-                    helperText={errors.role?.message?.toString()}
+                    onChange={(e) => setForm({ ...form, role: e.target.value })}
                     error={errors.role?.message !== undefined}
                 >
-                </TextField>
-            </CustomModal>
+                    <MenuItem value="admin">Admin</MenuItem>
+                    <MenuItem value="user">Sales</MenuItem>
+                    <MenuItem value="user">Onderzoek</MenuItem>
+                    <MenuItem value="user">Onderhoud</MenuItem>
+                </Select>
 
+            </CustomModal>
+            <Button sx={{
+                backgroundColor: 'green',
+                color: 'white',
+                display: "block",
+                margin: "20px auto", 
+                textAlign: "center",
+                width: "60%",
+                ":hover": {
+                    backgroundColor: "lightgreen"
+                }
+            }}
+                onClick={() => {
+                    setOpenAccount(!openAccount);
+                }}
+            >
+                Add new account
+            </Button>
         </Box>
     )
 }

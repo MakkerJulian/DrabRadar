@@ -12,7 +12,7 @@ export const AdminIcon = () => {
     return (
         <Box>
             <IconButton onClick={() => setOpen(!open)} sx={{ position: "absolute", zIndex: 1000, left: 10, bottom: 10}}>
-                <AdminPanelSettingsIcon sx={{ color: 'red' }} />
+                <AdminPanelSettingsIcon sx={{ color: 'red', height: "60px", width: "60px" }} />
             </IconButton>
 
             <Drawer open={open} ModalProps={{ onBackdropClick: () => setOpen(false) }} >
