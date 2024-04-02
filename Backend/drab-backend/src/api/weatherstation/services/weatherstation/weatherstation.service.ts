@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SubscriptionService } from 'src/api/subscription/services/subscription/subscription.service';
-import { WeatherdataService } from 'src/api/weatherdata/services/weatherdata/weatherdata.service';
 import { station } from 'src/seed';
-import { WeatherData } from 'src/typeorm/weatherdata.entity';
 import { Weatherstation } from 'src/typeorm/weatherstation.entity';
 import { Repository } from 'typeorm';
 
@@ -12,8 +9,6 @@ export class WeatherstationService {
   constructor(
     @InjectRepository(Weatherstation)
     private readonly weatherstationRepository: Repository<Weatherstation>,
-    private weatherDataService: WeatherdataService,
-    private subscriptionService: SubscriptionService,
   ) { }
 
   async findByName(id: string) {

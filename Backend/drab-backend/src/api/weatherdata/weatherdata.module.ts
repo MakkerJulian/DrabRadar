@@ -7,6 +7,7 @@ import { WeatherData } from 'src/typeorm/weatherdata.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([WeatherData])],
   controllers: [WeatherdataController],
-  providers: [WeatherdataService]
+  providers: [WeatherdataService],
+  exports: [WeatherdataService],
 })
 export class WeatherdataModule {}

@@ -1,18 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ExternController } from './controllers/extern/extern.controller';
 import { ExternService } from './services/extern/extern.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Weatherstation } from 'src/typeorm/weatherstation.entity';
 import { SubscriptionModule } from '../subscription/subscription.module';
-import { SubscriptionService } from '../subscription/services/subscription/subscription.service'
+import { WeatherstationModule } from '../weatherstation/weatherstation.module';
+import { WeatherdataModule } from '../weatherdata/weatherdata.module';
 
 @Module({
-  imports: [
-    SubscriptionModule,
-    TypeOrmModule.forFeature([Weatherstation]), 
-  ],
+  imports: [SubscriptionModule, WeatherstationModule, WeatherdataModule],
   exports: [ExternService],
   controllers: [ExternController],
-  providers: [ExternService, SubscriptionService], 
+  providers: [ExternService],
 })
-export class ExternModule {}
+export class ExternModule { }
