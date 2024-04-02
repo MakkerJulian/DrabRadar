@@ -22,17 +22,19 @@
     "migration:generate": "npm run migration:run && npm run typeorm -- -d ./src/datasource.ts migration:generate",
     "migration:run": "npm run typeorm migration:run -- -d ./src/datasource.ts",
     "migration:create": "npm run typeorm -- migration:create",
-    "column:create": "nest generate module /API/%npm_config_name% && nest g controller /API/%npm_config_name%/controllers/%npm_config_name% && nest g service /API/%npm_config_name%/services/%npm_config_name% ", 
+    "column:create": "nest generate module /API/%npm_config_name% && nest g controller /API/%npm_config_name%/controllers/%npm_config_name% && nest g service /API/%npm_config_name%/services/%npm_config_name% ",
     "docker:reset": "docker compose down && docker volume rm drab-backend_postgres_db && docker compose up -d"
-    },
+  },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.0",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/jwt": "^10.2.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "ml-regression-simple-linear": "^3.0.0",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"

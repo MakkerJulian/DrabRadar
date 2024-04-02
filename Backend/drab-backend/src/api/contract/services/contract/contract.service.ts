@@ -3,22 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Contract } from 'src/typeorm/contract.entity';
 import { CreateContractDto } from 'src/dto/contract.dto';
-import { WeatherstationService } from 'src/api/weatherstation/services/weatherstation/weatherstation.service';
 
 @Injectable()
 export class ContractService {
   constructor(
     @InjectRepository(Contract)
     private readonly contractRepository: Repository<Contract>,
-    private readonly weatherstationService: WeatherstationService,
   ) {}
 
-  async createContract(createContractDto: CreateContractDto) {
-    let weatherstations = await this.weatherstationService.getWeatherstations();
-
-    weatherstations = weatherstations.filter((station) =>
-      createContractDto.weatherstations.includes(station.name),
-    );
+  createContract(createContractDto: CreateContractDto) {
+    const weatherstations = createContractDto.weatherstations.map((station) => {
+      return { name: station };
+    });
 
     const newContract = {
       subscription: createContractDto.subscriptionId,
@@ -26,7 +22,7 @@ export class ContractService {
       weatherstations: weatherstations,
     };
 
-    return await this.contractRepository.save(newContract);
+    return this.contractRepository.save(newContract);
   }
 
   findContractByID(id: number) {

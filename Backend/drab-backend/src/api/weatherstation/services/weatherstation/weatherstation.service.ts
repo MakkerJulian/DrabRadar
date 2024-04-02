@@ -9,7 +9,7 @@ export class WeatherstationService {
   constructor(
     @InjectRepository(Weatherstation)
     private readonly weatherstationRepository: Repository<Weatherstation>,
-  ) { }
+  ) {}
 
   async findByName(id: string) {
     return this.weatherstationRepository.findOne({
@@ -39,13 +39,13 @@ export class WeatherstationService {
     const allStations1Data = randoms.map((station) => {
       return {
         ...station,
-        weatherdatas: station.weatherdatas[0] || null
-      }
-    })
+        weatherdatas: station.weatherdatas[0] || null,
+      };
+    });
     return allStations1Data;
   }
 
-  async seedWeatherstations() {
+  seedWeatherstations() {
     const newWeatherstations = station.map((station) => {
       return {
         name: station.name,
@@ -54,6 +54,6 @@ export class WeatherstationService {
         elevation: station.elevation,
       };
     });
-    return this.weatherstationRepository.save(newWeatherstations);
+    this.weatherstationRepository.save(newWeatherstations);
   }
 }

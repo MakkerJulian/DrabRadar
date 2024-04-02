@@ -15,14 +15,13 @@ export class CountryService {
     return this.countryRepository.find();
   }
 
-  async seedCountries() {
+  seedCountries() {
     const newCountries = countries.map((country) => {
       return {
         code: country.country_code,
         name: country.country,
       };
     });
-    await this.countryRepository.save(newCountries);
-    return this.countryRepository.find();
+    this.countryRepository.save(newCountries);
   }
 }
