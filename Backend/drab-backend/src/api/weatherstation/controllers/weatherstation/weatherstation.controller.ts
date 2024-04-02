@@ -6,7 +6,7 @@ export class WeatherstationController {
   constructor(private readonly weatherstationService: WeatherstationService) {}
 
   @Get()
-  getAccount() {
+  getWeatherstation() {
     return this.weatherstationService.getWeatherstations();
   }
 
@@ -19,8 +19,8 @@ export class WeatherstationController {
   findAccountById(@Param('id', ParseIntPipe) id: string) {
     return this.weatherstationService.findByName(id);
   }
-  @Get('/extern')
-  getExtern(@Headers('latitude') latitude: number, @Headers('longitude') longitude: number, @Headers('elevation') elevation: number, @Headers('token') token:string) {
-    return this.weatherstationService.getExtern(token, latitude, longitude, elevation);
-  }
+  // @Get('/extern')
+  // getExtern(@Headers('latitude') latitude: number, @Headers('longitude') longitude: number, @Headers('elevation') elevation: number, @Headers('token') token:string) {
+  //   return this.weatherstationService.getExtern(token, latitude, longitude, elevation);
+  // }
 }

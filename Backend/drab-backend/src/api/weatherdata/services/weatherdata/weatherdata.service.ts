@@ -57,7 +57,7 @@ export class WeatherdataService {
   }
   async getLatestWeatherDataForStation(weatherstation: Weatherstation) {
     const latestWeatherData = await this.weatherdataRepository.find({
-      where: { weatherstation: weatherstation.toString() }, // Use the Weatherstation object directly
+      where: { weatherstation: weatherstation.toString() }, 
       order: { datetime: 'DESC' },
       take: 30,
     });
