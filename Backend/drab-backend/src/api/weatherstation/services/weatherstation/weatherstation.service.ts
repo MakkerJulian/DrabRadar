@@ -37,9 +37,10 @@ export class WeatherstationService {
       return allStations[index];
     });
     const allStations1Data = randoms.map((station) => {
+      const lastIndex = station.weatherdatas.length - 1;
       return {
         ...station,
-        weatherdatas: station.weatherdatas[0] || null,
+        weatherdatas: station.weatherdatas[lastIndex] || null,
       };
     });
     return allStations1Data;
