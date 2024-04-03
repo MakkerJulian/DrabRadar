@@ -36,7 +36,8 @@ export class CustomerService {
   createCustomer(createCustomerDto: CreateCustomerDto) {
     return this.customerRepository.save(createCustomerDto);
   }
-  async seedCustomers() {
+
+  seedCustomers() {
     return this.customerRepository.save(customer);
   }
 }

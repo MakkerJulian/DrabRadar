@@ -13,6 +13,7 @@ import configuration from './config/configuration';
 import { AppService } from './app.service';
 import { WeatherdataModule } from './api/weatherdata/weatherdata.module';
 import { ExternModule } from './api/extern/extern.module';
+import { AuthGuard } from './api/auth/Authguard';
 
 @Module({
   imports: [
@@ -46,6 +47,6 @@ import { ExternModule } from './api/extern/extern.module';
     ExternModule,
   ],
   controllers: [],
-  providers: [AppService],
+  providers: [AppService, { provide: 'APP_GUARD', useValue: AuthGuard }],
 })
 export class AppModule {}

@@ -10,6 +10,7 @@ interface Route {
     path: string;
     name: string;
     element: () => JSX.Element;
+    requiredRoles?: string[];
 }
 
 export const routes: Route[] = [
@@ -17,6 +18,7 @@ export const routes: Route[] = [
         name: "home",
         path: "/",
         element: Home,
+        requiredRoles: ["ADMIN", "Onderhoud", "Onderzoek"]
     },
     {
         name: 'login',
@@ -26,26 +28,31 @@ export const routes: Route[] = [
     {
         name: 'sales',
         path: '/sales',
-        element: Sales
+        element: Sales,
+        requiredRoles: ["ADMIN","Sales"]
     },
     {
         name: 'customer',
         path: '/customer/:id',
-        element: CustomerDetails
+        element: CustomerDetails,
+        requiredRoles: ["ADMIN","Sales"]
     },
     {
         name: 'weatherstations',
         path: '/weatherstations',
-        element: WeatherStations
+        element: WeatherStations,
+        requiredRoles: ["ADMIN","Onderhoud","Onderzoek"]
     },
     {
         name: 'admin',
         path: '/admin',
-        element: Admin
+        element: Admin,
+        requiredRoles: ["ADMIN"]
     },
     {
         name: 'weatherstation',
         path: '/weatherstation/:id',
-        element: WeatherStationDetail
+        element: WeatherStationDetail,
+        requiredRoles: ["ADMIN","Onderhoud","Onderzoek"]
     }
 ];

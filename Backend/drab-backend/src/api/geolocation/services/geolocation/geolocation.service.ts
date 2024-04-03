@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WeatherstationService } from 'src/api/weatherstation/services/weatherstation/weatherstation.service';
 import {
   geolocation,
   geolocation2,
@@ -15,7 +14,6 @@ export class GeolocationService {
   constructor(
     @InjectRepository(Geolocation)
     private readonly geolocationRepository: Repository<Geolocation>,
-    private readonly weatherstationService: WeatherstationService,
   ) {}
 
   async getGeolocation() {
@@ -31,14 +29,8 @@ export class GeolocationService {
       geolocation3,
       geolocation4,
     ];
-    const weatherstations =
-      await this.weatherstationService.getWeatherstations();
-
     totalgeolocation.forEach(async (geolocations) => {
       const newGeoLocations = geolocations.map((geolocation) => {
-        const weatherstation = weatherstations.find(
-          (station) => station.name === geolocation.station_name,
-        );
         return {
           id: geolocation.id,
           country: geolocation.country_code,
@@ -64,11 +56,10 @@ export class GeolocationService {
           city: geolocation.city === '' ? null : geolocation.city,
           locality: geolocation.locality === '' ? null : geolocation.locality,
           postcode: geolocation.postcode === '' ? null : geolocation.postcode,
-          weatherstation: weatherstation,
+          weatherstation: { name: geolocation.station_name },
         };
       });
-      await this.geolocationRepository.save(newGeoLocations);
-      return this.geolocationRepository.find();
+      this.geolocationRepository.save(newGeoLocations);
     });
   }
 }

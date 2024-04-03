@@ -1,5 +1,5 @@
 import { Modal } from "@mui/base"
-import { Button, Fade, Typography } from "@mui/material"
+import { Backdrop, Button, Fade, Typography } from "@mui/material"
 import { Box, width } from "@mui/system"
 import React from "react"
 import { set } from "react-hook-form"
@@ -20,7 +20,12 @@ export const CustomModal = ({
     onSubmit
 }: Props) => (
     <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
         open={open}
+        onClose={() => setOpen(false)}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
     >
         <Fade in={open}>
             <Box
@@ -36,13 +41,20 @@ export const CustomModal = ({
                     alignItems: 'center',
                     borderRadius: '10px',
                 }}>
-                <Typography id="modal-modal-title" variant="h2" component="h2">
+                <Typography id="modal-modal-title" variant="h2" component="h2" fontWeight={"bold"}>
                     {title}
                 </Typography>
                 {children}
 
-                <Box display='flex' flexDirection={'row'} width={'100%'} justifyContent={'space-around'} >
-                    <Button onClick={() => setOpen(false)} sx={{ bgcolor: 'gray', color: 'white' }}>
+                <Box display='flex' flexDirection={'row'} width={'88%'} justifyContent={'center'} padding={"25px"}>
+                    <Button onClick={() => setOpen(false)} sx={{ 
+                        bgcolor: 'darkgray', 
+                        color: 'white',
+                        ":hover": {
+                            backgroundColor: "gray"
+                        },
+                        width: "30%", 
+                        margin: "2px" }}>
                         Close
                     </Button>
                     <Button onClick={(e) => onSubmit(e)} sx={{
@@ -50,7 +62,9 @@ export const CustomModal = ({
                         color: 'white',
                         ":hover": {
                             backgroundColor: 'darkgreen',
-                        }
+                        },
+                        width: "30%", 
+                        margin: "2px"
                     }}>
                         Submit
                     </Button>

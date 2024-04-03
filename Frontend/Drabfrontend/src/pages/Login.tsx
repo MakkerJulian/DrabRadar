@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { BG_Image, IWALogo } from '../assets';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import { jwtDecode } from 'jwt-decode';
 
 const emptyFrom = {
     email: '',
@@ -39,16 +40,22 @@ export const Login = () => {
     const handlePost = async () => {
         await axiosInstance.post('/account/login', form)
             .then((res) => {
-                const Login = res.data.login;
+                const Login = res.data.access_token;
                 if (Login) {
-                    console.log("login success");
-                    return navigate('/');
+                    sessionStorage.setItem('token', Login);
+                    sessionStorage.setItem('pw', form.password);
+                    const role = jwtDecode(Login).role;
+                    if (role === 'ADMIN') return navigate('/admin');
+                    if (role === 'Sales') return navigate('/sales');
+                    else{
+                        return navigate('/');
+                    }
                 } else {
                     enqueueSnackbar('Login failed', { variant: 'error' })
                 }
             })
-            .catch((err) => {
-                console.log(err.response.data.message);
+            .catch(() => {
+                enqueueSnackbar('Login failed', { variant: 'error' })
             });
     };
 

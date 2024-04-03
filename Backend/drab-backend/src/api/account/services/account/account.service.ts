@@ -1,16 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAccountDto, LoginDto } from 'src/dto/account.dto';
 import { Account } from 'src/typeorm/account.entity';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
 import { account } from 'src/seed';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AccountService {
   constructor(
     @InjectRepository(Account)
     private readonly accountRepository: Repository<Account>,
+    private jwtService: JwtService,
   ) {}
 
   createAccount(CreateAccountDto: CreateAccountDto) {
@@ -34,10 +36,18 @@ export class AccountService {
       .update(loginAccountDto.password)
       .digest('hex');
     const account = await this.findbyEmail(loginAccountDto.email);
+
     if (account.password === password) {
-      return { login: true }; //todo aanpassen naar token met experation
+      const payload = {
+        sub: account.id,
+        email: account.email,
+        role: account.role,
+      };
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
     } else {
-      return { login: false };
+      throw new UnauthorizedException();
     }
   }
 
