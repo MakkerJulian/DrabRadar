@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { BG_Image, IWALogo } from '../assets';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import { jwtDecode } from 'jwt-decode';
 
 const emptyFrom = {
     email: '',
@@ -43,7 +44,12 @@ export const Login = () => {
                 if (Login) {
                     sessionStorage.setItem('token', Login);
                     sessionStorage.setItem('pw', form.password);
-                    return navigate('/');
+                    const role = jwtDecode(Login).role;
+                    if (role === 'ADMIN') return navigate('/admin');
+                    if (role === 'Sales') return navigate('/sales');
+                    else{
+                        return navigate('/');
+                    }
                 } else {
                     enqueueSnackbar('Login failed', { variant: 'error' })
                 }
