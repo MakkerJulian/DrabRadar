@@ -23,6 +23,7 @@ import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
 import { AdminIcon } from '../components/adminBar';
+import { IWALogo } from '../assets';
 
 let dark_mode = false;
 
@@ -148,6 +149,17 @@ export const Home = () => {
                 ))}
             </MapContainer>
             <Box
+            display='flex'
+            position={'absolute'}
+            top={0}
+            left={50}
+            zIndex={1000}
+            sx={{opacity: "0.5"}}
+            >
+                <img src={IWALogo} alt='logo' style={{width: "50%", height:"50%"}}>
+                </img>
+            </Box>
+            <Box
                 display={'flex'}
                 position={'absolute'}
                 right={0}
@@ -170,7 +182,7 @@ export const Home = () => {
                                 backgroundColor: "inherit",
                                 color: "white",
                                 fontSize: "25px",
-                                width: "100%",
+                                width: "93%",
                             }}
                             expanded={activeAccordion === index}
                             onClick={() => handleAccordionClick(index)}
@@ -193,10 +205,6 @@ export const Home = () => {
                                 </Button>
                             </AccordionSummary>
                             <AccordionDetails
-                                sx={{
-                                    gridTemplateColumns: "repeat(2, 1fr)",
-                                    gridTemplateRows: "repeat(2, 1fr)"
-                                }}
                             >
                                 <Box>
                                     country: {weatherstation.geolocation.country.name}
@@ -206,7 +214,6 @@ export const Home = () => {
                                 </Box>
                                 <Box>
                                     wind: {weatherstation.weatherdatas ? weatherstation.weatherdatas.windspeed : "NO DATA"} KM/H
-                                    in direction: {weatherstation.weatherdatas ? weatherstation.weatherdatas.wind_direction : "NO DATA"}°
                                 </Box>
                                 <Box>
                                     in direction: {weatherstation.weatherdatas ? weatherstation.weatherdatas.wind_direction : "NO DATA"}°
