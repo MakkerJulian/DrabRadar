@@ -4,57 +4,26 @@ import { Repository } from 'typeorm';
 import { WeatherData } from 'src/typeorm/weatherdata.entity';
 import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
 import { SimpleLinearRegression } from 'ml-regression-simple-linear';
+import { Storing } from 'src/typeorm/storing.entity';
 @Injectable()
 export class WeatherdataService {
   constructor(
     @InjectRepository(WeatherData)
     private readonly weatherdataRepository: Repository<WeatherData>,
+    @InjectRepository(Storing)
+    private readonly storingRepository: Repository<Storing>,
   ) {}
 
   async createWeatherdata(createWeatherdataDtos: {
     WEATHERDATA: CreateWeatherdataDto[];
   }) {
-    const x = Array.from(Array(30).keys());
-
-    console.time('weatherdata');
-
+    const storingen = [];
     const weatherdata_dtos = createWeatherdataDtos.WEATHERDATA.map(
       async (createWeatherdataDto) => {
-        const datetime = new Date();
-        const weatherdatas = await this.weatherdataRepository.find({
-          where: {
-            weatherstation: { name: createWeatherdataDto.STN.toString() },
-          },
-          order: { datetime: 'DESC' },
-          take: 30,
-        });
-
-        const temps = weatherdatas.map((weatherdata) => {
-          return Number(weatherdata.temp);
-        });
-
-        let newTemp = createWeatherdataDto.TEMP;
-
-        //todo check for missing values and extrapolate those aswell
-        //then make a new table called "storingen" and add the ID of this weatherdata, make this a many to one relation so it can be called both ways
-        // or add a new column that contains a string value if there was a 'storing' and what kind of storing it was
-
-        if (temps.length >= 30) {
-          const regression = new SimpleLinearRegression(x, temps); //todo maybe faster with own implementation or average values
-          const prediction = regression.predict(30);
-
-          //calculate percentage difference
-          const diff = 100 - (100 / prediction) * createWeatherdataDto.TEMP;
-          if (diff > 20) {
-            newTemp = prediction * 0.8;
-          } else if (diff < -20) {
-            newTemp = prediction * 1.2;
-          }
-        }
-        return {
+        //Fomat ruwe data
+        const newWeatherdata = {
           weatherstation: { name: createWeatherdataDto.STN.toString() },
-          datetime: datetime,
-          temp: newTemp,
+          temp: createWeatherdataDto.TEMP,
           dew_point: createWeatherdataDto.DEWP,
           s_airpressure: createWeatherdataDto.STP,
           sea_airpressure: createWeatherdataDto.SLP,
@@ -71,10 +40,74 @@ export class WeatherdataService {
           clouds: createWeatherdataDto.CLDC,
           wind_direction: createWeatherdataDto.WNDDIR,
         };
+
+        //haal de laatste 30 gegevens op voor deze station
+        const weatherdatas = await this.weatherdataRepository.find({
+          where: {
+            weatherstation: { name: createWeatherdataDto.STN.toString() },
+          },
+          order: { datetime: 'DESC' },
+          take: 30,
+        });
+
+        //maak een lijst van 0 tot de lengte van de weergegevens opgesalgen
+        const x = Array.from(Array(weatherdatas.length).keys());
+
+        //loop door alle waardes en controleer of ze niet None zijn, zo ja voorspel de waarde, als de weerdata langer is dan 30 zet de waarde op -99999
+        Object.keys(newWeatherdata).map((key) => {
+          if (newWeatherdata[key] === 'None') {
+            const keyId = Object.keys(newWeatherdata).indexOf(key) - 1;
+
+            let newValue = 1;
+            if (weatherdatas.length > 30) {
+              const values = weatherdatas.map((weatherdata) => {
+                return Number(weatherdata[Object.keys(weatherdata)[keyId]]);
+              });
+
+              const regression = new SimpleLinearRegression(x, values);
+              newValue = regression.predict(x.length + 1);
+            }
+
+            newWeatherdata[key] = newValue;
+
+            storingen.push({
+              reason: key + ' missing',
+              weatherstation: { name: createWeatherdataDto.STN.toString() },
+            });
+          }
+        });
+
+        //Maak een lijst met afgelopen tempreturen
+        const temps = weatherdatas.map((weatherdata) => {
+          return Number(weatherdata.temp);
+        });
+
+        //Maak een nieuwe tempreture aan met als basis de tempreture van de nieuwe data
+        let newTemp = createWeatherdataDto.TEMP;
+
+        //Als er meer dan 30 gegevens zijn voorspel de tempreture
+        if (temps.length >= 30) {
+          if (typeof createWeatherdataDto.TEMP === 'number') {
+            const regression = new SimpleLinearRegression(x, temps);
+            const prediction = regression.predict(30);
+
+            //calculate percentage difference
+            const diff = 100 - (100 / prediction) * createWeatherdataDto.TEMP;
+            if (diff > 20) {
+              newTemp = prediction * 0.8;
+            } else if (diff < -20) {
+              newTemp = prediction * 1.2;
+            }
+          }
+        }
+        return { ...newWeatherdata, temp: newTemp };
       },
     );
-    console.timeEnd('weatherdata');
-    this.weatherdataRepository.insert(await Promise.all(weatherdata_dtos));
+    const weather_datas = await Promise.all(weatherdata_dtos);
+
+    this.storingRepository.insert(storingen);
+
+    this.weatherdataRepository.insert(weather_datas as WeatherData[]);
   }
 
   findWeatherdataByID(id: number) {

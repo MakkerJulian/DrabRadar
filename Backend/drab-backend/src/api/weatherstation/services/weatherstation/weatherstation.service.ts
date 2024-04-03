@@ -24,6 +24,13 @@ export class WeatherstationService {
     });
   }
 
+  getWeatherstationWithStorings() {
+    return this.weatherstationRepository.find({
+      relations: ['storings'],
+      order: { storings: { timestamp: 'DESC' } },
+    });
+  }
+
   async getWeatherstationsDetails() {
     const allStations = await this.getWeatherstations();
     const count = allStations.length;
@@ -58,4 +65,3 @@ export class WeatherstationService {
     this.weatherstationRepository.save(newWeatherstations);
   }
 }
-
