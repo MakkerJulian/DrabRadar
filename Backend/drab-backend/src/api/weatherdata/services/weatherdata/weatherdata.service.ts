@@ -17,6 +17,7 @@ export class WeatherdataService {
   async createWeatherdata(createWeatherdataDtos: {
     WEATHERDATA: CreateWeatherdataDto[];
   }) {
+    const storingen = [];
     const weatherdata_dtos = createWeatherdataDtos.WEATHERDATA.map(
       async (createWeatherdataDto) => {
         //Fomat ruwe data
@@ -69,13 +70,10 @@ export class WeatherdataService {
 
             newWeatherdata[key] = newValue;
 
-            this.storingRepository.insert({
+            storingen.push({
               reason: key + ' missing',
               weatherstation: { name: createWeatherdataDto.STN.toString() },
             });
-          }
-          if (newWeatherdata[key] === Number.NaN) {
-            newWeatherdata[key] = -9999;
           }
         });
 
@@ -106,6 +104,8 @@ export class WeatherdataService {
       },
     );
     const weather_datas = await Promise.all(weatherdata_dtos);
+
+    this.storingRepository.insert(storingen);
 
     this.weatherdataRepository.insert(weather_datas as WeatherData[]);
   }
