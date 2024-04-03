@@ -14,5 +14,6 @@ import { Storing } from 'src/typeorm/storing.entity';
   ],
   controllers: [WeatherdataController],
   providers: [WeatherdataService],
+  exports: [WeatherdataService],
 })
 export class WeatherdataModule {}

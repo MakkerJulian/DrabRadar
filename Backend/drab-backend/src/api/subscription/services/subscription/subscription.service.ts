@@ -73,4 +73,11 @@ export class SubscriptionService {
       relations: ['customer', 'contracts', 'contracts.weatherstations'],
     });
   }
+
+  getByToken(token: string) {
+    return this.subscriptionRepository.findOne({
+      where: { token: token },
+      relations: ['customer', 'contracts', 'contracts.weatherstations'],
+    });
+  }
 }
