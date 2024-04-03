@@ -4,23 +4,21 @@ import { Repository } from 'typeorm';
 import { WeatherData } from 'src/typeorm/weatherdata.entity';
 import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
 import { SimpleLinearRegression } from 'ml-regression-simple-linear';
+import { Storing } from 'src/typeorm/storing.entity';
 @Injectable()
 export class WeatherdataService {
   constructor(
     @InjectRepository(WeatherData)
     private readonly weatherdataRepository: Repository<WeatherData>,
+    @InjectRepository(Storing)
+    private readonly storingRepository: Repository<Storing>,
   ) {}
 
   async createWeatherdata(createWeatherdataDtos: {
     WEATHERDATA: CreateWeatherdataDto[];
   }) {
-    const x = Array.from(Array(30).keys());
-
-    console.time('weatherdata');
-
     const weatherdata_dtos = createWeatherdataDtos.WEATHERDATA.map(
       async (createWeatherdataDto) => {
-        const datetime = new Date();
         const weatherdatas = await this.weatherdataRepository.find({
           where: {
             weatherstation: { name: createWeatherdataDto.STN.toString() },
@@ -29,31 +27,70 @@ export class WeatherdataService {
           take: 30,
         });
 
+        console.log('INPUT DATA______________', createWeatherdataDto);
+
+        const x = Array.from(Array(weatherdatas.length).keys());
+
+        Object.keys(createWeatherdataDto).map((key) => {
+          if (createWeatherdataDto[key] === 'None') {
+            const keyId = Object.keys(createWeatherdataDto).indexOf(key) - 1;
+
+            console.log('ID', keyId);
+            console.log('missing', key);
+
+            let newValue = 1;
+            if (weatherdatas.length > 30) {
+              const values = weatherdatas.map((weatherdata) => {
+                console.log(Object.keys(weatherdata));
+                console.log(Object.keys(weatherdata)[keyId]);
+                return Number(weatherdata[Object.keys(weatherdata)[keyId]]);
+              });
+
+              const regression = new SimpleLinearRegression(x, values);
+              newValue = regression.predict(x.length + 1);
+              console.log('prediction', newValue);
+            }
+
+            // console.log(key);
+            // console.log(Object.keys(createWeatherdataDto).indexOf(key) - 1);
+            // console.log(Object.keys(createWeatherdataDto));
+            // console.log(Object.keys(weatherdatas[0]));
+
+            createWeatherdataDto[key] = newValue;
+
+            this.storingRepository.insert({
+              reason: key + ' missing',
+              weatherstation: { name: createWeatherdataDto.STN.toString() },
+            });
+          }
+          if (createWeatherdataDto[key] === Number.NaN) {
+            createWeatherdataDto[key] = -9999;
+          }
+        });
+
         const temps = weatherdatas.map((weatherdata) => {
           return Number(weatherdata.temp);
         });
 
         let newTemp = createWeatherdataDto.TEMP;
 
-        //todo check for missing values and extrapolate those aswell
-        //then make a new table called "storingen" and add the ID of this weatherdata, make this a many to one relation so it can be called both ways
-        // or add a new column that contains a string value if there was a 'storing' and what kind of storing it was
-
         if (temps.length >= 30) {
-          const regression = new SimpleLinearRegression(x, temps); //todo maybe faster with own implementation or average values
-          const prediction = regression.predict(30);
+          if (typeof createWeatherdataDto.TEMP === 'number') {
+            const regression = new SimpleLinearRegression(x, temps);
+            const prediction = regression.predict(30);
 
-          //calculate percentage difference
-          const diff = 100 - (100 / prediction) * createWeatherdataDto.TEMP;
-          if (diff > 20) {
-            newTemp = prediction * 0.8;
-          } else if (diff < -20) {
-            newTemp = prediction * 1.2;
+            //calculate percentage difference
+            const diff = 100 - (100 / prediction) * createWeatherdataDto.TEMP;
+            if (diff > 20) {
+              newTemp = prediction * 0.8;
+            } else if (diff < -20) {
+              newTemp = prediction * 1.2;
+            }
           }
         }
+
         return {
           weatherstation: { name: createWeatherdataDto.STN.toString() },
-          datetime: datetime,
           temp: newTemp,
           dew_point: createWeatherdataDto.DEWP,
           s_airpressure: createWeatherdataDto.STP,
@@ -73,8 +110,9 @@ export class WeatherdataService {
         };
       },
     );
-    console.timeEnd('weatherdata');
-    this.weatherdataRepository.insert(await Promise.all(weatherdata_dtos));
+    const weather_datas = await Promise.all(weatherdata_dtos);
+    console.log('OUTPUT_DATA________________', weather_datas);
+    this.weatherdataRepository.insert(weather_datas as WeatherData[]);
   }
 
   findWeatherdataByID(id: number) {

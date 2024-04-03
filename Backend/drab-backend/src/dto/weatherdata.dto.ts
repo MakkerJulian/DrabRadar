@@ -1,45 +1,45 @@
-import { IsNotEmpty} from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateWeatherdataDto {
   @IsNotEmpty()
-  STN: number;;
+  STN: number;
 
   @IsNotEmpty()
   DATE: Date;
 
   @IsNotEmpty()
   TIME: string;
-  
-  @IsNotEmpty()
-  TEMP: number;
 
   @IsNotEmpty()
-  DEWP: number;
+  TEMP: number | string;
 
   @IsNotEmpty()
-  STP: number;
+  DEWP: number | string;
 
   @IsNotEmpty()
-  SLP: number;
+  STP: number | string;
 
   @IsNotEmpty()
-  VISIB: number;
+  SLP: number | string;
 
   @IsNotEmpty()
-  WDSP: number;
+  VISIB: number | string;
 
   @IsNotEmpty()
-  PRCP: number;
+  WDSP: number | string;
 
   @IsNotEmpty()
-  SNDP: number;
+  PRCP: number | string;
+
+  @IsNotEmpty()
+  SNDP: number | string;
 
   @IsNotEmpty()
   FRSHTT: string;
 
   @IsNotEmpty()
-  CLDC: number;
+  CLDC: number | string;
 
   @IsNotEmpty()
-  WNDDIR: number;
+  WNDDIR: number | string;
 }

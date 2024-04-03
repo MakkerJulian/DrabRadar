@@ -17,7 +17,7 @@ export class WeatherData {
   weatherstation: Weatherstation;
 
   @Index()
-  @Column()
+  @Column({ default: () => 'NOW()' })
   datetime: Date;
 
   @Column('decimal', { precision: 6, scale: 2 })
