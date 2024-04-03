@@ -180,7 +180,7 @@ export const WeatherStations = () => {
             </Box>
 
             <Button
-                sx={{ backgroundColor: 'green', color: 'white', width: '20%', margin: 'auto', mt: 2 }}
+                sx={{ backgroundColor: 'green', color: 'white', width: '80%', margin: 'auto', mt: 2 }}
                 onClick={() => {
                     navigate('/')
                 }}>

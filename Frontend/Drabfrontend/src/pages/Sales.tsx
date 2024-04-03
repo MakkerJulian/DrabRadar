@@ -87,9 +87,9 @@ export const Sales = () => {
         Sales
       </Typography>
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20%', marginBottom: "0.5%" }}>
         <Button
-          sx={{ backgroundColor: 'green', color: 'white', borderRadius: '20px', '&:hover': { backgroundColor: 'darkgreen' } }}
+          sx={{ backgroundColor: 'green', color: 'white', borderRadius: '5px', '&:hover': { backgroundColor: 'darkgreen' } }}
           onClick={() => {
             setOpenCustomer(!openCustomer);
           }}
