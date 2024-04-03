@@ -5,7 +5,7 @@ import { Public } from 'src/api/auth/metaData';
 @Controller('IWA')
 export class ExternController {
   constructor(private readonly externService: ExternService) {}
-
+  
   @Public()
   @Get()
   get(
