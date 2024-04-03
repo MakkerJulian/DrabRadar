@@ -83,13 +83,13 @@ export const Sales = () => {
   
   return (
     <Box flex={1} flexDirection={'column'} overflow={'hidden'} >
-      <Typography variant="h2" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
+      <Typography variant="h1" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         Sales
       </Typography>
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20%', marginBottom: "0.5%" }}>
         <Button
-          sx={{ backgroundColor: 'green', color: 'white', borderRadius: '20px', '&:hover': { backgroundColor: 'darkgreen' } }}
+          sx={{ backgroundColor: 'green', color: 'white', borderRadius: '5px', '&:hover': { backgroundColor: 'darkgreen' } }}
           onClick={() => {
             setOpenCustomer(!openCustomer);
           }}
