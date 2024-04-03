@@ -14,7 +14,7 @@ export class WeatherstationController {
 
   @UseGuards(AuthGuard)
   @Get()
-  getWeatherStations() {
+  getWeatherstations() {
     return this.weatherstationService.getWeatherstations();
   }
 

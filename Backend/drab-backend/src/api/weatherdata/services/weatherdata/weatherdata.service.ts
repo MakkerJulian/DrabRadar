@@ -90,4 +90,12 @@ export class WeatherdataService {
   deleteAll() {
     return this.weatherdataRepository.clear();
   }
+  findByStation(stationNumber) {
+    return this.weatherdataRepository.find({
+      where: { weatherstation: { name: stationNumber } },
+      order: {
+        datetime: 'DESC',
+      },
+    });
+  }
 }

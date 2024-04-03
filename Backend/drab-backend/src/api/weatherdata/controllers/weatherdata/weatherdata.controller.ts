@@ -16,7 +16,7 @@ import { Public } from 'src/api/auth/metaData';
 
 @Controller('weatherdata')
 export class WeatherdataController {
-  constructor(private readonly weatherdataService: WeatherdataService) {}
+  constructor(private readonly weatherdataService: WeatherdataService) { }
 
   @UseGuards(AuthGuard)
   @Get()

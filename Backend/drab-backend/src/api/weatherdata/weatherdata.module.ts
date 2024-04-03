@@ -9,5 +9,6 @@ import { WeatherstationModule } from '../weatherstation/weatherstation.module';
   imports: [TypeOrmModule.forFeature([WeatherData]), WeatherstationModule],
   controllers: [WeatherdataController],
   providers: [WeatherdataService],
+  exports: [WeatherdataService],
 })
 export class WeatherdataModule {}

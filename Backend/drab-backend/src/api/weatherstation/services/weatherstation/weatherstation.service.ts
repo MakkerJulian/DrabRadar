@@ -57,3 +57,4 @@ export class WeatherstationService {
     this.weatherstationRepository.save(newWeatherstations);
   }
 }
+
