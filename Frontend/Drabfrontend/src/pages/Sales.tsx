@@ -83,7 +83,7 @@ export const Sales = () => {
   
   return (
     <Box flex={1} flexDirection={'column'} overflow={'hidden'} >
-      <Typography variant="h2" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
+      <Typography variant="h1" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         Sales
       </Typography>
 

@@ -130,9 +130,9 @@ export const WeatherStations = () => {
             valueGetter: (params) => {
                 return params.row.geolocation.postcode;
             }
-        },{
+        }, {
             field: 'actions', flex: 1, headerName: 'Actions',
-            renderCell: (params) => <IconButton onClick={()=>navigate(`/weatherstation/${params.row.name}`)}>
+            renderCell: (params) => <IconButton onClick={() => navigate(`/weatherstation/${params.row.name}`)}>
                 <RemoveRedEyeIcon></RemoveRedEyeIcon>
             </IconButton>
         }
@@ -140,8 +140,9 @@ export const WeatherStations = () => {
 
     return (
         <Box display={'flex'} flexDirection={'column'}>
-            <Typography variant="h1">Weather Stations</Typography>
-
+            <Typography variant="h1" justifyContent={"center"} display={"flex"}>
+                Weather Stations
+            </Typography>
             <Box height={'80vh'}> {/* Set the height to a percentage of the viewport height */}
                 <DataGrid
                     initialState={
@@ -179,10 +180,10 @@ export const WeatherStations = () => {
             </Box>
 
             <Button
-            sx={{backgroundColor:'green', color:'white', width:'20%', margin:'auto', mt:2}} 
-            onClick={()=>{
-                navigate('/')
-            }}>
+                sx={{ backgroundColor: 'green', color: 'white', width: '20%', margin: 'auto', mt: 2 }}
+                onClick={() => {
+                    navigate('/')
+                }}>
                 Back
             </Button>
         </Box>
