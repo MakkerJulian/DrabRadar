@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { SubscriptionService } from 'src/api/subscription/services/subscription/subscription.service';
 import { WeatherdataService } from 'src/api/weatherdata/services/weatherdata/weatherdata.service';
@@ -6,55 +6,45 @@ import { WeatherdataService } from 'src/api/weatherdata/services/weatherdata/wea
 
 @Injectable()
 export class ExternService {
-    constructor(
-        private subscriptionService: SubscriptionService,
-        private weatherDataService: WeatherdataService,
-    ) {}
+  constructor(
+    private subscriptionService: SubscriptionService,
+    private weatherDataService: WeatherdataService,
+  ) { }
 
-
-
-
-async get(token: string, latitude: number, longitude: number, elevation: number) {
+  async get(token: string, latitude: number, longitude: number, elevation: number) {
     const subscription = await this.subscriptionService.getByToken(token);
+
+    if (!subscription) return new UnauthorizedException();
+
     let allowedStations = subscription.contracts.map(contract => {
       return contract.weatherstations;
     }).flat();
 
-    const lat = latitude ?? 0;
-    const long = longitude ?? 0;
+    const lat = latitude ?? -1;
+    const long = longitude ?? -1;
     const elev = elevation ?? 0;
 
-    // filters toepassen
-    allowedStations = allowedStations.filter(station => {
-      return station.latitude <= lat;
-      //Filterd alle stations die een latitude hebben die kleiner is dan de gegeven latitude, 
-      //dus returnt alle stations die ten noorden van de gegeven latitude liggen
+    // console.log(allowedStations);
+
+    allowedStations = allowedStations.map(station => {
+      // console.log(station.latitude, lat, typeof(station.latitude), typeof(lat), Math.round(station.latitude) >= lat);
+      // console.log(station.longitude, long, typeof(station.longitude), typeof(long), station.longitude >= long);
+      // console.log(station.elevation, elev, typeof(station.elevation), typeof(elev), station.elevation >= elev);
+
+      if (Math.round(station.latitude) >= lat && Math.round(station.longitude) >= long && Math.round(station.elevation) >= elev) return station;
     });
 
-    allowedStations = allowedStations.filter(station => {
-      return station.longitude <= long;
-    });
+    allowedStations = allowedStations.filter(station => station);
 
-
-    allowedStations = allowedStations.filter(station => {
-      return station.elevation <= elev;
-    });
-    console.log(allowedStations);
-
-
-    //Loop door alle stations heen
-    // Pak (bvb) de laatse 30 weergegevens van die station met .flat()
-    // Return dit
-     // Retrieve weather data from WeatherDataService
-     const stationData = await Promise.all(allowedStations.map(async station => {
-      const latestWeatherData = await this.weatherDataService.getLatestWeatherDataForStation(station);
-      return {
-        station,
-        latestWeatherData,
-      };
+    const allowedStationsWithData = Promise.all(allowedStations.map(async station => {
+        return await this.weatherDataService.findByStation(station.name);
     }));
 
-    return stationData;
+    const data = (await allowedStationsWithData).flat();
+
+    console.log(data);
+
+    return data;
   }
 }
 

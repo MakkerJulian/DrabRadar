@@ -55,14 +55,13 @@ export class WeatherdataService {
   deleteAll() {
     return this.weatherdataRepository.clear();
   }
-  async getLatestWeatherDataForStation(weatherstation: Weatherstation) {
-    const latestWeatherData = await this.weatherdataRepository.find({
-      where: { weatherstation: weatherstation.toString() }, 
-      order: { datetime: 'DESC' },
-      take: 30,
-    });
-
-    return latestWeatherData[0] || null;
+  findByStation(stationNumber){
+    return this.weatherdataRepository.find({
+      where: { weatherstation: {name : stationNumber} },
+      order: {
+        datetime: "DESC"
+      }
+    })
   }
 }
 
