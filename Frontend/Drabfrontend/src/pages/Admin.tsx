@@ -13,7 +13,7 @@ const emptyForm: AccountCreate = {
     email: '',
     phone: '',
     password: '',
-    role: '',
+    role: 'Sales',
 }
 
 export const Admin = () => {
@@ -58,7 +58,6 @@ export const Admin = () => {
 
     useEffect(() => {
         axiosInstance.get<Account[]>('/account').then((response) => {
-            console.log(response.data);
             setAccounts(response.data);
         });
     }, []);
@@ -138,26 +137,26 @@ export const Admin = () => {
                 >
                 </TextField>
 
-                <Select
-                    sx={{ width: '50%', margin: '20px' }}
+                <TextField
+                    sx={{ width: '50%', margin: '20px', color:"black" }}
                     label="Role"
                     value={form.role}
-                    {...register('role', { required: "role can't be empty" })}
-                    onChange={(e) => setForm({ ...form, role: e.target.value })}
-                    error={errors.role?.message !== undefined}
+                    select
+                    onChange={(e)=>setForm({...form, role: e.target.value})}
                 >
-                    <MenuItem value="admin">Admin</MenuItem>
-                    <MenuItem value="user">Sales</MenuItem>
-                    <MenuItem value="user">Onderzoek</MenuItem>
-                    <MenuItem value="user">Onderhoud</MenuItem>
-                </Select>
+                    <MenuItem value="ADMIN">Admin</MenuItem>
+                    <MenuItem value="Sales">Sales</MenuItem>
+                    <MenuItem value="Onderzoek">Onderzoek</MenuItem>
+                    <MenuItem value="Onderhoud">Onderhoud</MenuItem>
+                </TextField>
 
             </CustomModal>
+
             <Button sx={{
                 backgroundColor: 'green',
                 color: 'white',
                 display: "block",
-                margin: "20px auto", 
+                margin: "20px auto",
                 textAlign: "center",
                 width: "60%",
                 ":hover": {

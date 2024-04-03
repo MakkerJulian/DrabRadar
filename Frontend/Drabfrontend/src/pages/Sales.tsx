@@ -77,7 +77,6 @@ export const Sales = () => {
 
   useEffect(() => {
     axiosInstance.get<Customer[]>('/customer').then((response) => {
-      console.log(response.data);
       setCustomers(response.data);
     });
   }, []);
