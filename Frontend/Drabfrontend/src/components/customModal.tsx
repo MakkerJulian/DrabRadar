@@ -41,13 +41,20 @@ export const CustomModal = ({
                     alignItems: 'center',
                     borderRadius: '10px',
                 }}>
-                <Typography id="modal-modal-title" variant="h2" component="h2">
+                <Typography id="modal-modal-title" variant="h2" component="h2" fontWeight={"bold"}>
                     {title}
                 </Typography>
                 {children}
 
-                <Box display='flex' flexDirection={'row'} width={'100%'} justifyContent={'space-around'} >
-                    <Button onClick={() => setOpen(false)} sx={{ bgcolor: 'gray', color: 'white' }}>
+                <Box display='flex' flexDirection={'row'} width={'88%'} justifyContent={'center'} padding={"25px"}>
+                    <Button onClick={() => setOpen(false)} sx={{ 
+                        bgcolor: 'darkgray', 
+                        color: 'white',
+                        ":hover": {
+                            backgroundColor: "gray"
+                        },
+                        width: "30%", 
+                        margin: "2px" }}>
                         Close
                     </Button>
                     <Button onClick={(e) => onSubmit(e)} sx={{
@@ -55,7 +62,9 @@ export const CustomModal = ({
                         color: 'white',
                         ":hover": {
                             backgroundColor: 'darkgreen',
-                        }
+                        },
+                        width: "30%", 
+                        margin: "2px"
                     }}>
                         Submit
                     </Button>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import axiosInstance from "../axios";
 import { Account, AccountCreate } from "../types";
 import type { GridColDef } from "@mui/x-data-grid";
@@ -13,7 +13,7 @@ const emptyForm: AccountCreate = {
     email: '',
     phone: '',
     password: '',
-    role: '',
+    role: 'Sales',
 }
 
 export const Admin = () => {
@@ -58,30 +58,20 @@ export const Admin = () => {
 
     useEffect(() => {
         axiosInstance.get<Account[]>('/account').then((response) => {
-            console.log(response.data);
             setAccounts(response.data);
         });
     }, []);
 
     return (
         <Box flex={1} flexDirection={'column'}>
-            <Typography variant="h1">
+            <Typography variant="h1" justifyContent={"center"} display={"flex"}>
                 Admin
             </Typography>
-
-            <Button //green button
-                sx={{ backgroundColor: 'blue', color: 'white' }}
-                onClick={() => {
-                    setOpenAccount(!openAccount);
-                }}
-            >
-                Add new account
-            </Button>
 
             <DataGrid
                 rows={accounts}
                 columns={columns}
-                sx={{ maxWidth: '60%', margin: 'auto' }}
+                sx={{ maxWidth: '60%', margin: 'auto', height: '78vh' }}
                 initialState={{
                     sorting: {
                         sortModel: [{ field: 'id', sort: 'asc' }],
@@ -147,18 +137,38 @@ export const Admin = () => {
                 >
                 </TextField>
 
-                <TextField //Todo change to select
-                    sx={{ width: '50%', margin: '20px' }}
+                <TextField
+                    sx={{ width: '50%', margin: '20px', color:"black" }}
                     label="Role"
                     value={form.role}
-                    {...register('role', { required: "role can't be empty" })}
-                    onChange={handleChange}
-                    helperText={errors.role?.message?.toString()}
-                    error={errors.role?.message !== undefined}
+                    select
+                    onChange={(e)=>setForm({...form, role: e.target.value})}
                 >
+                    <MenuItem value="ADMIN">Admin</MenuItem>
+                    <MenuItem value="Sales">Sales</MenuItem>
+                    <MenuItem value="Onderzoek">Onderzoek</MenuItem>
+                    <MenuItem value="Onderhoud">Onderhoud</MenuItem>
                 </TextField>
+
             </CustomModal>
 
+            <Button sx={{
+                backgroundColor: 'green',
+                color: 'white',
+                display: "block",
+                margin: "20px auto",
+                textAlign: "center",
+                width: "60%",
+                ":hover": {
+                    backgroundColor: "lightgreen"
+                }
+            }}
+                onClick={() => {
+                    setOpenAccount(!openAccount);
+                }}
+            >
+                Add new account
+            </Button>
         </Box>
     )
 }
