@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axiosInstance from '../axios';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
     Accordion,
@@ -13,7 +13,7 @@ import {
     styled,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ExpandLess } from '@mui/icons-material';
+import { DragHandle, ExpandLess } from '@mui/icons-material';
 import { WeatherstationDetail } from '../types';
 
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat'; //freezing
@@ -22,7 +22,6 @@ import AcUnitIcon from '@mui/icons-material/AcUnit'; //snow
 import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
-import { AdminIcon } from '../components/adminBar';
 import { IWALogo } from '../assets';
 
 let dark_mode = false;
@@ -99,7 +98,8 @@ export const Home = () => {
     useEffect(() => {
         axiosInstance.get<WeatherstationDetail[]>('/weatherstation/details')
             .then((res) => {
-                setweatherstations(res.data)})
+                setweatherstations(res.data)
+            })
             .catch((err) => { console.log(err) });
     }, []);
 
@@ -134,11 +134,28 @@ export const Home = () => {
             });
         }
     }
+
+    const HandleDragAndZoom = () => {
+        const map = useMapEvents({
+            dragend: async () => {
+                const bounds = map.getBounds();
+                const newWeatherstations = await axiosInstance.post<WeatherstationDetail[]>('/weatherstation/details', bounds)
+                setweatherstations(newWeatherstations.data)
+            },
+            zoomend: async () => {
+                const bounds = map.getBounds();
+                const newWeatherstations = await axiosInstance.post<WeatherstationDetail[]>('/weatherstation/details', bounds)
+                setweatherstations(newWeatherstations.data)
+            }
+        });
+        return null;
+    }
+
     return (
         <Box
             position={'relative'}
         >
-            <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{ "height": "100vh" }} ref={mapRef}>
+            <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{ "height": "100vh" }} ref={mapRef} preferCanvas={true}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -147,16 +164,17 @@ export const Home = () => {
                     <Marker key={index} position={[weatherstation.latitude, weatherstation.longitude]} eventHandlers={{ click: () => handleMarkerClick(index) }}>
                     </Marker>
                 ))}
+                <HandleDragAndZoom />
             </MapContainer>
             <Box
-            display='flex'
-            position={'absolute'}
-            top={0}
-            left={50}
-            zIndex={1000}
-            sx={{opacity: "0.5"}}
+                display='flex'
+                position={'absolute'}
+                top={0}
+                left={50}
+                zIndex={1000}
+                sx={{ opacity: "0.5" }}
             >
-                <img src={IWALogo} alt='logo' style={{width: "50%", height:"50%"}}>
+                <img src={IWALogo} alt='logo' style={{ width: "50%", height: "50%" }}>
                 </img>
             </Box>
             <Box
@@ -222,7 +240,7 @@ export const Home = () => {
                                     {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <DeviceThermostatIcon /> : null}
                                     {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <WaterDropIcon /> : null}
                                     {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <AcUnitIcon /> : null}
-                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing? <SevereColdIcon /> : null}
+                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <SevereColdIcon /> : null}
                                     {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <ThunderstormIcon /> : null}
                                     {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <TornadoIcon /> : null}
                                 </Box>
