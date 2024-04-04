@@ -29,6 +29,20 @@ export class ContractService {
     return this.contractRepository.findOne({ where: { id: id } });
   }
 
+  async updateContractByWeatherstationId(id: number, name: string) {
+    const contract = await this.contractRepository.findOne({
+      where: { id: id, weatherstations: { name: name } },
+      relations: ['weatherstations'],
+    });
+    const newWeatherstations = contract.weatherstations.filter(
+      (station) => station.name !== name,
+    );
+    return this.contractRepository.save({
+      ...contract,
+      weatherstations: newWeatherstations,
+    });
+  }
+
   getContracts() {
     return this.contractRepository.find({
       relations: ['subscription', 'weatherstations', 'subscription.customer'],
@@ -37,5 +51,9 @@ export class ContractService {
 
   deleteAll() {
     return this.contractRepository.clear();
+  }
+
+  deleteContractById(id: number) {
+    return this.contractRepository.delete(id);
   }
 }
