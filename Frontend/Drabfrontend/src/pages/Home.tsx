@@ -227,23 +227,27 @@ export const Home = () => {
                                 <Box>
                                     country: {weatherstation.geolocation.country.name}
                                 </Box>
-                                <Box>
-                                    temperature: {weatherstation.weatherdatas ? weatherstation.weatherdatas.temp : "NO DATA"}
-                                </Box>
-                                <Box>
-                                    wind: {weatherstation.weatherdatas ? weatherstation.weatherdatas.windspeed : "NO DATA"} KM/H
-                                </Box>
-                                <Box>
-                                    in direction: {weatherstation.weatherdatas ? weatherstation.weatherdatas.wind_direction : "NO DATA"}°
-                                </Box>
-                                <Box>
-                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <DeviceThermostatIcon /> : null}
-                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <WaterDropIcon /> : null}
-                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <AcUnitIcon /> : null}
-                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <SevereColdIcon /> : null}
-                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <ThunderstormIcon /> : null}
-                                    {weatherstation.weatherdatas && weatherstation.weatherdatas.freezing ? <TornadoIcon /> : null}
-                                </Box>
+                                {weatherstation.weatherdatas && (
+                                    <>
+                                        <Box>
+                                            temperature: {weatherstation.weatherdatas.temp}
+                                        </Box>
+                                        <Box>
+                                            wind: {weatherstation.weatherdatas.windspeed} KM/H
+                                        </Box>
+                                        <Box>
+                                            Wind direction: {weatherstation.weatherdatas.wind_direction}°
+                                        </Box>
+                                        <Box>
+                                            {weatherstation.weatherdatas.freezing ? <DeviceThermostatIcon /> : null}
+                                            {weatherstation.weatherdatas.rain ? <WaterDropIcon /> : null}
+                                            {weatherstation.weatherdatas.snow ? <AcUnitIcon /> : null}
+                                            {weatherstation.weatherdatas.hail ? <SevereColdIcon /> : null}
+                                            {weatherstation.weatherdatas.thunder ? <ThunderstormIcon /> : null}
+                                            {weatherstation.weatherdatas.tornado ? <TornadoIcon /> : null}
+                                        </Box>
+                                    </>
+                                )}
                             </AccordionDetails>
                         </Accordion>
                     ))}
