@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axiosInstance from '../axios';
-import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
     Accordion,
@@ -10,10 +10,11 @@ import {
     Button,
     FormControlLabel,
     Switch,
+    Typography,
     styled,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { DragHandle, ExpandLess } from '@mui/icons-material';
+import { ExpandLess } from '@mui/icons-material';
 import { WeatherstationDetail } from '../types';
 
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat'; //freezing
@@ -247,6 +248,11 @@ export const Home = () => {
                                             {weatherstation.weatherdatas.tornado ? <TornadoIcon /> : null}
                                         </Box>
                                     </>
+                                )}
+                                {!weatherstation.weatherdatas && (
+                                    <Typography>
+                                        No data available
+                                    </Typography>
                                 )}
                             </AccordionDetails>
                         </Accordion>
