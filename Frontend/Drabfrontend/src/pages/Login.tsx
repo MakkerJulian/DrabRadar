@@ -13,25 +13,10 @@ const emptyFrom = {
 }
 
 export const Login = () => {
-    type Account = {
-        id: number,
-        email: string,
-        password: string,
-    }
-
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
 
-    const [accounts, setAccounts] = useState<Account[]>([]);
     const [form, setForm] = useState(emptyFrom);
-
-    useEffect(() => {
-        axiosInstance.get<Account[]>('/account')
-            .then((res) => {
-                setAccounts(res.data);
-            })
-            .catch((err) => { console.log(err) });
-    }, []);
 
     const {
         register, formState: { errors }, handleSubmit,
@@ -138,18 +123,6 @@ export const Login = () => {
                 >
                     Login
                 </Button>
-
-                <Typography>
-                    Known users:
-                </Typography>
-
-                {accounts.map(account => {
-                    return (
-                        <Typography key={account.id}>
-                            {account.email}
-                        </Typography>
-                    );
-                })}
             </Box>
         </>
     );

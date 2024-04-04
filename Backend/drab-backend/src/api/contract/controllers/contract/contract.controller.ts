@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UseGuards,
   UsePipes,
@@ -29,6 +30,14 @@ export class ContractController {
     return this.contractService.findContractByID(id);
   }
 
+  @Patch(':id/weatherstation/:name')
+  deleteContractByWeatherstationId(
+    @Param('id') id: number,
+    @Param('name') name: string,
+  ) {
+    return this.contractService.updateContractByWeatherstationId(id, name);
+  }
+
   @Post()
   @UsePipes(ValidationPipe)
   createContract(@Body() createContractDto: CreateContractDto) {
@@ -38,5 +47,10 @@ export class ContractController {
   @Delete()
   deleteContract() {
     return this.contractService.deleteAll();
+  }
+
+  @Delete(':id')
+  deleteContractById(@Param('id', ParseIntPipe) id: number) {
+    return this.contractService.deleteContractById(id);
   }
 }

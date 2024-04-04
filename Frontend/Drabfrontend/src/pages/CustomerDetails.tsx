@@ -36,7 +36,6 @@ export const CustomerDetails = () => {
             subscriptionId: subscriptionId,
             weatherstations: usedWeatherstations.map(ws => ws.name)
         }
-        console.log(newContract);
         axiosInstance.post('/contract', newContract).then(() => {
             enqueueSnackbar('Contract created', { variant: 'success' });
             setOpenNewContract(false);
@@ -158,6 +157,13 @@ export const CustomerDetails = () => {
                                 id={contract.id.toString()}
                             >
                                 Id: {contract.id}
+                                <Button onClick={() => {
+                                    axiosInstance.delete(`/contract/${contract.id}`).then(() => {
+                                        axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
+                                            setCustomer(response.data);
+                                        });
+                                    });
+                                }}>x</Button>
                             </AccordionSummary>
                             <AccordionDetails>
                                 Level: {contract.level}
@@ -165,6 +171,13 @@ export const CustomerDetails = () => {
                                 {contract.weatherstations.map(ws => (
                                     <Box key={ws.name}>
                                         {ws.name}
+                                        <Button onClick={() => {
+                                            axiosInstance.patch(`/contract/${contract.id}/weatherstation/${ws.name}`).then(() => {
+                                                axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
+                                                    setCustomer(response.data);
+                                                });
+                                            });
+                                        }}>x</Button>
                                     </Box>
                                 ))}
                             </AccordionDetails>
