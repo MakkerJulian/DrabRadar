@@ -15,7 +15,8 @@ export class ExternService {
     longitude: number,
     elevation: number,
   ) {
-    const subscription = await this.subscriptionService.getByToken(token);
+    const newToken = token ?? '1';
+    const subscription = await this.subscriptionService.getByToken(newToken);
 
     if (!subscription) return new UnauthorizedException();
 
