@@ -31,12 +31,13 @@ export class ContractService {
 
   async updateContractByWeatherstationId(id: number, name: string) {
     const contract = await this.contractRepository.findOne({
-      where: { id: id, weatherstations: { name: name } },
+      where: { id: id },
       relations: ['weatherstations'],
     });
     const newWeatherstations = contract.weatherstations.filter(
       (station) => station.name !== name,
     );
+
     return this.contractRepository.save({
       ...contract,
       weatherstations: newWeatherstations,
