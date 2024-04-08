@@ -14,9 +14,15 @@ const emptyNewContractForm = {
     weatherstations: []
 }
 
+type newContractForm = {
+    level: string,
+    subscriptionId: number,
+    weatherstations: Weatherstation[]
+}
+
 export const CustomerDetails = () => {
     const [customer, setCustomer] = React.useState<Customer>();
-    const [newContractForm, setNewContractForm] = React.useState(emptyNewContractForm);
+    const [newContractForm, setNewContractForm] = React.useState<newContractForm>(emptyNewContractForm);
     const [openNewContract, setOpenNewContract] = React.useState<boolean>(false);
     const [weatherstations, setWeatherstations] = React.useState<Weatherstation[]>([]);
     const [usedWeatherstations, setUsedWeatherstations] = React.useState<Weatherstation[]>([]);
@@ -143,7 +149,7 @@ export const CustomerDetails = () => {
                                         backgroundColor: 'darkgreen',
                                     }
                                 }}
-                                onClick={() => setOpenNewContract(true)}
+                                onClick={() => { setOpenNewContract(true); setUsedWeatherstations([]);}}
                             >
                                 Create contract
                             </Button>
@@ -230,6 +236,7 @@ export const CustomerDetails = () => {
                     renderInput={(params) => <TextField {...params} label="Weatherstations" key={params.id} />}
                     onChange={(event, weatherstation) => {
                         if (weatherstation) {
+                            setNewContractForm({ ...newContractForm, weatherstations: [...newContractForm.weatherstations, weatherstation] });
                             setUsedWeatherstations([...usedWeatherstations, weatherstation]);
                         }
                     }}
