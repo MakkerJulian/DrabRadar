@@ -24,4 +24,7 @@ export class Contract {
   @ManyToMany(() => Weatherstation)
   @JoinTable()
   weatherstations: Weatherstation[];
+
+  @Column({ nullable: true })
+  lastCallDate: Date;
 }

@@ -5,6 +5,9 @@ import { GeolocationService } from './api/geolocation/services/geolocation/geolo
 import { NearestlocationService } from './api/nearestlocation/services/nearestlocation/nearestlocation.service';
 import { CustomerService } from './api/customer/services/customer/customer.service';
 import { AccountService } from './api/account/services/account/account.service';
+import { SubscriptionService } from './api/subscription/services/subscription/subscription.service';
+import { ContractService } from './api/contract/services/contract/contract.service';
+import { WeatherdataService } from './api/weatherdata/services/weatherdata/weatherdata.service';
 
 @Injectable()
 export class AppService {
@@ -15,6 +18,9 @@ export class AppService {
     private readonly nearestlocationService: NearestlocationService,
     private readonly customerService: CustomerService,
     private readonly accountServie: AccountService,
+    private readonly subscriptionService: SubscriptionService,
+    private readonly contractService: ContractService,
+    private readonly weatherdataService: WeatherdataService,
   ) {
     this.seedDatabase();
   }
@@ -45,6 +51,16 @@ export class AppService {
     if ((await this.accountServie.getAccounts()).length === 0) {
       await this.accountServie.seedAccounts();
       console.log('Seeded accounts');
+    }
+
+    if ((await this.subscriptionService.getSubscriptions()).length === 0) {
+      await this.subscriptionService.seedSubscriptions();
+      console.log('Seeded subscriptions');
+    }
+
+    if ((await this.contractService.getContracts()).length === 0) {
+      await this.contractService.seedContracts();
+      console.log('Seeded contracts');
     }
   }
 }
