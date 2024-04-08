@@ -56,4 +56,26 @@ export class ContractService {
   deleteContractById(id: number) {
     return this.contractRepository.delete(id);
   }
+
+  seedContracts() {
+    this.createContract({
+      subscriptionId: 1,
+      level: 1,
+      weatherstations: ['166870'],
+    });
+    this.createContract({
+      subscriptionId: 1,
+      level: 3,
+      weatherstations: ['273550'],
+    });
+    this.createContract({
+      subscriptionId: 1,
+      level: 2,
+      weatherstations: ['972400', '131680'],
+    });
+  }
+
+  updateLastCallDate(id: number) {
+    return this.contractRepository.update(id, { lastCallDate: new Date() });
+  }
 }

@@ -80,4 +80,8 @@ export class SubscriptionService {
       relations: ['customer', 'contracts', 'contracts.weatherstations'],
     });
   }
+
+  seedSubscriptions() {
+    this.createSubscription({ customer: 1 });
+  }
 }
