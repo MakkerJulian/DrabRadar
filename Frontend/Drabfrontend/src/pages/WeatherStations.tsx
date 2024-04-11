@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../axios";
 import { Weatherstation } from "../types";
@@ -6,6 +6,7 @@ import { enqueueSnackbar } from "notistack";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
 export const WeatherStations = () => {
     const [weatherstations, setWeatherstations] = useState<Weatherstation[]>([]);
@@ -132,9 +133,19 @@ export const WeatherStations = () => {
             }
         }, {
             field: 'actions', flex: 1, headerName: 'Actions',
-            renderCell: (params) => <IconButton onClick={() => navigate(`/weatherstation/${params.row.name}`)}>
-                <RemoveRedEyeIcon></RemoveRedEyeIcon>
-            </IconButton>
+            renderCell: (params) =>
+                <>
+                    <Tooltip title="View Weatherstation">
+                        <IconButton onClick={() => navigate(`/weatherstation/${params.row.name}`)}>
+                            <RemoveRedEyeIcon sx={{color:'blue'}} />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Compare Weatherstation">
+                        <IconButton onClick={() => navigate(`/weatherstation/compare/${params.row.name}`)}>
+                            <CompareArrowsIcon sx={{color:'green'}} />
+                        </IconButton>
+                    </Tooltip>
+                </>
         }
     ];
 

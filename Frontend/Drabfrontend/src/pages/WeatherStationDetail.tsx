@@ -13,19 +13,25 @@ import AcUnitIcon from '@mui/icons-material/AcUnit'; //snow
 import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
-export const WeatherStationDetail = () => {
+
+type Props = {
+    ws?: Weatherstation;
+}
+export const WeatherStationDetail = ({ ws }: Props) => {
 
     const [weatherstation, setWeatherstation] = useState<Weatherstation>();
     const navigate = useNavigate();
 
     useEffect(() => {
+        if(ws) return setWeatherstation(ws);
         const id = window.location.pathname.split("/").pop();
         axiosInstance.get<Weatherstation>(`/weatherstation/id/${id}`).then((response) => {
             setWeatherstation(response.data);
         }).catch(() => {
             enqueueSnackbar('Failed to fetch weatherstation', { variant: 'error' });
         });
-    }, []);
+    }, [ws]);
+
 
     const columns: GridColDef[] = [
         {
@@ -81,24 +87,28 @@ export const WeatherStationDetail = () => {
             <Grid item xs={12}>
                 <h1>Weather Station Detail</h1>
             </Grid>
-            <Grid item xs={12}>
-                <Button
-                    sx={{
-                        backgroundColor: 'green',
-                        width: "20%",
-                        color: 'white',
-                        ":hover": {
-                            backgroundColor: 'darkgreen',
-                        }
-                    }}
-                    onClick={() => navigate('/weatherstations')
-                    }>
-                    Back
-                </Button>
-            </Grid>
-            <Grid item xs={6}>
-                <img src={stationImage} alt="weatherstation" width={"100%"}></img>
-            </Grid>
+            {ws === undefined && (
+                <Grid item xs={12}>
+                    <Button
+                        sx={{
+                            backgroundColor: 'green',
+                            width: "20%",
+                            color: 'white',
+                            ":hover": {
+                                backgroundColor: 'darkgreen',
+                            }
+                        }}
+                        onClick={() => navigate('/weatherstations')
+                        }>
+                        Back
+                    </Button>
+                </Grid>
+            )}
+            {ws === undefined && (
+                <Grid item xs={6}>
+                    <img src={stationImage} alt="weatherstation" width={"100%"}></img>
+                </Grid>
+            )}
             <Grid item xs={6}>
                 <Box bgcolor={'#e7deaa'} textAlign={'center'} mb={5}>
                     <Typography variant="h5">
