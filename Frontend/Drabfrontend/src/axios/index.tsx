@@ -35,13 +35,18 @@ const token = () => {
 const axiosInstance: AxiosInstance = axios.create({
     baseURL: 'http://localhost:3000',
     timeout: 5000,
-    proxy: false,
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': "Bearer " + token() || '',
-    }
+    proxy: false
 })
+
+axiosInstance.interceptors.request.use((config) => {
+	const accessToken = token();
+
+	if (accessToken) {
+		config.headers.Authorization = `Bearer ${accessToken}`;
+	}
+
+	return config;
+}, error => Promise.reject(error));
 
 export default axiosInstance;
 
