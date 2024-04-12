@@ -168,14 +168,17 @@ export const Home = () => {
                 <HandleDragAndZoom />
             </MapContainer>
             <Box
-                display='flex'
                 position={'absolute'}
                 top={0}
                 left={50}
                 zIndex={1000}
-                sx={{ opacity: "0.5" }}
             >
-                <img src={IWALogo} alt='logo' style={{ width: "50%", height: "50%" }}>
+                <img src={IWALogo} alt='logo' style={{
+                    position:"absolute",
+                    width:"7vw",
+                    height:"13vh",
+                    zIndex:"1000"
+                }}>
                 </img>
             </Box>
             <Box
