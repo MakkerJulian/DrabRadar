@@ -100,6 +100,11 @@ export const Login = () => {
                         }
                     })}
                     onChange={handleChange}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handlePost();
+                        }
+                    }}
                     helperText={errors.email?.message?.toString()}
                     error={errors.email?.message !== undefined}
                 >
@@ -112,6 +117,11 @@ export const Login = () => {
                     value={form.password}
                     {...register('password', { required: "password can't be empty" })}
                     onChange={handleChange}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handlePost();
+                        }
+                    }}
                     helperText={errors.password?.message?.toString()}
                     error={errors.password?.message !== undefined}
                 >

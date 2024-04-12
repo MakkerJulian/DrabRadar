@@ -18,7 +18,7 @@ export const AdminIcon = () => {
             <Drawer open={open} ModalProps={{ onBackdropClick: () => setOpen(false) }} >
                 {routes.map(route => {
                     return !forbiddenRoutes.includes(route.name) &&(
-                    <Button key={route.path} onClick={() => navigate(route.path)} sx={{ backgroundColor: "green", color: "white", borderRadius: 0 }}>
+                    <Button key={route.path} onClick={() => navigate(route.path)} sx={{ backgroundColor: "green", color: "white", borderRadius: 0, ":hover":{backgroundColor: "lightgray", color: "black"} }}>
                         {route.name}
                     </Button>
                 )})}

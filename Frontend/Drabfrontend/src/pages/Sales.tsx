@@ -86,23 +86,12 @@ export const Sales = () => {
       <Typography variant="h1" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         Sales
       </Typography>
-
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20%', marginBottom: "0.5%" }}>
-        <Button
-          sx={{ backgroundColor: 'green', color: 'white', borderRadius: '5px', '&:hover': { backgroundColor: 'darkgreen' } }}
-          onClick={() => {
-            setOpenCustomer(!openCustomer);
-          }}
-        >
-          Add new customer
-        </Button>
-      </Box>
       <Box height={'80vh'}> {/* Set the height to a percentage of the viewport height */}
         <DataGrid
           rows={customers}
           columns={columns}
           pagination
-          sx={{ maxWidth: '60%', margin: 'auto' }}
+          sx={{ width: '80%', margin: 'auto' }}
           initialState={{
             sorting: { sortModel: [{ field: 'id', sort: 'asc' }] }, pagination: {
               paginationModel: { pageSize: 10, page: 0 },
@@ -110,7 +99,16 @@ export const Sales = () => {
           }}
         />
       </Box>
-
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Button
+          sx={{ backgroundColor: 'green', color: 'white', width: '80%', borderRadius: '5px', margin: "auto", mt: 2, '&:hover': { backgroundColor: 'darkgreen' } }}
+          onClick={() => {
+            setOpenCustomer(!openCustomer);
+          }}
+        >
+          Add new customer
+        </Button>
+      </Box>
       <CustomModal
         open={openCustomer}
         title="Add new customer"
