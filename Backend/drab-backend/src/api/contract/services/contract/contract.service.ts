@@ -58,7 +58,7 @@ export class ContractService {
     return this.contractRepository.delete(id);
   }
 
-  seedContracts() {
+  async seedContracts() {
     this.createContract({
       subscriptionId: 1,
       level: 1,
@@ -74,6 +74,7 @@ export class ContractService {
       level: 2,
       weatherstations: ['972400', '131680'],
     });
+    return this.contractRepository.find();
   }
 
   updateLastCallDate(id: number) {

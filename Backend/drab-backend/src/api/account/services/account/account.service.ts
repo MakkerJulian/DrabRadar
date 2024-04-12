@@ -63,5 +63,6 @@ export class AccountService {
     account.map((account) => {
       this.createAccount(account);
     });
+    return this.accountRepository.find();
   }
 }

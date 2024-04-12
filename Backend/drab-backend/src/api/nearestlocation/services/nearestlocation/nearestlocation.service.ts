@@ -42,5 +42,6 @@ export class NearestlocationService {
       });
       this.nearestlocationRepository.save(newNearestlocations);
     });
+    return await this.nearestlocationRepository.find();
   }
 }

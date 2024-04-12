@@ -81,7 +81,7 @@ export class SubscriptionService {
     });
   }
 
-  seedSubscriptions() {
-    this.createSubscription({ customer: 1 });
+  async seedSubscriptions() {
+    return this.createSubscription({ customer: 1 });
   }
 }
