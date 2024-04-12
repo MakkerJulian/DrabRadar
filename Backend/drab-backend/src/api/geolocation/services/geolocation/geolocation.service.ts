@@ -61,5 +61,6 @@ export class GeolocationService {
       });
       this.geolocationRepository.save(newGeoLocations);
     });
+    return await this.geolocationRepository.find();
   }
 }

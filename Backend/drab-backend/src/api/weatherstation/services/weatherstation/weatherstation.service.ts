@@ -15,7 +15,12 @@ export class WeatherstationService {
   async findByName(id: string) {
     return this.weatherstationRepository.findOne({
       where: { name: id },
-      relations: ['geolocation', 'geolocation.country', 'weatherdatas'],
+      relations: [
+        'geolocation',
+        'geolocation.country',
+        'weatherdatas',
+        'storings',
+      ],
     });
   }
 
@@ -76,7 +81,7 @@ export class WeatherstationService {
     return allStations1Data;
   }
 
-  seedWeatherstations() {
+  async seedWeatherstations() {
     const newWeatherstations = station.map((station) => {
       return {
         name: station.name,
@@ -85,6 +90,6 @@ export class WeatherstationService {
         elevation: station.elevation,
       };
     });
-    this.weatherstationRepository.save(newWeatherstations);
+    return this.weatherstationRepository.save(newWeatherstations);
   }
 }
