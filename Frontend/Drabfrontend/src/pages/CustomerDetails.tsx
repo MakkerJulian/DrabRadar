@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Box, Button, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material';
 import React, { useEffect } from "react";
 import axiosInstance from '../axios';
 import { Customer, Weatherstation } from '../types';
@@ -6,6 +6,7 @@ import { enqueueSnackbar } from 'notistack';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CustomModal } from '../components/customModal';
 import { useForm } from 'react-hook-form';
+import { BorderAll } from '@mui/icons-material';
 
 
 const emptyNewContractForm = {
@@ -97,63 +98,40 @@ export const CustomerDetails = () => {
     }, []);
 
     return customer ? (
-        <Box display={'flex'} flexDirection={'column'}>
-            <Typography variant="h1" margin={'auto'}>
-                Customer: {customer.name}
-            </Typography>
-
-            <Box display={'flex'} justifyContent={'space-between'}>
+        <Grid container spacing={3}>
+            <Grid item xs={12}
+                margin={"12px"}
+                >
+                <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+                    <Typography variant="h1">Customer: {customer.name}</Typography>
+                </Box>
+            </Grid>
+            <Grid item xs={4}
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+                border={"solid black 2px"}
+                borderRadius={"5px"}
+            >
                 <Typography variant="h4">
                     Name: {customer.name}<br></br>
                     Phone number: {customer.phone} <br></br>
                     Mail: {customer.email} <br></br>
                 </Typography>
-
-                <Box display={'flex'} flexDirection={'column'}>
-                    <Typography variant="h2">
-                        Subscription: {customer.subscription ? customer.subscription.id : "No subscription"}
-                    </Typography>
-
-                    <Typography variant="h4">
-                        token: {customer.subscription ? customer.subscription.token : ""}
-                    </Typography>
-
-                    <Button
-                        sx={{
-                            backgroundColor: 'green',
-                            color: 'white',
-                            ":hover": {
-                                backgroundColor: 'darkgreen',
-                            }
-                        }}
-                        onClick={!customer.subscription ? () => addSubscription(customer.id) : () => refreshSubscription(customer.id)}
-                    >
-                        {!customer.subscription ? 'Add Subscription' : 'Refresh Token'}
-                    </Button>
-
-                </Box>
-            </Box>
-
-            {customer.subscription && (
-                <Box width={'50%'} margin={'auto'}>
+            </Grid>
+            <Grid item xs={4}
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+                border={"solid black 2px"}
+                borderRadius={"5px"}
+            >
+                {customer.subscription && (
+                <Box width={'80%'} margin={'auto'}>
                     <Box display={'flex'}>
                         <Typography variant="h3" margin={'auto'}>
                             Contracts
                         </Typography>
-                        {customer.subscription && (
-                            <Button
-                                sx={{
-                                    backgroundColor: 'green',
-                                    color: 'white',
-                                    ":hover": {
-                                        backgroundColor: 'darkgreen',
-                                    }
-                                }}
-                                onClick={() => { setOpenNewContract(true); setUsedWeatherstations([]);}}
-                            >
-                                Create contract
-                            </Button>
-                        )}
                     </Box>
                     {customer.subscription.contracts.map(contract => (
                         <Accordion key={contract.id}>
@@ -188,8 +166,23 @@ export const CustomerDetails = () => {
                                 ))}
                             </AccordionDetails>
                         </Accordion>
-
                     ))}
+                    <Box display={'flex'}  justifyContent={'center'} margin={2}>
+                    {customer.subscription && (
+                            <Button
+                                sx={{
+                                    backgroundColor: 'green',
+                                    color: 'white',
+                                    ":hover": {
+                                        backgroundColor: 'darkgreen',
+                                    }
+                                }}
+                                onClick={() => { setOpenNewContract(true); setUsedWeatherstations([]);}}
+                            >
+                                Create contract
+                            </Button>
+                        )}
+                    </Box>
                 </Box>
             )}
 
@@ -200,7 +193,7 @@ export const CustomerDetails = () => {
                 onSubmit={handleSubmit(() => createContract(customer.subscription.id))}
             >
                 <TextField
-                    sx={{ width: '50%', margin: '20px' }}
+                    sx={{ width: '80%', margin: '20px' }}
                     label="Level"
                     value={newContractForm.level}
                     {...register('level', { required: "name can't be empty" })}
@@ -243,7 +236,39 @@ export const CustomerDetails = () => {
                 />
 
             </CustomModal >
-        </Box >
+            </Grid>
+            <Grid item xs={4}
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+                border={"solid black 2px"}
+                borderRadius={"5px"}
+            >
+                <Box display={'flex'} flexDirection={'column'}>
+                    <Typography variant="h2">
+                        Subscription: {customer.subscription ? customer.subscription.id : "No subscription"}
+                    </Typography>
+
+                    <Typography variant="h4">
+                        token: {customer.subscription ? customer.subscription.token : ""}
+                    </Typography>
+
+                    <Button
+                        sx={{
+                            backgroundColor: 'green',
+                            color: 'white',
+                            ":hover": {
+                                backgroundColor: 'darkgreen',
+                            }
+                        }}
+                        onClick={!customer.subscription ? () => addSubscription(customer.id) : () => refreshSubscription(customer.id)}
+                    >
+                        {!customer.subscription ? 'Add Subscription' : 'Refresh Token'}
+                    </Button>
+
+                </Box>
+            </Grid>
+        </Grid>
     ) :
         <Typography>No Customer Found</Typography>
 }

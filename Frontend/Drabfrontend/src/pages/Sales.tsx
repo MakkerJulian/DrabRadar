@@ -86,7 +86,7 @@ export const Sales = () => {
       <Typography variant="h1" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         Sales
       </Typography>
-      <Box height={'80vh'}> {/* Set the height to a percentage of the viewport height */}
+      <Box height={'80vh'}>
         <DataGrid
           rows={customers}
           columns={columns}
@@ -116,7 +116,7 @@ export const Sales = () => {
         onSubmit={handleSubmit(createCustomer)}
       >
         <TextField
-          sx={{ width: '50%', margin: '20px' }}
+          sx={{ width: '80%', margin: '20px' }}
           label="Name"
           value={form.name}
           {...register('name', { required: "name can't be empty", minLength: { value: 5, message: "name must be at least 5 characters" } })}
@@ -125,7 +125,7 @@ export const Sales = () => {
           error={errors.name?.message !== undefined}
         />
         <TextField
-          sx={{ width: '50%', margin: '20px' }}
+          sx={{ width: '80%', margin: '20px' }}
           label="E-mail"
           value={form.email}
           {...register('email', {
@@ -139,7 +139,7 @@ export const Sales = () => {
           error={errors.email?.message !== undefined}
         />
         <TextField
-          sx={{ width: '50%', margin: '20px' }}
+          sx={{ width: '80%', margin: '20px' }}
           label="Phone number"
           type='phone'
           value={form.phone}
