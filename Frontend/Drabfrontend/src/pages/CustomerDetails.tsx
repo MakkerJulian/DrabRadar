@@ -120,11 +120,11 @@ export const CustomerDetails = () => {
             name: name,
             phone: phone,
             email: email
-          };
-        
-          axiosInstance.patch('customer', updateData)
+        };
+
+        axiosInstance.patch('customer', updateData)
             .catch(error => {
-              console.error('Error:', error);
+                console.error('Error:', error);
             });
     }
 
@@ -137,7 +137,7 @@ export const CustomerDetails = () => {
                     <Typography variant="h1">Customer: {customer.name}</Typography>
                 </Box>
             </Grid>
-            <Grid item xs={4}
+            <Grid item xs={6}
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
@@ -145,26 +145,26 @@ export const CustomerDetails = () => {
                 borderRadius={"5px"}
             >
                 <Typography variant="h4">
+                    <Box justifyContent={'center'} display={'flex'} marginBottom={"1"}>Account details</Box>
+                    <br/>
                     <TextField
-                    margin='normal'
+                        sx={{margin: 1}}
                         name="name"
                         label="name:"
                         value={customer.name}
                         onChange={handleNamingChange}
                         variant="outlined"
                     />
-                    <br />
                     <TextField
-                        margin='normal'
+                        sx={{margin: 1}}
                         name="phone"
                         label="Phone number:"
                         value={customer.phone}
                         onChange={handleNamingChange}
                         variant="outlined"
                     />
-                    <br />
                     <TextField
-                        margin='normal'
+                        sx={{margin: 1}}
                         name="email"
                         label="Mail:"
                         value={customer.email}
@@ -173,15 +173,60 @@ export const CustomerDetails = () => {
                     />
                     <br />
                 </Typography>
-                <Button 
-                variant="contained" 
-                onClick={() => handleSave(customer.id, customer.name, customer.phone, customer.email)}
-                sx={{marginBottom: 2, marginTop: 1}}
+                <Button
+                    variant="contained"
+                    onClick={() => handleSave(customer.id, customer.name, customer.phone, customer.email)}
+                    sx={{ marginBottom: 2, marginTop: 1 }}
                 >
-                    Opslaan
+                    Update customer
                 </Button>
             </Grid>
-            <Grid item xs={4}
+            <Grid item xs={6}
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+                border={"solid black 2px"}
+                borderRadius={"5px"}
+            >
+                <Box display={'flex'} flexDirection={'column'} marginLeft={'1vw'}>
+                    <Typography variant="h4" margin={'auto'} marginBottom={'20px'} width={'25vw'} textAlign={'center'}>
+                        Subscription: {customer.subscription ? customer.subscription.id : "No subscription"}
+                    </Typography>
+
+                    <Typography variant="h4">
+                        <TextField
+                            value={customer.subscription ? customer.subscription.token : ""}
+                            label="Token"
+                            variant="outlined"
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            sx={{ width: "90%" }}
+                        >
+                        </TextField>
+                        <IconButton onClick={() => handleCopy(customer.subscription ? customer.subscription.token : "")}>
+                            <FileCopyIcon />
+                        </IconButton>
+                    </Typography>
+                    <Button
+                        sx={{
+                            backgroundColor: 'green',
+                            color: 'white',
+                            marginTop: 2,
+                            marginBottom: 2,
+                            width: "98%",
+                            ":hover": {
+                                backgroundColor: 'darkgreen',
+                            }
+                        }}
+                        onClick={!customer.subscription ? () => addSubscription(customer.id) : () => refreshSubscription(customer.id)}
+                    >
+                        {!customer.subscription ? 'Add Subscription' : 'Refresh Token'}
+                    </Button>
+
+                </Box>
+            </Grid>
+            <Grid item xs={12}
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
@@ -299,51 +344,6 @@ export const CustomerDetails = () => {
                     />
 
                 </CustomModal >
-            </Grid>
-            <Grid item xs={4}
-                display={"flex"}
-                flexDirection={"column"}
-                alignItems={"center"}
-                border={"solid black 2px"}
-                borderRadius={"5px"}
-            >
-                <Box display={'flex'} flexDirection={'column'} marginLeft={'1vw'}>
-                    <Typography variant="h4" margin={'auto'} marginBottom={'20px'} width={'25vw'} textAlign={'center'}>
-                        Subscription: {customer.subscription ? customer.subscription.id : "No subscription"}
-                    </Typography>
-
-                    <Typography variant="h4">
-                        <TextField
-                            value={customer.subscription ? customer.subscription.token : ""}
-                            label="Token"
-                            variant="outlined"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{ width: "90%"}}
-                        >
-                        </TextField>
-                        <IconButton onClick={() => handleCopy(customer.subscription ? customer.subscription.token : "")}>
-                            <FileCopyIcon />
-                        </IconButton>
-                    </Typography>
-                    <Button
-                        sx={{
-                            backgroundColor: 'green',
-                            color: 'white',
-                            marginTop: 2,
-                            marginBottom: 2,
-                            width: "98%",
-                            ":hover": {
-                                backgroundColor: 'darkgreen',
-                            }
-                        }}
-                        onClick={!customer.subscription ? () => addSubscription(customer.id) : () => refreshSubscription(customer.id)}
-                    >
-                        {!customer.subscription ? 'Add Subscription' : 'Refresh Token'}
-                    </Button>
-
-                </Box>
             </Grid>
         </Grid>
     ) :
