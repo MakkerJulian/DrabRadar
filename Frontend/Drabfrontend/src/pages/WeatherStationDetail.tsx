@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../axios";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { weatherstation as stationImage } from "../assets";
+import { Malfunction, weatherstation as stationImage } from "../assets";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat'; //freezing
@@ -120,6 +120,25 @@ export const WeatherStationDetail = ({ ws }: Props) => {
                         elevation: {weatherstation.elevation} <br></br>
                         country: {weatherstation.geolocation.country.name} <br></br>
                     </Typography>
+                </Box>
+                <Box
+                    display={'flex'}
+                    position={'absolute'}
+                    right={'26%'}
+                    bottom={'1vh'}
+                    zIndex={1000}
+                >
+                    <Typography position={'absolute'} variant={'h3'} color={'red'} bottom={'0vh'} right={'4.5vw'}>
+                        {weatherstation.storingen ? weatherstation.storingen.map(Storing => Storing.reason).join(', ') : 'No Errors'}
+                    </Typography>
+                    <img src={Malfunction} alt='malfunction' style={{
+                        position: 'absolute',
+                        bottom: '0vh',
+                        right: '0vh',
+                        width: "3.5vw",
+                        height: "7vh"
+                    }}>
+                    </img>
                 </Box>
                 <Box bgcolor={'#e7deaa'} textAlign={'center'}>
                     <Typography variant="h5">
