@@ -13,3 +13,8 @@ export class CreateCustomerDto {
   @IsNotEmpty()
   phone: string;
 }
+
+export class UpdateCustomerDto extends CreateCustomerDto {
+  @IsNotEmpty()
+  id: number;
+}

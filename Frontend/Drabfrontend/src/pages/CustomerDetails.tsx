@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import React, { useEffect } from "react";
 import axiosInstance from '../axios';
 import { Customer, Weatherstation } from '../types';
@@ -6,7 +6,7 @@ import { enqueueSnackbar } from 'notistack';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CustomModal } from '../components/customModal';
 import { useForm } from 'react-hook-form';
-import { BorderAll } from '@mui/icons-material';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 
 const emptyNewContractForm = {
@@ -35,6 +35,16 @@ export const CustomerDetails = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setNewContractForm({ ...newContractForm, [e.target.name]: e.target.value });
     }
+
+    const handleNamingChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        if (customer) {
+            setCustomer({
+                ...customer,
+                [name]: value
+            });
+        }
+    };
 
 
     const createContract = (subscriptionId: number) => {
@@ -97,11 +107,26 @@ export const CustomerDetails = () => {
             .catch((err) => { console.log(err) });
     }, []);
 
+    const handleCopy = (text: string) => {
+        navigator.clipboard.writeText(text)
+            .catch((error) => {
+                console.error('Kopiëren mislukt: ', error);
+            });
+    };
+
+    function handleSave(name: string, phone: string, email: string): void {
+        axiosInstance.patch(``).then(() => {
+            axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
+                setCustomer(response.data);
+            });
+        });
+    }
+
     return customer ? (
         <Grid container spacing={3}>
             <Grid item xs={12}
                 margin={"12px"}
-                >
+            >
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                     <Typography variant="h1">Customer: {customer.name}</Typography>
                 </Box>
@@ -114,10 +139,35 @@ export const CustomerDetails = () => {
                 borderRadius={"5px"}
             >
                 <Typography variant="h4">
-                    Name: {customer.name}<br></br>
-                    Phone number: {customer.phone} <br></br>
-                    Mail: {customer.email} <br></br>
+                    <TextField
+                    margin='normal'
+                        name="name"
+                        label="name:"
+                        value={customer.name}
+                        onChange={handleNamingChange}
+                        variant="outlined"
+                    />
+                    <br />
+                    <TextField
+                        margin='normal'
+                        name="phone"
+                        label="Phone number:"
+                        value={customer.phone}
+                        onChange={handleNamingChange}
+                        variant="outlined"
+                    />
+                    <br />
+                    <TextField
+                        margin='normal'
+                        name="email"
+                        label="Mail:"
+                        value={customer.email}
+                        onChange={handleNamingChange}
+                        variant="outlined"
+                    />
+                    <br />
                 </Typography>
+                <Button variant="contained" onClick={() => handleSave(customer.name, customer.phone, customer.email)}>Opslaan</Button>
             </Grid>
             <Grid item xs={4}
                 display={"flex"}
@@ -127,115 +177,116 @@ export const CustomerDetails = () => {
                 borderRadius={"5px"}
             >
                 {customer.subscription && (
-                <Box width={'80%'} margin={'auto'}>
-                    <Box display={'flex'}>
-                        <Typography variant="h3" margin={'auto'}>
-                            Contracts
-                        </Typography>
-                    </Box>
-                    {customer.subscription.contracts.map(contract => (
-                        <Accordion key={contract.id}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1-content"
-                                id={contract.id.toString()}
-                            >
-                                Id: {contract.id}
-                                <Button onClick={() => {
-                                    axiosInstance.delete(`/contract/${contract.id}`).then(() => {
-                                        axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
-                                            setCustomer(response.data);
-                                        });
-                                    });
-                                }}>x</Button>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                Level: {contract.level}
-                                <Typography variant='h6'>Weatherstations</Typography>
-                                {contract.weatherstations.map(ws => (
-                                    <Box key={ws.name}>
-                                        {ws.name}
-                                        <Button onClick={() => {
-                                            axiosInstance.patch(`/contract/${contract.id}/weatherstation/${ws.name}`).then(() => {
-                                                axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
-                                                    setCustomer(response.data);
-                                                });
+                    <Box width={'90%'} margin={'auto'}>
+                        <Box display={'flex'}>
+                            <Typography variant="h3" margin={'auto'}>
+                                Contracts
+                            </Typography>
+                        </Box>
+                        {customer.subscription.contracts.map(contract => (
+                            <Accordion key={contract.id}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1-content"
+                                    id={contract.id.toString()}
+                                >
+                                    Id: {contract.id}
+                                    <Button onClick={() => {
+                                        axiosInstance.delete(`/contract/${contract.id}`).then(() => {
+                                            axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
+                                                setCustomer(response.data);
                                             });
-                                        }}>x</Button>
-                                    </Box>
-                                ))}
-                            </AccordionDetails>
-                        </Accordion>
-                    ))}
-                    <Box display={'flex'}  justifyContent={'center'} margin={2}>
-                    {customer.subscription && (
-                            <Button
-                                sx={{
-                                    backgroundColor: 'green',
-                                    color: 'white',
-                                    ":hover": {
-                                        backgroundColor: 'darkgreen',
-                                    }
-                                }}
-                                onClick={() => { setOpenNewContract(true); setUsedWeatherstations([]);}}
-                            >
-                                Create contract
-                            </Button>
-                        )}
-                    </Box>
-                </Box>
-            )}
-
-            <CustomModal
-                open={openNewContract}
-                title="Add new Contract"
-                setOpen={setOpenNewContract}
-                onSubmit={handleSubmit(() => createContract(customer.subscription.id))}
-            >
-                <TextField
-                    sx={{ width: '80%', margin: '20px' }}
-                    label="Level"
-                    value={newContractForm.level}
-                    {...register('level', { required: "name can't be empty" })}
-                    onChange={handleChange}
-                    helperText={errors.level?.message?.toString()}
-                    error={errors.level?.message !== undefined}
-                >
-                </TextField>
-
-                {usedWeatherstations.length > 0 && (
-                    <Box display={'flex'} alignContent={'space-between'} flexDirection={'column'}>
-                        <Typography variant="h5">
-                            Weatherstations
-                        </Typography>
-                        {usedWeatherstations.map((ws) => (
-                            <Box key={ws.name}>
-                                {ws.name}
-                                <Button onClick={() => {
-                                    const newUsedWeatherstations = usedWeatherstations.filter((usedWs) => usedWs.name !== ws.name);
-                                    setUsedWeatherstations(newUsedWeatherstations);
-                                }}>x</Button>
-                            </Box>
+                                        });
+                                    }}>x</Button>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    Level: {contract.level}
+                                    <Typography variant='h6'>Weatherstations</Typography>
+                                    {contract.weatherstations.map(ws => (
+                                        <Box key={ws.name}>
+                                            {ws.name}
+                                            <Button onClick={() => {
+                                                axiosInstance.patch(`/contract/${contract.id}/weatherstation/${ws.name}`).then(() => {
+                                                    axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
+                                                        setCustomer(response.data);
+                                                    });
+                                                });
+                                            }}>x</Button>
+                                        </Box>
+                                    ))}
+                                </AccordionDetails>
+                            </Accordion>
                         ))}
+                        <Box display={'flex'} justifyContent={'center'} marginTop={2} marginBottom={2}>
+                            {customer.subscription && (
+                                <Button
+                                    sx={{
+                                        backgroundColor: 'green',
+                                        color: 'white',
+                                        width: "100%",
+                                        ":hover": {
+                                            backgroundColor: 'darkgreen',
+                                        }
+                                    }}
+                                    onClick={() => { setOpenNewContract(true); setUsedWeatherstations([]); }}
+                                >
+                                    Create contract
+                                </Button>
+                            )}
+                        </Box>
                     </Box>
                 )}
 
-                <Autocomplete
-                    disablePortal
-                    id="weatherstations"
-                    options={weatherstations}
-                    sx={{ width: 300 }}
-                    getOptionLabel={(option) => option.geolocation.country.name + " " + option.name}
-                    renderInput={(params) => <TextField {...params} label="Weatherstations" key={params.id} />}
-                    onChange={(event, weatherstation) => {
-                        if (weatherstation) {
-                            setNewContractForm({ ...newContractForm, weatherstations: [...newContractForm.weatherstations, weatherstation] });
-                            setUsedWeatherstations([...usedWeatherstations, weatherstation]);
-                        }
-                    }}
-                />
+                <CustomModal
+                    open={openNewContract}
+                    title="Add new Contract"
+                    setOpen={setOpenNewContract}
+                    onSubmit={handleSubmit(() => createContract(customer.subscription.id))}
+                >
+                    <TextField
+                        sx={{ width: '80%', margin: '20px' }}
+                        label="Level"
+                        value={newContractForm.level}
+                        {...register('level', { required: "name can't be empty" })}
+                        onChange={handleChange}
+                        helperText={errors.level?.message?.toString()}
+                        error={errors.level?.message !== undefined}
+                    >
+                    </TextField>
 
-            </CustomModal >
+                    {usedWeatherstations.length > 0 && (
+                        <Box display={'flex'} alignContent={'space-between'} flexDirection={'column'}>
+                            <Typography variant="h5">
+                                Weatherstations
+                            </Typography>
+                            {usedWeatherstations.map((ws) => (
+                                <Box key={ws.name}>
+                                    {ws.name}
+                                    <Button onClick={() => {
+                                        const newUsedWeatherstations = usedWeatherstations.filter((usedWs) => usedWs.name !== ws.name);
+                                        setUsedWeatherstations(newUsedWeatherstations);
+                                    }}>x</Button>
+                                </Box>
+                            ))}
+                        </Box>
+                    )}
+
+                    <Autocomplete
+                        disablePortal
+                        id="weatherstations"
+                        options={weatherstations}
+                        sx={{ width: 300 }}
+                        getOptionLabel={(option) => option.geolocation.country.name + " " + option.name}
+                        renderInput={(params) => <TextField {...params} label="Weatherstations" key={params.id} />}
+                        onChange={(event, weatherstation) => {
+                            if (weatherstation) {
+                                setNewContractForm({ ...newContractForm, weatherstations: [...newContractForm.weatherstations, weatherstation] });
+                                setUsedWeatherstations([...usedWeatherstations, weatherstation]);
+                            }
+                        }}
+                    />
+
+                </CustomModal >
             </Grid>
             <Grid item xs={4}
                 display={"flex"}
@@ -250,13 +301,27 @@ export const CustomerDetails = () => {
                     </Typography>
 
                     <Typography variant="h4">
-                        token: {customer.subscription ? customer.subscription.token : ""}
+                        <TextField
+                            value={customer.subscription ? customer.subscription.token : ""}
+                            label="Token"
+                            variant="outlined"
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            sx={{ width: "85%" }}
+                        >
+                        </TextField>
+                        <IconButton onClick={() => handleCopy(customer.subscription ? customer.subscription.token : "")}>
+                            <FileCopyIcon />
+                        </IconButton>
                     </Typography>
-
                     <Button
                         sx={{
                             backgroundColor: 'green',
                             color: 'white',
+                            marginTop: 2,
+                            marginBottom: 2,
+                            width: "100%",
                             ":hover": {
                                 backgroundColor: 'darkgreen',
                             }

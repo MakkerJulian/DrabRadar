@@ -9,7 +9,7 @@ export class SubscriptionService {
   constructor(
     @InjectRepository(Subscription)
     private readonly subscriptionRepository: Repository<Subscription>,
-  ) {}
+  ) { }
 
   getSubscriptions() {
     return this.subscriptionRepository.find({ relations: ['customer'] });
@@ -17,7 +17,7 @@ export class SubscriptionService {
 
   async updateToken(customer_id: number) {
     const subscription = await this.subscriptionRepository.findOne({
-      where: { customer: true },
+      where: { customer: { id: customer_id } },
     });
 
     if (!subscription) {
