@@ -114,12 +114,18 @@ export const CustomerDetails = () => {
             });
     };
 
-    function handleSave(name: string, phone: string, email: string): void {
-        axiosInstance.patch(``).then(() => {
-            axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
-                setCustomer(response.data);
+    function handleSave(id: number, name: string, phone: string, email: string): void {
+        const updateData = {
+            id: id,
+            name: name,
+            phone: phone,
+            email: email
+          };
+        
+          axiosInstance.patch('customer', updateData)
+            .catch(error => {
+              console.error('Error:', error);
             });
-        });
     }
 
     return customer ? (
@@ -167,7 +173,13 @@ export const CustomerDetails = () => {
                     />
                     <br />
                 </Typography>
-                <Button variant="contained" onClick={() => handleSave(customer.name, customer.phone, customer.email)}>Opslaan</Button>
+                <Button 
+                variant="contained" 
+                onClick={() => handleSave(customer.id, customer.name, customer.phone, customer.email)}
+                sx={{marginBottom: 2, marginTop: 1}}
+                >
+                    Opslaan
+                </Button>
             </Grid>
             <Grid item xs={4}
                 display={"flex"}

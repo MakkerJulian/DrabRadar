@@ -191,7 +191,16 @@ export const WeatherStations = () => {
             </Box>
 
             <Button
-                sx={{ backgroundColor: 'green', color: 'white', width: '80%', margin: 'auto', mt: 2 }}
+                sx={{ 
+                    backgroundColor: 'green', 
+                    color: 'white', 
+                    width: '80%', 
+                    margin: 'auto', 
+                    mt: 2,
+                    ":hover": {
+                        backgroundColor: 'darkgreen',
+                    }
+                }}
                 onClick={() => {
                     navigate('/')
                 }}>
