@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CustomModal } from '../components/customModal';
 import { useForm } from 'react-hook-form';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { useNavigate } from "react-router-dom";
 
 
 const emptyNewContractForm = {
@@ -46,6 +47,7 @@ export const CustomerDetails = () => {
         }
     };
 
+    const navigate = useNavigate();
 
     const createContract = (subscriptionId: number) => {
         const newContract = {
@@ -129,10 +131,27 @@ export const CustomerDetails = () => {
     }
 
     return customer ? (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} overflow={'hidden'}>
             <Grid item xs={12}
                 margin={"12px"}
             >
+                <Button
+                    sx={{
+                        backgroundColor: 'green',
+                        color: 'white',
+                        margin: 'auto',
+                        position: 'absolute',
+                        top: 15,
+                        left: 15,
+                        ":hover": {
+                            backgroundColor: 'darkgreen',
+                        }
+                    }}
+                    onClick={() => {
+                        navigate('/sales')
+                    }}>
+                    Back
+                </Button>
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                     <Typography variant="h1">Customer: {customer.name}</Typography>
                 </Box>
@@ -145,10 +164,9 @@ export const CustomerDetails = () => {
                 borderRadius={"5px"}
             >
                 <Typography variant="h4">
-                    <Box justifyContent={'center'} display={'flex'} marginBottom={"1"}>Account details</Box>
-                    <br/>
+                    <Box justifyContent={'center'} display={'flex'} marginBottom={2}>Account details</Box>
                     <TextField
-                        sx={{margin: 1}}
+                        sx={{ margin: 1 }}
                         name="name"
                         label="name:"
                         value={customer.name}
@@ -156,7 +174,7 @@ export const CustomerDetails = () => {
                         variant="outlined"
                     />
                     <TextField
-                        sx={{margin: 1}}
+                        sx={{ margin: 1 }}
                         name="phone"
                         label="Phone number:"
                         value={customer.phone}
@@ -164,19 +182,18 @@ export const CustomerDetails = () => {
                         variant="outlined"
                     />
                     <TextField
-                        sx={{margin: 1}}
+                        sx={{ margin: 1 }}
                         name="email"
                         label="Mail:"
                         value={customer.email}
                         onChange={handleNamingChange}
                         variant="outlined"
                     />
-                    <br />
                 </Typography>
                 <Button
                     variant="contained"
                     onClick={() => handleSave(customer.id, customer.name, customer.phone, customer.email)}
-                    sx={{ marginBottom: 2, marginTop: 1 }}
+                    sx={{ marginBottom: 2, marginTop: 1, backgroundColor: "green", ":hover": { backgroundColor: "darkgreen" } }}
                 >
                     Update customer
                 </Button>
@@ -232,9 +249,10 @@ export const CustomerDetails = () => {
                 alignItems={"center"}
                 border={"solid black 2px"}
                 borderRadius={"5px"}
+                overflow={"auto"}
             >
                 {customer.subscription && (
-                    <Box width={'90%'} margin={'auto'}>
+                    <Box width={'90%'} margin={'auto'} height={"58vh"}>
                         <Box display={'flex'}>
                             <Typography variant="h4" margin={'auto'} marginBottom={'20px'}>
                                 Contracts
@@ -247,7 +265,9 @@ export const CustomerDetails = () => {
                                     aria-controls="panel1-content"
                                     id={contract.id.toString()}
                                 >
-                                    Id: {contract.id}
+                                    <Typography variant='h4'>
+                                        contract id: {contract.id}
+                                    </Typography>
                                     <Button onClick={() => {
                                         axiosInstance.delete(`/contract/${contract.id}`).then(() => {
                                             axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
@@ -274,13 +294,19 @@ export const CustomerDetails = () => {
                                 </AccordionDetails>
                             </Accordion>
                         ))}
+                        <br/>
+                        <br/>
+                        <br/>
                         <Box display={'flex'} justifyContent={'center'} marginTop={2} marginBottom={2}>
                             {customer.subscription && (
                                 <Button
                                     sx={{
                                         backgroundColor: 'green',
                                         color: 'white',
-                                        width: "100%",
+                                        width: "80%",
+                                        position: "absolute",
+                                        justifyContent: "center",
+                                        bottom: 10,
                                         ":hover": {
                                             backgroundColor: 'darkgreen',
                                         }
@@ -293,7 +319,6 @@ export const CustomerDetails = () => {
                         </Box>
                     </Box>
                 )}
-
                 <CustomModal
                     open={openNewContract}
                     title="Add new Contract"
@@ -310,7 +335,6 @@ export const CustomerDetails = () => {
                         error={errors.level?.message !== undefined}
                     >
                     </TextField>
-
                     {usedWeatherstations.length > 0 && (
                         <Box display={'flex'} alignContent={'space-between'} flexDirection={'column'}>
                             <Typography variant="h5">
@@ -327,7 +351,6 @@ export const CustomerDetails = () => {
                             ))}
                         </Box>
                     )}
-
                     <Autocomplete
                         disablePortal
                         id="weatherstations"
@@ -342,7 +365,6 @@ export const CustomerDetails = () => {
                             }
                         }}
                     />
-
                 </CustomModal >
             </Grid>
         </Grid>

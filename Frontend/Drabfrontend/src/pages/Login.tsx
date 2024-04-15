@@ -102,7 +102,7 @@ export const Login = () => {
                     onChange={handleChange}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            handlePost();
+                            {handleSubmit(handlePost)};
                         }
                     }}
                     helperText={errors.email?.message?.toString()}
@@ -119,7 +119,7 @@ export const Login = () => {
                     onChange={handleChange}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            handlePost();
+                            {handleSubmit(handlePost)};
                         }
                     }}
                     helperText={errors.password?.message?.toString()}
