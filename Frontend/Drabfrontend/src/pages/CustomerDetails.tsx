@@ -191,7 +191,7 @@ export const CustomerDetails = () => {
                 {customer.subscription && (
                     <Box width={'90%'} margin={'auto'}>
                         <Box display={'flex'}>
-                            <Typography variant="h3" margin={'auto'}>
+                            <Typography variant="h4" margin={'auto'} marginBottom={'20px'}>
                                 Contracts
                             </Typography>
                         </Box>
@@ -307,8 +307,8 @@ export const CustomerDetails = () => {
                 border={"solid black 2px"}
                 borderRadius={"5px"}
             >
-                <Box display={'flex'} flexDirection={'column'}>
-                    <Typography variant="h2">
+                <Box display={'flex'} flexDirection={'column'} marginLeft={'1vw'}>
+                    <Typography variant="h4" margin={'auto'} marginBottom={'20px'} width={'25vw'} textAlign={'center'}>
                         Subscription: {customer.subscription ? customer.subscription.id : "No subscription"}
                     </Typography>
 
@@ -320,7 +320,7 @@ export const CustomerDetails = () => {
                             InputProps={{
                                 readOnly: true,
                             }}
-                            sx={{ width: "85%" }}
+                            sx={{ width: "90%"}}
                         >
                         </TextField>
                         <IconButton onClick={() => handleCopy(customer.subscription ? customer.subscription.token : "")}>
@@ -333,7 +333,7 @@ export const CustomerDetails = () => {
                             color: 'white',
                             marginTop: 2,
                             marginBottom: 2,
-                            width: "100%",
+                            width: "98%",
                             ":hover": {
                                 backgroundColor: 'darkgreen',
                             }
