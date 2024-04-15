@@ -117,6 +117,8 @@ export const WeatherStationCompare = () => {
             <Grid item xs={12}>
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                     <Typography variant="h4"> Compare Weatherstations</Typography>
+                    <Typography variant="h6">Weatherstation 1 vs 2</Typography>
+
                 </Box>
                 {weatherStation1 && weatherStation2 && (
                     <Box display={'flex'} flexDirection={'row'} justifyContent={'center'}>
@@ -128,7 +130,6 @@ export const WeatherStationCompare = () => {
                                 <CompareCard title={"Temperature"} value={calculated.tempDiff} />
 
                                 <CompareCard title="Special" value="" overflow="auto">
-                                    <Typography variant="h6">Weatherstation 1 vs 2</Typography>
 
                                     <Box display={'flex'} flexDirection={'row'} justifyContent={'center'}>
                                         <Box display={'flex'} flexDirection={'column'}>
