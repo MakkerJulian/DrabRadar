@@ -117,14 +117,14 @@ export const WeatherStationCompare = () => {
             <Grid item xs={12}>
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                     <Typography variant="h4"> Compare Weatherstations</Typography>
-                    <Typography variant="h6">Weatherstation 1 vs 2</Typography>
+                    <Typography variant="h6">Distance between weatherstations</Typography>
 
                 </Box>
                 {weatherStation1 && weatherStation2 && (
                     <Box display={'flex'} flexDirection={'row'} justifyContent={'center'}>
-                        <CompareCard title={"Longitude"} value={calculated.longDiff} />
-                        <CompareCard title={"Latitude"} value={calculated.latDiff} />
-                        <CompareCard title={"Elevation"} value={calculated.elDiff} />
+                        <CompareCard title={"Longitude"} value={calculated.longDiff + "°"} />
+                        <CompareCard title={"Latitude"} value={calculated.latDiff + "°"} />
+                        <CompareCard title={"Elevation"} value={calculated.elDiff + " M"} />
                         {lastWeatherdataW1 && lastWeatherdataW2 && (
                             <>
                                 <CompareCard title={"Temperature"} value={calculated.tempDiff} />
