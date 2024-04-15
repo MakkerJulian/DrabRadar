@@ -23,7 +23,7 @@ import AcUnitIcon from '@mui/icons-material/AcUnit'; //snow
 import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
-import { IWALogo } from '../assets';
+import {IWALogo, Malfunction, weatherstation} from '../assets';
 
 let dark_mode = false;
 
@@ -91,6 +91,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const Home = () => {
+    let malfunctionCount = 0;
     const [weatherstations, setweatherstations] = useState<WeatherstationDetail[]>([]);
     const [activeAccordion, setActiveAccordion] = useState<number>();
     const mapRef = useRef<any>(null);
@@ -306,6 +307,37 @@ export const Home = () => {
                         label=""
                     />
                 </Button>
+            </Box>
+            <Box
+                display={'flex'}
+                position={'absolute'}
+                right={'26%'}
+                bottom={'1vh'}
+                zIndex={1000}
+            >
+                <Button sx={{zIndex: '1001', width: '125px', height: '70px', display: 'block'}} href='/weatherstations'>
+
+                </Button>
+
+                {weatherstations.map((weatherstation, index) => {
+                    if (weatherstation.storingen != null) {
+                        malfunctionCount++;
+                    }
+                    return (
+                        <></>
+                    );
+                })}
+                <Typography position={'absolute'} variant={'h3'} color={'red'} bottom={'0vh'} right={'4.5vw'}>
+                    {malfunctionCount}
+                </Typography>
+                <img src={Malfunction} alt='malfunction' style={{
+                    position: 'absolute',
+                    bottom: '0vh',
+                    right: '0vh',
+                width: "3.5vw",
+                height: "7vh"
+                }}>
+                </img>
             </Box>
         </Box>
     );
