@@ -11,7 +11,7 @@ import {
     FormControlLabel,
     Switch,
     Typography,
-    styled, Drawer, DialogContent,
+    styled, Drawer, DialogContent, IconButton,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
@@ -25,6 +25,8 @@ import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
 import {IWALogo, Malfunction, WeatherStation} from '../assets';
 import {routes} from "../routes.tsx";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import {useNavigate} from "react-router-dom";
 
 let dark_mode = false;
 
@@ -138,6 +140,8 @@ export const Home = () => {
             });
         }
     }
+
+    const navigate = useNavigate();
 
     const HandleDragAndZoom = () => {
         const map = useMapEvents({
@@ -322,7 +326,7 @@ export const Home = () => {
                 </Button>
 
                 {weatherstations.map((weatherstation, index) => {
-                    if (weatherstation.storingen != null) {
+                    if (weatherstation.current_storing != null) {
                         malfunctionCount++;
                     }
                     return (
@@ -343,7 +347,10 @@ export const Home = () => {
                                             <Typography variant={'h7'}>{weatherstation.name}</Typography>
                                             <Typography variant={'h4'}>{weatherstation.id}</Typography>
                                             <Typography variant={'h7'}>{weatherstation.current_storing.reason}</Typography>
-                                            <Typography variant={'h6'}>{weatherstation.current_storing.timestamp}</Typography>
+                                            <Typography variant={'h6'}>{weatherstation.current_storing.timestamp}</Typography>\
+                                            <IconButton style={{float: 'right'}} onClick={() => navigate(`/weatherstation/${index - 1}`)}>
+                                                <RemoveRedEyeIcon sx={{color:'blue'}} />
+                                            </IconButton>
                                         </>
                                     );
                                 } else if (index == weatherstations.length - 1) {
