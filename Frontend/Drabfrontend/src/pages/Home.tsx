@@ -11,7 +11,7 @@ import {
     FormControlLabel,
     Switch,
     Typography,
-    styled,
+    styled, Drawer, DialogContent,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
@@ -23,7 +23,8 @@ import AcUnitIcon from '@mui/icons-material/AcUnit'; //snow
 import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
-import {IWALogo, Malfunction, weatherstation} from '../assets';
+import {IWALogo, Malfunction, WeatherStation} from '../assets';
+import {routes} from "../routes.tsx";
 
 let dark_mode = false;
 
@@ -92,6 +93,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 export const Home = () => {
     let malfunctionCount = 0;
+    const [storingOpen, setStoringOpen] = React.useState(false);
     const [weatherstations, setweatherstations] = useState<WeatherstationDetail[]>([]);
     const [activeAccordion, setActiveAccordion] = useState<number>();
     const mapRef = useRef<any>(null);
@@ -315,7 +317,7 @@ export const Home = () => {
                 bottom={'1vh'}
                 zIndex={1000}
             >
-                <Button sx={{zIndex: '1001', width: '125px', height: '70px', display: 'block'}} href='/weatherstations'>
+                <Button sx={{zIndex: '1001', width: '125px', height: '70px', display: 'block'}} onClick={() => setStoringOpen(!storingOpen)}>
 
                 </Button>
 
@@ -330,12 +332,35 @@ export const Home = () => {
                 <Typography position={'absolute'} variant={'h3'} color={'red'} bottom={'0vh'} right={'4.5vw'}>
                     {malfunctionCount}
                 </Typography>
+                <Drawer anchor={'bottom'} open={storingOpen} ModalProps={{ onBackdropClick: () => setStoringOpen(false) }} >
+                    <>
+                        <DialogContent>
+                            {weatherstations.map((weatherstation, index) => {
+                                if (weatherstation.current_storing != null) {
+                                    return (
+                                        <>
+                                            <img src={Malfunction} alt={'malfunction'} style={{float: "left", padding: '20px'}} width={'90px'}/>
+                                            <Typography variant={'h7'}>{weatherstation.name}</Typography>
+                                            <Typography variant={'h4'}>{weatherstation.id}</Typography>
+                                            <Typography variant={'h7'}>{weatherstation.current_storing.reason}</Typography>
+                                            <Typography variant={'h6'}>{weatherstation.current_storing.timestamp}</Typography>
+                                        </>
+                                    );
+                                } else if (index == weatherstations.length - 1) {
+                                    return (
+                                        <Typography variant={'h2'}>No malfunctions currently.</Typography>
+                                    );
+                                }
+                            })}
+                        </DialogContent>
+                    </>
+                </Drawer>
                 <img src={Malfunction} alt='malfunction' style={{
                     position: 'absolute',
                     bottom: '0vh',
                     right: '0vh',
-                width: "3.5vw",
-                height: "7vh"
+                    width: "3.5vw",
+                    height: "7vh"
                 }}>
                 </img>
             </Box>

@@ -20,5 +20,6 @@ export type WeatherstationDetail = {
     elevation: number;
     geolocation: Geolocation;
     weatherdatas: Weatherdata;
-    storingen: Storing[];
+    current_storing: Storing;
+    storingen_log: Storing[];
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../axios";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { Malfunction, weatherstation as stationImage } from "../assets";
+import { Malfunction, WeatherStation as stationImage } from "../assets";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat'; //freezing
