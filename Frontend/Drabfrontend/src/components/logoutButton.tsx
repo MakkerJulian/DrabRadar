@@ -7,14 +7,12 @@ export const LogoutButton = () => {
 
     const logOut = () => {
         sessionStorage.clear();
-        navigate("../login");
+        navigate("/login");
     }
 
     if (authenticated) {
         return (
-            <>
-                <Button style={{margin:'15px', zIndex: 1002, backgroundColor: 'green', color:'white'}} onClick={logOut}>Log out</Button>
-            </>
+            <Button style={{margin:'15px', zIndex: 1002, backgroundColor: 'green', color:'white'}} onClick={logOut}>Log out</Button>
         );
     }
 }
