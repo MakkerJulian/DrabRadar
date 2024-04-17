@@ -114,7 +114,7 @@ export const WeatherStationDetail = ({ ws }: Props) => {
             )}
             {ws === undefined && (
                 <Grid item xs={6}>
-                    <img src={stationImage} alt="weatherstation" width={"100%"} style={{ marginBottom: "2vh" }}></img>
+                    <img src={stationImage} alt="weatherstation" height={"300vh"} width={"100%"} style={{ marginBottom: "2vh" }}></img>
                     <Box
                         display={'flex'}
                         flexDirection={'column'}
@@ -122,7 +122,7 @@ export const WeatherStationDetail = ({ ws }: Props) => {
                     >
                         <Box display={'flex'}>
                             <WarningAmberIcon color="error" sx={{ fontSize: "8vh" }} />
-                            <Typography variant="h1" color="error">Errors:</Typography>
+                            <Typography variant="h2" color="error">Errors:</Typography>
                         </Box>
 
 

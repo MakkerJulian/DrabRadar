@@ -37,7 +37,7 @@ export const CustomerDetails = () => {
         setNewContractForm({ ...newContractForm, [e.target.name]: e.target.value });
     }
 
-    const handleNamingChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleUpdateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         if (customer) {
             setCustomer({
@@ -170,7 +170,7 @@ export const CustomerDetails = () => {
                         name="name"
                         label="Name:"
                         value={customer.name}
-                        onChange={handleNamingChange}
+                        onChange={handleUpdateChange}
                         variant="outlined"
                     />
                     <TextField
@@ -178,7 +178,7 @@ export const CustomerDetails = () => {
                         name="phone"
                         label="Phone number:"
                         value={customer.phone}
-                        onChange={handleNamingChange}
+                        onChange={handleUpdateChange}
                         variant="outlined"
                     />
                     <TextField
@@ -186,7 +186,7 @@ export const CustomerDetails = () => {
                         name="email"
                         label="E-mail:"
                         value={customer.email}
-                        onChange={handleNamingChange}
+                        onChange={handleUpdateChange}
                         variant="outlined"
                     />
                 </Typography>
@@ -294,9 +294,6 @@ export const CustomerDetails = () => {
                                 </AccordionDetails>
                             </Accordion>
                         ))}
-                        <br/>
-                        <br/>
-                        <br/>
                         <Box display={'flex'} justifyContent={'center'} marginTop={2} marginBottom={2}>
                             {customer.subscription && (
                                 <Button
