@@ -55,24 +55,22 @@ export const WeatherStationCompare = () => {
                     <Typography variant="h1">Weather Station Compare</Typography>
                 </Box>
             </Grid>
-            <Grid item xs={12}>
-                <Button
-                    sx={{
-                        backgroundColor: 'green',
-                        width: "5vw",
-                        color: 'white',
-                        position: "absolute",
-                        left: "1vw",
-                        top: "1vh",
-                        ":hover": {
-                            backgroundColor: 'darkgreen',
-                        }
-                    }}
-                    onClick={() => navigate('/weatherstations')
-                    }>
-                    Back
-                </Button>
-            </Grid>
+            <Button
+                sx={{
+                    backgroundColor: 'green',
+                    width: "5vw",
+                    color: 'white',
+                    position: "absolute",
+                    left: "1vw",
+                    top: "1vh",
+                    ":hover": {
+                        backgroundColor: 'darkgreen',
+                    }
+                }}
+                onClick={() => navigate('/weatherstations')
+                }>
+                Back
+            </Button>
             <Grid item xs={6}
                 display={"flex"}
                 flexDirection={"column"}
@@ -117,7 +115,7 @@ export const WeatherStationCompare = () => {
             <Grid item xs={12}>
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                     <Typography variant="h4"> Compare Weatherstations</Typography>
-                    <Typography variant="h6">Distance between weatherstations</Typography>
+                    <Typography variant="h6">Difference between weatherstations</Typography>
 
                 </Box>
                 {weatherStation1 && weatherStation2 && (
