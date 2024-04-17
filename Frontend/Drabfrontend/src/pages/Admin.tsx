@@ -7,6 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { CustomModal } from "../components/customModal";
 import { enqueueSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
+import {LogoutButton} from "../components/logoutButton.tsx";
 
 const emptyForm: AccountCreate = {
     name: '',
@@ -64,6 +65,7 @@ export const Admin = () => {
 
     return (
         <Box flex={1} flexDirection={'column'}>
+            <LogoutButton></LogoutButton>
             <Typography variant="h1" justifyContent={"center"} display={"flex"}>
                 Admin
             </Typography>
