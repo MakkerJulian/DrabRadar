@@ -105,9 +105,6 @@ export const WeatherStationDetail = ({ ws }: Props) => {
 
     return weatherstation ? (
         <Grid container spacing={1}>
-            <Grid item xs={12}>
-                <h1>Weather Station Details</h1>
-            </Grid>
             {ws === undefined && (
                 <Grid item xs={12}>
                     <Box display={'flex'} justifyContent={'center'}>
