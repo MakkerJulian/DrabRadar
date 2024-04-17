@@ -44,7 +44,7 @@ export class WeatherstationController {
     return this.weatherstationService.findByName(id);
   }
 
-  @Get('storings')
+  @Get('storingen')
   getWeatherstationWithStorings() {
     return this.weatherstationService.getWeatherstationWithStorings();
   }

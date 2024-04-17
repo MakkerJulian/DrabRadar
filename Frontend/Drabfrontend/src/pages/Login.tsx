@@ -27,8 +27,8 @@ export const Login = () => {
             .then((res) => {
                 const Login = res.data.access_token;
                 if (Login) {
-                    sessionStorage.setItem('token', Login);
-                    sessionStorage.setItem('pw', form.password);
+                    localStorage.setItem('token', Login);
+                    localStorage.setItem('pw', form.password);
                     const role = jwtDecode(Login).role;
                     if (role === 'ADMIN') return navigate('/admin');
                     if (role === 'Sales') return navigate('/sales');

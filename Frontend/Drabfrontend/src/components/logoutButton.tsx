@@ -2,11 +2,11 @@ import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 export const LogoutButton = () => {
-    const authenticated = sessionStorage.getItem('token') !== null;
+    const authenticated = localStorage.getItem('token') !== null;
     const navigate = useNavigate();
 
     const logOut = () => {
-        sessionStorage.clear();
+        localStorage.clear();
         navigate("/login");
     }
 
