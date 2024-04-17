@@ -104,7 +104,6 @@ export const Home = () => {
     const [activeAccordion, setActiveAccordion] = useState<number>();
     const mapRef = useRef<any>(null);
 
-
     useEffect(() => {
         axiosInstance.get<WeatherstationDetail[]>('/weatherstation/details')
             .then((res) => {
@@ -112,7 +111,7 @@ export const Home = () => {
             })
             .catch((err) => { console.log(err) });
 
-        axiosInstance.get<WeatherstationDetail[]>('/weatherstation')
+        axiosInstance.get<WeatherstationDetail[]>('/weatherstation/storingen')
             .then((res) => {
                 setAllWeatherstations(res.data)
             });
