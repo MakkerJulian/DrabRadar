@@ -23,7 +23,7 @@ export const WeatherStationDetail = ({ ws }: Props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(ws) return setWeatherstation(ws);
+        if (ws) return setWeatherstation(ws);
         const id = window.location.pathname.split("/").pop();
         axiosInstance.get<Weatherstation>(`/weatherstation/id/${id}`).then((response) => {
             setWeatherstation(response.data);
@@ -84,9 +84,13 @@ export const WeatherStationDetail = ({ ws }: Props) => {
 
     return weatherstation ? (
         <Grid container spacing={1}>
-            <Grid item xs={12}>
-                <h1>Weather Station Detail</h1>
-            </Grid>
+            {ws === undefined && (
+                <Grid item xs={12}>
+                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+                        <Typography variant="h1">Weather Station Compare</Typography>
+                    </Box>
+                </Grid>
+            )}
             {ws === undefined && (
                 <Grid item xs={12}>
                     <Button
@@ -109,8 +113,8 @@ export const WeatherStationDetail = ({ ws }: Props) => {
                     <img src={stationImage} alt="weatherstation" width={"100%"}></img>
                 </Grid>
             )}
-            <Grid item xs={6}>
-                <Box bgcolor={'#e7deaa'} textAlign={'center'} mb={5}>
+            <Grid item xs={ws === undefined ? 6 : 12}>
+                <Box bgcolor={'#e7deaa'} textAlign={'center'} mb={"3vh"}>
                     <Typography variant="h5">
                         Station: {weatherstation.name} <br></br>
                     </Typography>
@@ -145,9 +149,17 @@ export const WeatherStationDetail = ({ ws }: Props) => {
                         Records:
                     </Typography>
 
-                    <DataGrid rows={weatherstation.weatherdatas} columns={columns}>
+                    {weatherstation.weatherdatas.length > 0 ? (
+                        <Box height={"30vh"} width={"100%"}>
+                            <DataGrid
+                                rows={weatherstation.weatherdatas}
+                                columns={columns}
+                                pageSizeOptions={[5, 10, 50]}
+                                initialState={{ pagination: { paginationModel: { pageSize: 5 } } }}
+                            />
+                        </Box>
 
-                    </DataGrid>
+                    ) : <Typography>No records found</Typography>}
 
                 </Box>
             </Grid>

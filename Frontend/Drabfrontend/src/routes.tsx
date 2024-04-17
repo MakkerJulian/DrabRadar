@@ -57,7 +57,7 @@ export const routes: Route[] = [
         requiredRoles: ["ADMIN","Onderhoud","Onderzoek"]
     },
     {
-        name: 'weatherstationCompare',
+        name: 'weatherstation Compare',
         path: '/weatherstation/compare/:id',
         element: WeatherStationCompare,
         requiredRoles: ["ADMIN","Onderhoud","Onderzoek"]
