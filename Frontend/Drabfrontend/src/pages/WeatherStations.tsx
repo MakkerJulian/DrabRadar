@@ -137,12 +137,12 @@ export const WeatherStations = () => {
                 <>
                     <Tooltip title="View Weatherstation">
                         <IconButton onClick={() => navigate(`/weatherstation/${params.row.name}`)}>
-                            <RemoveRedEyeIcon sx={{color:'blue'}} />
+                            <RemoveRedEyeIcon sx={{ color: 'blue' }} />
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Compare Weatherstation">
                         <IconButton onClick={() => navigate(`/weatherstation/compare/${params.row.name}`)}>
-                            <CompareArrowsIcon sx={{color:'green'}} />
+                            <CompareArrowsIcon sx={{ color: 'green' }} />
                         </IconButton>
                     </Tooltip>
                 </>
@@ -199,5 +199,4 @@ export const WeatherStations = () => {
             </Button>
         </Box>
     )
-
 }

@@ -11,7 +11,8 @@ import {
     FormControlLabel,
     Switch,
     Typography,
-    styled,
+    styled, Drawer, DialogContent, IconButton,
+    Grid,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandLess } from '@mui/icons-material';
@@ -23,7 +24,11 @@ import AcUnitIcon from '@mui/icons-material/AcUnit'; //snow
 import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
-import { IWALogo } from '../assets';
+import { IWALogo} from '../assets';
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { useNavigate } from "react-router-dom";
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+
 import {LogoutButton} from "../components/logoutButton.tsx";
 
 let dark_mode = false;
@@ -92,7 +97,10 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const Home = () => {
+
+    const [storingOpen, setStoringOpen] = React.useState(false);
     const [weatherstations, setweatherstations] = useState<WeatherstationDetail[]>([]);
+    const [allWeatherstations, setAllWeatherstations] = useState<WeatherstationDetail[]>([]);
     const [activeAccordion, setActiveAccordion] = useState<number>();
     const mapRef = useRef<any>(null);
 
@@ -103,6 +111,11 @@ export const Home = () => {
                 setweatherstations(res.data)
             })
             .catch((err) => { console.log(err) });
+
+        axiosInstance.get<WeatherstationDetail[]>('/weatherstation')
+            .then((res) => {
+                setAllWeatherstations(res.data)
+            });
     }, []);
 
     useEffect(() => {
@@ -126,6 +139,8 @@ export const Home = () => {
         setActiveAccordion(index);
     };
 
+    const malfunctionCount = allWeatherstations.reduce((acc, weatherstation) => acc + Number(weatherstation.storings.length), 0);
+
     const handleAccordionClick = (index: number): void => {
         if (mapRef.current !== null) {
             mapRef.current.flyTo([weatherstations[index].latitude, weatherstations[index].longitude], 12, {
@@ -136,6 +151,8 @@ export const Home = () => {
             });
         }
     }
+
+    const navigate = useNavigate();
 
     const HandleDragAndZoom = () => {
         const map = useMapEvents({
@@ -178,10 +195,10 @@ export const Home = () => {
                 zIndex={1000}
             >
                 <img src={IWALogo} alt='logo' style={{
-                    position:"absolute",
-                    width:"7vw",
-                    height:"13vh",
-                    zIndex:"1000"
+                    position: "absolute",
+                    width: "7vw",
+                    height: "13vh",
+                    zIndex: "1000"
                 }}>
                 </img>
             </Box>
@@ -310,6 +327,65 @@ export const Home = () => {
                         label=""
                     />
                 </Button>
+            </Box>
+            <Box
+                display={'flex'}
+                position={'absolute'}
+                right={'26%'}
+                bottom={'1vh'}
+                zIndex={1000}
+            >
+                <Button sx={{ zIndex: '1001', width: '125px', height: '70px', display: 'block' }} onClick={() => setStoringOpen(!storingOpen)}>
+
+                </Button>
+
+                <Typography position={'absolute'} variant={'h3'} color={'red'} bottom={'0vh'} right={'4.5vw'}>
+                    {malfunctionCount}
+                </Typography>
+                <Drawer anchor={'bottom'} open={storingOpen} ModalProps={{ onBackdropClick: () => setStoringOpen(false) }} >
+                    <>
+                        <DialogContent sx={{ maxHeight: "30vh" }}>
+                            {malfunctionCount > 0 ? allWeatherstations.map((weatherstation) => {
+                                return weatherstation.storings.map((storing) => {
+                                    return (
+                                        <Grid container spacing={0}>
+                                            <Grid item xs={11}>
+                                                <Box display="flex">
+                                                    <WarningAmberIcon color="error" sx={{ fontSize: "3vh" }} />
+                                                    <Typography variant={'h4'}>Weatherstation: {weatherstation.name}</Typography>
+                                                </Box>
+                                                <Typography variant={'h4'}>Reason: {storing.reason}</Typography>
+                                                <Typography variant={'h5'}>Time: {storing.timestamp}</Typography>\
+                                            </Grid>
+                                            <Grid item xs={1}>
+                                                <IconButton onClick={() => navigate(`/weatherstation/${weatherstation.name}`)}>
+                                                    <RemoveRedEyeIcon sx={{ color: 'blue', fontSize: '3vh', mt: 4 }} />
+                                                </IconButton>
+                                            </Grid>
+                                        </Grid>
+                                    );
+                                })
+                            }) :
+                                (
+                                    <Box>
+                                        <Typography variant={'h4'}>No malfunctions</Typography>
+                                    </Box>
+                                )}
+                        </DialogContent>
+                    </>
+                </Drawer>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '0vh',
+                        right: '0vh',
+                        width: "3.5vw",
+                        height: "7vh",
+                    }}
+                >
+                    <WarningAmberIcon sx={{ color: 'red', fontSize: '3.5vw' }} />
+                </Box>
+
             </Box>
         </Box>
     );

@@ -1,5 +1,6 @@
 import { Geolocation } from "./Geolocation";
 import { Weatherdata } from "./WeatherStationData";
+import { Storing } from './Storing.ts';
 
 export type Weatherstation = {
     name: string;
@@ -8,6 +9,7 @@ export type Weatherstation = {
     elevation: number;
     geolocation: Geolocation;
     weatherdatas: Weatherdata[];
+    storings: Storing[];
 }
 
 export type WeatherstationDetail = {
@@ -18,4 +20,6 @@ export type WeatherstationDetail = {
     elevation: number;
     geolocation: Geolocation;
     weatherdatas: Weatherdata;
+    current_storing: Storing;
+    storings: Storing[];
 }
