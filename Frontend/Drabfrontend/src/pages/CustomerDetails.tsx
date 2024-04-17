@@ -277,23 +277,38 @@ export const CustomerDetails = () => {
                                     }}>x</Button>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                    Level: {contract.level}
-                                    <Typography variant='h6'>Weatherstations</Typography>
+                                    <Typography variant='h5'>
+                                        {contract.level === 0 ? "Contract niveau 1, daily updates for 1 station" :
+                                            contract.level === 1 ? "Contract niveau 2, daily updates for multiple stations" :
+                                                contract.level === 2 ? "Contract level 3, live updates for 1 station" :
+                                                    "Onbekend niveau"}
+                                    </Typography>
+                                    <Typography variant='h5'>Weatherstations</Typography>
                                     {contract.weatherstations.map(ws => (
                                         <Box key={ws.name}>
-                                            {ws.name}
-                                            <Button onClick={() => {
+                                            <Typography variant='h6'>
+                                                {"station number: " + ws.name + " "}
+                                                {"height: " + ws.elevation + "M "}
+                                                {"latitude: " + ws.latitude + " "}
+                                                {"Longitude: " + ws.longitude + " "}
+                                                <Button onClick={() => {
                                                 axiosInstance.patch(`/contract/${contract.id}/weatherstation/${ws.name}`).then(() => {
                                                     axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
                                                         setCustomer(response.data);
                                                     });
                                                 });
-                                            }}>x</Button>
+                                            }}
+                                                sx={{ fontSize: 15, float: "right"}}>x
+                                            </Button>
+                                            </Typography>
                                         </Box>
                                     ))}
                                 </AccordionDetails>
                             </Accordion>
                         ))}
+                        <br />
+                        <br />
+                        <br />
                         <Box display={'flex'} justifyContent={'center'} marginTop={2} marginBottom={2}>
                             {customer.subscription && (
                                 <Button
@@ -343,7 +358,9 @@ export const CustomerDetails = () => {
                                     <Button onClick={() => {
                                         const newUsedWeatherstations = usedWeatherstations.filter((usedWs) => usedWs.name !== ws.name);
                                         setUsedWeatherstations(newUsedWeatherstations);
-                                    }}>x</Button>
+                                    }}>
+                                        x
+                                    </Button>
                                 </Box>
                             ))}
                         </Box>
