@@ -24,7 +24,7 @@ import AcUnitIcon from '@mui/icons-material/AcUnit'; //snow
 import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
-import { IWALogo, Malfunction } from '../assets';
+import { IWALogo} from '../assets';
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { useNavigate } from "react-router-dom";
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
@@ -96,7 +96,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const Home = () => {
-    ;
+
     const [storingOpen, setStoringOpen] = React.useState(false);
     const [weatherstations, setweatherstations] = useState<WeatherstationDetail[]>([]);
     const [allWeatherstations, setAllWeatherstations] = useState<WeatherstationDetail[]>([]);
@@ -370,14 +370,18 @@ export const Home = () => {
                         </DialogContent>
                     </>
                 </Drawer>
-                <img src={Malfunction} alt='malfunction' style={{
-                    position: 'absolute',
-                    bottom: '0vh',
-                    right: '0vh',
-                    width: "3.5vw",
-                    height: "7vh"
-                }}>
-                </img>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '0vh',
+                        right: '0vh',
+                        width: "3.5vw",
+                        height: "7vh",
+                    }}
+                >
+                    <WarningAmberIcon sx={{ color: 'red', fontSize: '3.5vw' }} />
+                </Box>
+
             </Box>
         </Box>
     );
