@@ -13,7 +13,7 @@ export const LogoutButton = () => {
     if (authenticated) {
         return (
             <>
-                <Button style={{backgroundColor: 'green', color:'white'}} onClick={logOut}>Log out</Button>
+                <Button style={{margin:'15px', zIndex: 1002, backgroundColor: 'green', color:'white'}} onClick={logOut}>Log out</Button>
             </>
         );
     }

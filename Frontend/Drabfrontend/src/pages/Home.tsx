@@ -24,6 +24,7 @@ import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
 import { IWALogo } from '../assets';
+import {LogoutButton} from "../components/logoutButton.tsx";
 
 let dark_mode = false;
 
@@ -156,6 +157,9 @@ export const Home = () => {
         <Box
             position={'relative'}
         >
+            <Box left={'10vw'} position={'absolute'} display={'flex'}>
+                <LogoutButton/>
+            </Box>
             <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{ "height": "100vh" }} ref={mapRef} preferCanvas={true}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
