@@ -10,7 +10,7 @@ export class WeatherstationService {
   constructor(
     @InjectRepository(Weatherstation)
     private readonly weatherstationRepository: Repository<Weatherstation>,
-  ) {}
+  ) { }
 
   async findByName(id: string) {
     return this.weatherstationRepository.findOne({
@@ -21,12 +21,13 @@ export class WeatherstationService {
         'weatherdatas',
         'storings',
       ],
+      order: { storings: { timestamp: 'DESC' } },
     });
   }
 
   getWeatherstations() {
     return this.weatherstationRepository.find({
-      relations: ['geolocation', 'geolocation.country', 'weatherdatas'],
+      relations: ['geolocation','geolocation.country','weatherdatas', 'storings'],
     });
   }
 

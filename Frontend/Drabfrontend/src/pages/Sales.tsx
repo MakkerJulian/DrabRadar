@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { CustomModal } from "../components/customModal";
 import { enqueueSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
+import {LogoutButton} from "../components/logoutButton.tsx";
 
 const emptyForm: CustomerCreate = {
   name: '',
@@ -83,6 +84,9 @@ export const Sales = () => {
   
   return (
     <Box flex={1} flexDirection={'column'} overflow={'hidden'} >
+      <Box>
+        <LogoutButton/>
+      </Box>
       <Typography variant="h1" style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         Sales
       </Typography>
