@@ -168,7 +168,7 @@ export const CustomerDetails = () => {
                     <TextField
                         sx={{ margin: 1 }}
                         name="name"
-                        label="name:"
+                        label="Name:"
                         value={customer.name}
                         onChange={handleNamingChange}
                         variant="outlined"
@@ -184,7 +184,7 @@ export const CustomerDetails = () => {
                     <TextField
                         sx={{ margin: 1 }}
                         name="email"
-                        label="Mail:"
+                        label="E-mail:"
                         value={customer.email}
                         onChange={handleNamingChange}
                         variant="outlined"
@@ -207,7 +207,7 @@ export const CustomerDetails = () => {
             >
                 <Box display={'flex'} flexDirection={'column'} marginLeft={'1vw'}>
                     <Typography variant="h4" margin={'auto'} marginBottom={'20px'} width={'25vw'} textAlign={'center'}>
-                        Subscription: {customer.subscription ? customer.subscription.id : "No subscription"}
+                        Subscription: {customer.subscription ? customer.subscription.id : "\n No subscription"}
                     </Typography>
 
                     <Typography variant="h4">
