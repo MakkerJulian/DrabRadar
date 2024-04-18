@@ -122,7 +122,7 @@ export const WeatherStationDetail = ({ ws }: Props) => {
                     >
                         <Box display={'flex'}>
                             <WarningAmberIcon color="error" sx={{ fontSize: "8vh" }} />
-                            <Typography variant="h1" color="error">Errors:</Typography>
+                            <Typography variant="h2" color="error">Errors:</Typography>
                         </Box>
 
 

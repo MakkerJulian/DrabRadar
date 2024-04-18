@@ -40,6 +40,7 @@ export const CustomModal = ({
                     flexDirection: 'column',
                     alignItems: 'center',
                     borderRadius: '10px',
+                    border: "solid darkgray 2px"
                 }}>
                 <Typography id="modal-modal-title" variant="h2" component="h2" fontWeight={"bold"}>
                     {title}
@@ -53,7 +54,7 @@ export const CustomModal = ({
                         ":hover": {
                             backgroundColor: "gray"
                         },
-                        width: "30%", 
+                        width: "45%", 
                         margin: "2px" }}>
                         Close
                     </Button>
@@ -63,7 +64,7 @@ export const CustomModal = ({
                         ":hover": {
                             backgroundColor: 'darkgreen',
                         },
-                        width: "30%", 
+                        width: "45%", 
                         margin: "2px"
                     }}>
                         Submit

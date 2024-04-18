@@ -88,9 +88,16 @@ export const WeatherStationCompare = () => {
                         ws && setWeatherStation1(ws);
                     }}
                 />
-                {weatherStation1 && (
-                    <WeatherStationDetail ws={weatherStation1}></WeatherStationDetail>
-                )}
+                <Box
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    width={"max-content"}
+                >
+                    {weatherStation1 && (
+                        <WeatherStationDetail ws={weatherStation1}></WeatherStationDetail>
+                    )}
+                </Box>
             </Grid>
             <Grid item xs={6}
                 display={"flex"}

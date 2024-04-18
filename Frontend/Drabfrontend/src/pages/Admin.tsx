@@ -75,7 +75,7 @@ export const Admin = () => {
             <DataGrid
                 rows={accounts}
                 columns={columns}
-                sx={{ maxWidth: '60%', margin: 'auto', height: '78vh' }}
+                sx={{ maxWidth: '80%', margin: 'auto', height: '78vh' }}
                 initialState={{
                     sorting: {
                         sortModel: [{ field: 'id', sort: 'asc' }],
@@ -91,7 +91,7 @@ export const Admin = () => {
                 onSubmit={handleSubmit(createAccount)}
             >
                 <TextField
-                    sx={{ width: '50%', margin: '20px' }}
+                    sx={{ width: '80%', margin: '20px' }}
                     label="Name"
                     value={form.name}
                     {...register('name', { required: "name can't be empty", minLength: { value: 5, message: "name must be at least 5 characters" } })}
@@ -102,7 +102,7 @@ export const Admin = () => {
                 </TextField>
 
                 <TextField
-                    sx={{ width: '50%', margin: '20px' }}
+                    sx={{ width: '80%', margin: '20px' }}
                     label="E-mail"
                     value={form.email}
                     {...register('email', {
@@ -119,7 +119,7 @@ export const Admin = () => {
 
 
                 <TextField
-                    sx={{ width: '50%', margin: '20px' }}
+                    sx={{ width: '80%', margin: '20px' }}
                     label="Phone number"
                     type='phone'
                     value={form.phone}
@@ -131,7 +131,7 @@ export const Admin = () => {
                 </TextField>
 
                 <TextField
-                    sx={{ width: '50%', margin: '20px' }}
+                    sx={{ width: '80%', margin: '20px' }}
                     label="Password"
                     value={form.password}
                     {...register('password', { required: "password can't be empty" })}
@@ -142,11 +142,11 @@ export const Admin = () => {
                 </TextField>
 
                 <TextField
-                    sx={{ width: '50%', margin: '20px', color:"black" }}
+                    sx={{ width: '80%', margin: '20px', color: "black" }}
                     label="Role"
                     value={form.role}
                     select
-                    onChange={(e)=>setForm({...form, role: e.target.value})}
+                    onChange={(e) => setForm({ ...form, role: e.target.value })}
                 >
                     <MenuItem value="ADMIN">Admin</MenuItem>
                     <MenuItem value="Sales">Sales</MenuItem>
@@ -155,24 +155,16 @@ export const Admin = () => {
                 </TextField>
 
             </CustomModal>
-
-            <Button sx={{
-                backgroundColor: 'green',
-                color: 'white',
-                display: "block",
-                margin: "20px auto",
-                textAlign: "center",
-                width: "60%",
-                ":hover": {
-                    backgroundColor: "lightgreen"
-                }
-            }}
-                onClick={() => {
-                    setOpenAccount(!openAccount);
-                }}
-            >
-                Add new account
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                    sx={{ backgroundColor: 'green', color: 'white', width: '80%', borderRadius: '5px', margin: "auto", mt: 2, '&:hover': { backgroundColor: 'darkgreen' } }}
+                    onClick={() => {
+                        setOpenAccount(!openAccount);
+                    }}
+                >
+                    Add new customer
+                </Button>
+            </Box>
         </Box>
     )
 }
