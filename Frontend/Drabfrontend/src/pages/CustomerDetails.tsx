@@ -120,17 +120,13 @@ export const CustomerDetails = () => {
             });
     };
 
-    function handleSave(id: number, name: string, phone: string, email: string): void {
-        const updateData = {
-            id: id,
-            name: name,
-            phone: phone,
-            email: email
-        };
-
-        axiosInstance.patch('customer', updateData)
-            .catch(error => {
-                console.error('Error:', error);
+    function handleUpdate() {
+        axiosInstance.patch('customer', customer)
+            .then(() => {
+                enqueueSnackbar('Customer updated', { variant: 'success' });
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to update customer', { variant: 'error' });
             });
     }
 
@@ -196,7 +192,7 @@ export const CustomerDetails = () => {
                 </Typography>
                 <Button
                     variant="contained"
-                    onClick={() => handleSave(customer.id, customer.name, customer.phone, customer.email)}
+                    onClick={() => handleUpdate()}
                     sx={{ marginBottom: 2, marginTop: 1, backgroundColor: "green", ":hover": { backgroundColor: "darkgreen" } }}
                 >
                     Update customer
@@ -279,14 +275,14 @@ export const CustomerDetails = () => {
                                             });
                                         });
                                     }}
-                                    sx={{ fontSize: 20, float: "right", fontWeight: "bolder"}}>x</Button>
+                                        sx={{ fontSize: 20, float: "right", fontWeight: "bolder" }}>x</Button>
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography variant='h5'>
-                                        {contract.level === 0 ? "Contract niveau 1, daily updates for 1 station" :
-                                            contract.level === 1 ? "Contract niveau 2, daily updates for multiple stations" :
+                                        {contract.level === 0 ? "Contract level 1, daily updates for 1 station" :
+                                            contract.level === 1 ? "Contract level 2, daily updates for multiple stations" :
                                                 contract.level === 2 ? "Contract level 3, live updates for 1 station" :
-                                                    "Onbekend niveau"}
+                                                    "Unknown level"}
                                     </Typography>
                                     <Typography variant='h5'>Weatherstations</Typography>
                                     {contract.weatherstations.map(ws => (

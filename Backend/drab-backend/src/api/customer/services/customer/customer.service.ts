@@ -39,10 +39,7 @@ export class CustomerService {
   }
 
   async updateCustomer(updateCustomerDto: UpdateCustomerDto) {
-    await this.customerRepository.update(
-      updateCustomerDto.id,
-      updateCustomerDto,
-    );
+    await this.customerRepository.save(updateCustomerDto);
     return this.getCustomerById(updateCustomerDto.id);
   }
 

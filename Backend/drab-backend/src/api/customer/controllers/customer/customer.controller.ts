@@ -37,5 +37,4 @@ export class CustomerController {
   updateCustomer(@Body() updateCustomerDto: UpdateCustomerDto) {
     return this.customerService.updateCustomer(updateCustomerDto);
   }
-  
 }
