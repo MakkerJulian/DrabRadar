@@ -278,7 +278,8 @@ export const CustomerDetails = () => {
                                                 setCustomer(response.data);
                                             });
                                         });
-                                    }}>x</Button>
+                                    }}
+                                    sx={{ fontSize: 20, float: "right", fontWeight: "bolder"}}>x</Button>
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography variant='h5'>
@@ -290,18 +291,42 @@ export const CustomerDetails = () => {
                                     <Typography variant='h5'>Weatherstations</Typography>
                                     {contract.weatherstations.map(ws => (
                                         <Grid container>
-                                            <Grid item xs={11}>
+                                            <Grid item xs={2}>
                                                 <Box key={ws.name}>
                                                     <Typography variant='h6'>
-                                                        {"station number: " + ws.name + " "}
+                                                        {"Station number: " + ws.name + " "}
+                                                    </Typography>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={2}>
+                                                <Box key={ws.name}>
+                                                    <Typography variant='h6'>
                                                         {"Country: " + ws.geolocation.country.name + " "}
-                                                        {"height: " + ws.elevation + "M "}
-                                                        {"latitude: " + ws.latitude + " "}
+                                                    </Typography>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={2}>
+                                                <Box key={ws.name}>
+                                                    <Typography variant='h6'>
+                                                        {"Height: " + ws.elevation + "M "}
+                                                    </Typography>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={2}>
+                                                <Box key={ws.name}>
+                                                    <Typography variant='h6'>
+                                                        {"Latitude: " + ws.latitude + " "}
+                                                    </Typography>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={2}>
+                                                <Box key={ws.name}>
+                                                    <Typography variant='h6'>
                                                         {"Longitude: " + ws.longitude + " "}
                                                     </Typography>
                                                 </Box>
                                             </Grid>
-                                            <Grid item xs={1} >
+                                            <Grid item xs={2} >
                                                 <Button onClick={() => {
                                                     axiosInstance.patch(`/contract/${contract.id}/weatherstation/${ws.name}`).then(() => {
                                                         axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
@@ -309,7 +334,7 @@ export const CustomerDetails = () => {
                                                         });
                                                     });
                                                 }}
-                                                    sx={{ fontSize: 15, float: "right" }}>x
+                                                    sx={{ fontSize: 15, float: "right", fontWeight: "bolder" }}>x
                                                 </Button>
                                             </Grid>
                                         </Grid>
