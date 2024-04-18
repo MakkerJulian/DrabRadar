@@ -14,7 +14,7 @@ const loginInstance: AxiosInstance = axios.create({
 })
 
 const token = () => {
-    const sessiontoken = sessionStorage.getItem('token');
+    const sessiontoken = localStorage.getItem('token');
     if (!sessiontoken) {
         redirect('/login');
     } else {
@@ -22,9 +22,9 @@ const token = () => {
         const email = jwtDecode(sessiontoken).email ?? "";
         const current_time = Date.now().valueOf() / 1000;
         if (current_time > exp) {
-            const pw = sessionStorage.getItem('pw');
+            const pw = localStorage.getItem('pw');
             loginInstance.post('/account/login', { email: email, password: pw }).then((res) => {
-                sessionStorage.setItem('token', res.data.access_token);
+                localStorage.setItem('token', res.data.access_token);
                 return res.data.access_token;
             });
         }

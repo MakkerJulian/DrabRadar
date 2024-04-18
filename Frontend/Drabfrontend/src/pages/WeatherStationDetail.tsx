@@ -114,7 +114,7 @@ export const WeatherStationDetail = ({ ws }: Props) => {
             )}
             {ws === undefined && (
                 <Grid item xs={6}>
-                    <img src={stationImage} alt="weatherstation" height={"300vh"} width={"100%"} style={{ marginBottom: "2vh" }}></img>
+                    <img src={stationImage} alt="weatherstation" width={"60%"} style={{ marginBottom: "2vh", marginLeft: '13vw' }}></img>
                     <Box
                         display={'flex'}
                         flexDirection={'column'}

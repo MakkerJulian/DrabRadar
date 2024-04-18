@@ -65,7 +65,9 @@ export const Admin = () => {
 
     return (
         <Box flex={1} flexDirection={'column'}>
-            <LogoutButton></LogoutButton>
+            <Box position={'absolute'}>
+                <LogoutButton></LogoutButton>
+            </Box>
             <Typography variant="h1" justifyContent={"center"} display={"flex"}>
                 Admin
             </Typography>

@@ -24,12 +24,12 @@ import AcUnitIcon from '@mui/icons-material/AcUnit'; //snow
 import SevereColdIcon from '@mui/icons-material/SevereCold'; //hail
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm'; //thunder
 import TornadoIcon from '@mui/icons-material/Tornado'; //Tornado
-import { IWALogo} from '../assets';
+import { IWALogo } from '../assets';
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { useNavigate } from "react-router-dom";
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
-import {LogoutButton} from "../components/logoutButton.tsx";
+import { LogoutButton } from "../components/logoutButton.tsx";
 
 let dark_mode = false;
 
@@ -104,7 +104,6 @@ export const Home = () => {
     const [activeAccordion, setActiveAccordion] = useState<number>();
     const mapRef = useRef<any>(null);
 
-
     useEffect(() => {
         axiosInstance.get<WeatherstationDetail[]>('/weatherstation/details')
             .then((res) => {
@@ -112,7 +111,7 @@ export const Home = () => {
             })
             .catch((err) => { console.log(err) });
 
-        axiosInstance.get<WeatherstationDetail[]>('/weatherstation')
+        axiosInstance.get<WeatherstationDetail[]>('/weatherstation/storingen')
             .then((res) => {
                 setAllWeatherstations(res.data)
             });
@@ -175,7 +174,7 @@ export const Home = () => {
             position={'relative'}
         >
             <Box left={'10vw'} position={'absolute'} display={'flex'}>
-                <LogoutButton/>
+                <LogoutButton />
             </Box>
             <MapContainer center={[39.1, 40.3]} zoom={2.5} style={{ "height": "100vh" }} ref={mapRef} preferCanvas={true}>
                 <TileLayer
@@ -270,6 +269,12 @@ export const Home = () => {
                                             {weatherstation.weatherdatas.hail ? <SevereColdIcon /> : null}
                                             {weatherstation.weatherdatas.thunder ? <ThunderstormIcon /> : null}
                                             {weatherstation.weatherdatas.tornado ? <TornadoIcon /> : null}
+                                        </Box>
+                                        <Box display={'flex'} flexDirection={'row'}>
+                                            <Typography variant='h6'>Inspect:</Typography>
+                                            <IconButton>
+                                                <RemoveRedEyeIcon sx={{ color: "white" }} onClick={() => navigate(`/weatherstation/${weatherstation.name}`)} />
+                                            </IconButton>
                                         </Box>
                                     </>
                                 )}

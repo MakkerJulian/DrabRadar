@@ -22,7 +22,7 @@ type Props = {
 
 const Layout = ({ children }: Props) => (
     <Box overflow={"hidden"}>
-        {jwtDecode(sessionStorage.getItem('token')).role === "ADMIN" && (
+        {jwtDecode(localStorage.getItem('token')).role === "ADMIN" && (
             <AdminIcon />
         )}
         {children}
@@ -30,11 +30,11 @@ const Layout = ({ children }: Props) => (
 )
 
 export const PrivateRoutes = ({route}: PrivateRoutesProps) => {
-    const authenticated = sessionStorage.getItem('token') !== null;
+    const authenticated = localStorage.getItem('token') !== null;
 
     const hasRoles = () =>{
         if(route.requiredRoles){
-            const role = jwtDecode(sessionStorage.getItem('token')?? "").role;
+            const role = jwtDecode(localStorage.getItem('token')?? "").role;
             return route.requiredRoles.includes(role);
         }
         return true;

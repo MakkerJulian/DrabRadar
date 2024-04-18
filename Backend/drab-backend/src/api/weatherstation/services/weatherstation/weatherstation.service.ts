@@ -3,14 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Coordinates } from 'src/dto/coordinates';
 import { station } from 'src/seed';
 import { Weatherstation } from 'src/typeorm/weatherstation.entity';
-import { Repository } from 'typeorm';
+import { Repository, MoreThan } from 'typeorm';
 
 @Injectable()
 export class WeatherstationService {
   constructor(
     @InjectRepository(Weatherstation)
     private readonly weatherstationRepository: Repository<Weatherstation>,
-  ) { }
+  ) {}
 
   async findByName(id: string) {
     return this.weatherstationRepository.findOne({
@@ -27,13 +27,24 @@ export class WeatherstationService {
 
   getWeatherstations() {
     return this.weatherstationRepository.find({
-      relations: ['geolocation','geolocation.country','weatherdatas', 'storings'],
+      relations: [
+        'geolocation',
+        'geolocation.country',
+        'weatherdatas',
+        'storings',
+      ],
     });
   }
 
+  //check if the timestamp of storings is within the last day
   getWeatherstationWithStorings() {
     return this.weatherstationRepository.find({
       relations: ['storings'],
+      where: {
+        storings: {
+          timestamp: MoreThan(new Date(Date.now() - 24 * 60 * 60 * 1000)),
+        },
+      },
       order: { storings: { timestamp: 'DESC' } },
     });
   }
