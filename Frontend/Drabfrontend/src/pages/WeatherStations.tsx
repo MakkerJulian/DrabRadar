@@ -7,6 +7,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import {LogoutButton} from "../components/logoutButton.tsx";
 
 export const WeatherStations = () => {
     const [weatherstations, setWeatherstations] = useState<Weatherstation[]>([]);
@@ -151,6 +152,9 @@ export const WeatherStations = () => {
 
     return (
         <Box display={'flex'} flexDirection={'column'}>
+            <Box position={'absolute'}>
+                <LogoutButton/>
+            </Box>
             <Typography variant="h1" justifyContent={"center"} display={"flex"}>
                 Weather Stations
             </Typography>
