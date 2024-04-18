@@ -29,6 +29,7 @@ export class CustomerService {
         'subscription',
         'subscription.contracts',
         'subscription.contracts.weatherstations',
+        'subscription.contracts.weatherstations.geolocation.country',
       ],
     });
   }
@@ -36,10 +37,13 @@ export class CustomerService {
   createCustomer(createCustomerDto: CreateCustomerDto) {
     return this.customerRepository.save(createCustomerDto);
   }
-  
+
   async updateCustomer(updateCustomerDto: UpdateCustomerDto) {
-      await this.customerRepository.update(updateCustomerDto.id,updateCustomerDto);
-      return this.getCustomerById(updateCustomerDto.id);
+    await this.customerRepository.update(
+      updateCustomerDto.id,
+      updateCustomerDto,
+    );
+    return this.getCustomerById(updateCustomerDto.id);
   }
 
   async seedCustomers() {

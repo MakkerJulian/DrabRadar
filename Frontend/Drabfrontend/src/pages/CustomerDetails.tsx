@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Box, Button, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material';
 import React, { useEffect } from "react";
 import axiosInstance from '../axios';
 import { Customer, Weatherstation } from '../types';
@@ -35,6 +35,10 @@ export const CustomerDetails = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setNewContractForm({ ...newContractForm, [e.target.name]: e.target.value });
+    }
+
+    const handleDisable = () => {
+        return usedWeatherstations.length >= 1 && newContractForm.level !== "1" //Level 1 mag maar 1  
     }
 
     const handleUpdateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -285,23 +289,30 @@ export const CustomerDetails = () => {
                                     </Typography>
                                     <Typography variant='h5'>Weatherstations</Typography>
                                     {contract.weatherstations.map(ws => (
-                                        <Box key={ws.name}>
-                                            <Typography variant='h6'>
-                                                {"station number: " + ws.name + " "}
-                                                {"height: " + ws.elevation + "M "}
-                                                {"latitude: " + ws.latitude + " "}
-                                                {"Longitude: " + ws.longitude + " "}
+                                        <Grid container>
+                                            <Grid item xs={11}>
+                                                <Box key={ws.name}>
+                                                    <Typography variant='h6'>
+                                                        {"station number: " + ws.name + " "}
+                                                        {"Country: " + ws.geolocation.country.name + " "}
+                                                        {"height: " + ws.elevation + "M "}
+                                                        {"latitude: " + ws.latitude + " "}
+                                                        {"Longitude: " + ws.longitude + " "}
+                                                    </Typography>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={1} >
                                                 <Button onClick={() => {
-                                                axiosInstance.patch(`/contract/${contract.id}/weatherstation/${ws.name}`).then(() => {
-                                                    axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
-                                                        setCustomer(response.data);
+                                                    axiosInstance.patch(`/contract/${contract.id}/weatherstation/${ws.name}`).then(() => {
+                                                        axiosInstance.get<Customer>(`/customer/${customer.id}`).then((response) => {
+                                                            setCustomer(response.data);
+                                                        });
                                                     });
-                                                });
-                                            }}
-                                                sx={{ fontSize: 15, float: "right"}}>x
-                                            </Button>
-                                            </Typography>
-                                        </Box>
+                                                }}
+                                                    sx={{ fontSize: 15, float: "right" }}>x
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
                                     ))}
                                 </AccordionDetails>
                             </Accordion>
@@ -340,12 +351,16 @@ export const CustomerDetails = () => {
                     <TextField
                         sx={{ width: '80%', margin: '20px' }}
                         label="Level"
+                        select
                         value={newContractForm.level}
                         {...register('level', { required: "name can't be empty" })}
                         onChange={handleChange}
                         helperText={errors.level?.message?.toString()}
                         error={errors.level?.message !== undefined}
                     >
+                        <MenuItem value="0">Level 1</MenuItem>
+                        <MenuItem value="1">Level 2</MenuItem>
+                        <MenuItem value="2">Level 3</MenuItem>
                     </TextField>
                     {usedWeatherstations.length > 0 && (
                         <Box display={'flex'} alignContent={'space-between'} flexDirection={'column'}>
@@ -367,6 +382,7 @@ export const CustomerDetails = () => {
                     )}
                     <Autocomplete
                         disablePortal
+                        disabled={handleDisable()}
                         id="weatherstations"
                         options={weatherstations}
                         sx={{ width: 300 }}
@@ -381,7 +397,7 @@ export const CustomerDetails = () => {
                     />
                 </CustomModal >
             </Grid>
-        </Grid>
+        </Grid >
     ) :
         <Typography>No Customer Found</Typography>
 }
