@@ -4,7 +4,7 @@ import { redirect } from 'react-router-dom';
 
 
 const loginInstance: AxiosInstance = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://${import.meta.env.VITE_APP_URL}:3000`,
     timeout: 5000,
     proxy: false,
     headers: {
@@ -38,7 +38,7 @@ const token = () => {
 }
 
 const axiosInstance: AxiosInstance = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://${import.meta.env.VITE_APP_URL}:3000`,
     timeout: 5000,
     proxy: false
 })
