@@ -162,7 +162,7 @@ export const Admin = () => {
                         setOpenAccount(!openAccount);
                     }}
                 >
-                    Add new customer
+                    Add new account
                 </Button>
             </Box>
         </Box>
