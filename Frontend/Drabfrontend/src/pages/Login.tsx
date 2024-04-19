@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import axiosInstance from '../axios';
+import React, { useState } from 'react';
+import axiosInstance, { Token } from '../axios';
 import { useForm } from 'react-hook-form';
 import { BG_Image, IWALogo } from '../assets';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,7 @@ export const Login = () => {
                 if (Login) {
                     localStorage.setItem('token', Login);
                     localStorage.setItem('pw', form.password);
-                    const role = jwtDecode(Login).role;
+                    const role = (jwtDecode(Login)as Token).role;
                     if (role === 'ADMIN') return navigate('/admin');
                     if (role === 'Sales') return navigate('/sales');
                     else{

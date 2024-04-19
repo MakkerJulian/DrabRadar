@@ -1,8 +1,9 @@
-import { Box, Button, Typography } from "@mui/material";
-import React, { ReactNode } from "react";
+import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AdminIcon } from "../components/adminBar";
 import { jwtDecode } from "jwt-decode";
+import { Token } from "../axios";
 
 
 export type Route = {
@@ -22,7 +23,7 @@ type Props = {
 
 const Layout = ({ children }: Props) => (
     <Box overflow={"hidden"}>
-        {jwtDecode(localStorage.getItem('token')).role === "ADMIN" && (
+        {(jwtDecode(localStorage.getItem('token') ?? "") as unknown as Token).role === "ADMIN" && (
             <AdminIcon />
         )}
         {children}
@@ -34,7 +35,7 @@ export const PrivateRoutes = ({route}: PrivateRoutesProps) => {
 
     const hasRoles = () =>{
         if(route.requiredRoles){
-            const role = jwtDecode(localStorage.getItem('token')?? "").role;
+            const role = (jwtDecode(localStorage.getItem('token') ?? "") as unknown as Token).role;
             return route.requiredRoles.includes(role);
         }
         return true;

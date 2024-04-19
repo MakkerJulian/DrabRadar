@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { redirect } from 'react-router-dom';
 
 
@@ -13,13 +13,18 @@ const loginInstance: AxiosInstance = axios.create({
     }
 })
 
+export type Token = JwtPayload & {
+    email: string;
+    role : string;
+}
+
 const token = () => {
     const sessiontoken = localStorage.getItem('token');
     if (!sessiontoken) {
         redirect('/login');
     } else {
         const exp = jwtDecode(sessiontoken).exp ?? 0;
-        const email = jwtDecode(sessiontoken).email ?? "";
+        const email = (jwtDecode(sessiontoken) as unknown as Token).email ?? "";
         const current_time = Date.now().valueOf() / 1000;
         if (current_time > exp) {
             const pw = localStorage.getItem('pw');

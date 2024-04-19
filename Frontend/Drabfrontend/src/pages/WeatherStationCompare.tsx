@@ -84,7 +84,7 @@ export const WeatherStationCompare = () => {
                     value={weatherStation1 ?? null}
                     getOptionLabel={(option) => option.geolocation.country.name + " " + option.name}
                     renderInput={(params) => <TextField {...params} label="Weatherstations" key={params.id} />}
-                    onChange={(event, ws) => {
+                    onChange={(_event, ws) => {
                         ws && setWeatherStation1(ws);
                     }}
                 />
@@ -112,7 +112,7 @@ export const WeatherStationCompare = () => {
                     value={weatherStation2 ?? null}
                     getOptionLabel={(option) => option.geolocation.country.name + " " + option.name}
                     renderInput={(params) => <TextField {...params} label="Weatherstations" key={params.id} />}
-                    onChange={(event, ws) => { ws && setWeatherStation2(ws); }}
+                    onChange={(_event, ws) => { ws && setWeatherStation2(ws); }}
                 />
                 {weatherStation2 && (
                     <WeatherStationDetail ws={weatherStation2}></WeatherStationDetail>

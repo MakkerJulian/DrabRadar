@@ -53,7 +53,7 @@ export const routes: Route[] = [
     {
         name: 'weatherstation',
         path: '/weatherstation/:id',
-        element: WeatherStationDetail,
+        element:  ()=> <WeatherStationDetail ws={undefined} />,
         requiredRoles: ["ADMIN","Onderhoud","Onderzoek"]
     },
     {

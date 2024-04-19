@@ -409,7 +409,7 @@ export const CustomerDetails = () => {
                         sx={{ width: 300 }}
                         getOptionLabel={(option) => option.geolocation.country.name + " " + option.name}
                         renderInput={(params) => <TextField {...params} label="Weatherstations" key={params.id} />}
-                        onChange={(event, weatherstation) => {
+                        onChange={(_event, weatherstation) => {
                             if (weatherstation) {
                                 setNewContractForm({ ...newContractForm, weatherstations: [...newContractForm.weatherstations, weatherstation] });
                                 setUsedWeatherstations([...usedWeatherstations, weatherstation]);

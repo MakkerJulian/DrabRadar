@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../axios";
 import { Weatherstation } from "../types";
 import { enqueueSnackbar } from "notistack";

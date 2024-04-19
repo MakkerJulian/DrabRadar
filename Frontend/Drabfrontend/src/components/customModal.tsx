@@ -1,8 +1,7 @@
 import { Modal } from "@mui/base"
 import { Backdrop, Button, Fade, Typography } from "@mui/material"
-import { Box, width } from "@mui/system"
+import { Box } from "@mui/system"
 import React from "react"
-import { set } from "react-hook-form"
 
 type Props = {
     open: boolean,
