@@ -33,11 +33,19 @@ export class ExternService {
 
     let allowedStations = subscription.contracts
       .map((contract) => {
+        // console.log(
+        //   Math.abs(this.dateDiffInDays(new Date(), contract.lastCallDate)),
+        // );
+        // console.log(contract.level);
+        // console.log(
+        //   Math.abs(this.dateDiffInDays(new Date(), contract.lastCallDate)) <
+        //     7 && contract.level < 2,
+        // );
         if (
           //mag niet meer dan 1 keer per week voor level 1 en 2
           Math.abs(this.dateDiffInDays(new Date(), contract.lastCallDate)) <
             7 &&
-          contract.level < 3
+          contract.level < 2
         ) {
           return;
         }
@@ -47,13 +55,11 @@ export class ExternService {
       .filter((station) => station)
       .flat();
 
-    console.log(allowedStations);
+    // console.log(allowedStations);
 
     const lat = latitude ?? -1;
     const long = longitude ?? -1;
     const elev = elevation ?? 0;
-
-    // console.log(allowedStations);
 
     allowedStations = allowedStations.map((station) => {
       // console.log(station.latitude, lat, typeof(station.latitude), typeof(lat), Math.round(station.latitude) >= lat);
