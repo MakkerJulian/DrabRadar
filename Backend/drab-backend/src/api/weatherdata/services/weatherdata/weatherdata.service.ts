@@ -126,6 +126,7 @@ export class WeatherdataService {
   findByStation(stationNumber) {
     return this.weatherdataRepository.find({
       where: { weatherstation: { name: stationNumber } },
+      relations: ['weatherstation'],
       order: {
         datetime: 'DESC',
       },
