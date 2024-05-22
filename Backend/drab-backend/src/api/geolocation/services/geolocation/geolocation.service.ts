@@ -33,7 +33,7 @@ export class GeolocationService {
       const newGeoLocations = geolocations.map((geolocation) => {
         return {
           id: geolocation.id,
-          country: geolocation.country_code,
+          country: { code: geolocation.country_code },
           island: geolocation.island === '' ? null : geolocation.island,
           county: geolocation.county === '' ? null : geolocation.county,
           place: geolocation.place === '' ? null : geolocation.place,

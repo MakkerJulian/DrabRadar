@@ -15,7 +15,7 @@ export class Geolocation {
   id: number;
 
   @ManyToOne(() => Country, (Country) => Country.code)
-  country: string;
+  country: Country;
 
   @Column({ nullable: true })
   island: string;

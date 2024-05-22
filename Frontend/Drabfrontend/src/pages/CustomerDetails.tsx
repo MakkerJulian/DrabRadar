@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Box, Button, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material';
 import React, { useEffect } from "react";
 import axiosInstance from '../axios';
-import { Customer, Weatherstation } from '../types';
+import { Country, Customer, Weatherstation } from '../types';
 import { enqueueSnackbar } from 'notistack';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CustomModal } from '../components/customModal';
@@ -24,10 +24,13 @@ type newContractForm = {
 
 export const CustomerDetails = () => {
     const [customer, setCustomer] = React.useState<Customer>();
+    const [countries, setCountries] = React.useState<Country[]>([]);
     const [newContractForm, setNewContractForm] = React.useState<newContractForm>(emptyNewContractForm);
     const [openNewContract, setOpenNewContract] = React.useState<boolean>(false);
+    const [openNewContractCountry, setOpenNewContractCountry] = React.useState<boolean>(false);
     const [weatherstations, setWeatherstations] = React.useState<Weatherstation[]>([]);
     const [usedWeatherstations, setUsedWeatherstations] = React.useState<Weatherstation[]>([]);
+    const [usedCountry, setUsedCountry] = React.useState<Country | null>(null);
 
     const {
         register, formState: { errors }, handleSubmit,
@@ -70,6 +73,17 @@ export const CustomerDetails = () => {
         });
     }
 
+    const createContractBasedOnCountry = (subscriptionId: number) => {
+        axiosInstance.post('/contract/country', { subscriptionId: subscriptionId, country: usedCountry?.name, level: newContractForm.level }).then(() => {
+            enqueueSnackbar('Contract created', { variant: 'success' });
+            setOpenNewContractCountry(false);
+            axiosInstance.get<Customer>(`/customer/${customer?.id}`).then((response) => {
+                setCustomer(response.data);
+            });
+        }).catch(() => {
+            enqueueSnackbar('Failed to create contract', { variant: 'error' });
+        });
+    }
 
     function addSubscription(customerId: number) {
         const form = {
@@ -109,6 +123,12 @@ export const CustomerDetails = () => {
         axiosInstance.get<Weatherstation[]>('/weatherstation')
             .then((res) => {
                 setWeatherstations(res.data);
+            })
+            .catch((err) => { console.log(err) });
+
+        axiosInstance.get<Country[]>('/country')
+            .then((res) => {
+                setCountries(res.data);
             })
             .catch((err) => { console.log(err) });
     }, []);
@@ -341,25 +361,41 @@ export const CustomerDetails = () => {
                         <br />
                         <br />
                         <br />
-                        <Box display={'flex'} justifyContent={'center'} marginTop={2} marginBottom={2}>
-                            {customer.subscription && (
-                                <Button
-                                    sx={{
-                                        backgroundColor: 'green',
-                                        color: 'white',
-                                        width: "80%",
-                                        position: "absolute",
-                                        justifyContent: "center",
-                                        bottom: 10,
-                                        ":hover": {
-                                            backgroundColor: 'darkgreen',
-                                        }
-                                    }}
-                                    onClick={() => { setOpenNewContract(true); setUsedWeatherstations([]); }}
-                                >
-                                    Create contract
-                                </Button>
-                            )}
+                        <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-evenly'}>
+                            <Box>
+                                {customer.subscription && (
+                                    <Button
+                                        sx={{
+                                            backgroundColor: 'green',
+                                            color: 'white',
+                                            justifyContent: "center",
+                                            ":hover": {
+                                                backgroundColor: 'darkgreen',
+                                            }
+                                        }}
+                                        onClick={() => { setOpenNewContract(true); setUsedWeatherstations([]); }}
+                                    >
+                                        Create contract
+                                    </Button>
+                                )}
+                            </Box>
+                            <Box>
+                                {customer.subscription && (
+                                    <Button
+                                        sx={{
+                                            backgroundColor: 'green',
+                                            color: 'white',
+                                            justifyContent: "center",
+                                            ":hover": {
+                                                backgroundColor: 'darkgreen',
+                                            }
+                                        }}
+                                        onClick={() => { setOpenNewContractCountry(true); setUsedWeatherstations([]); }}
+                                    >
+                                        Create contract based on country
+                                    </Button>
+                                )}
+                            </Box>
                         </Box>
                     </Box>
                 )}
@@ -414,6 +450,39 @@ export const CustomerDetails = () => {
                                 setNewContractForm({ ...newContractForm, weatherstations: [...newContractForm.weatherstations, weatherstation] });
                                 setUsedWeatherstations([...usedWeatherstations, weatherstation]);
                             }
+                        }}
+                    />
+                </CustomModal >
+                <CustomModal
+                    open={openNewContractCountry}
+                    title="Add new Contract"
+                    setOpen={setOpenNewContractCountry}
+                    onSubmit={handleSubmit(() => createContractBasedOnCountry(customer.subscription.id))}
+                >
+                    <TextField
+                        sx={{ width: '40%', margin: '20px' }}
+                        label="Level"
+                        select
+                        value={newContractForm.level}
+                        {...register('level', { required: "name can't be empty" })}
+                        onChange={handleChange}
+                        helperText={errors.level?.message?.toString()}
+                        error={errors.level?.message !== undefined}
+                    >
+                        <MenuItem value="0">Level 1</MenuItem>
+                        <MenuItem value="1">Level 2</MenuItem>
+                        <MenuItem value="2">Level 3</MenuItem>
+                    </TextField>
+                    <Autocomplete
+                        disablePortal
+                        disabled={handleDisable()}
+                        id="Countries"
+                        options={countries}
+                        sx={{ width: 300 }}
+                        getOptionLabel={(option) => option.name}
+                        renderInput={(params) => <TextField {...params} label="Country" key={params.id} />}
+                        onChange={(_event, country) => {
+                            setUsedCountry(country);
                         }}
                     />
                 </CustomModal >

@@ -36,6 +36,13 @@ export class WeatherstationService {
     });
   }
 
+  async getWeatherstationsByCountry(country: string) {
+    const allStations = await this.getWeatherstations();
+    return allStations.filter(
+      (station) => station.geolocation.country.name === country,
+    );
+  }
+
   //check if the timestamp of storings is within the last day
   getWeatherstationWithStorings() {
     return this.weatherstationRepository.find({

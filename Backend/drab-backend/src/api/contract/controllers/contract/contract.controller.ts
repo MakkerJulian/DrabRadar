@@ -12,7 +12,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ContractService } from '../../services/contract/contract.service';
-import { CreateContractDto } from 'src/dto/contract.dto';
+import {
+  CreateContractDto,
+  CreateContractDtoByCountry,
+} from 'src/dto/contract.dto';
 import { AuthGuard } from 'src/api/auth/Authguard';
 
 @Controller('contract')
@@ -42,6 +45,16 @@ export class ContractController {
   @UsePipes(ValidationPipe)
   createContract(@Body() createContractDto: CreateContractDto) {
     return this.contractService.createContract(createContractDto);
+  }
+
+  @Post('country')
+  @UsePipes(ValidationPipe)
+  createContractByCountry(
+    @Body() createContractByCountry: CreateContractDtoByCountry,
+  ) {
+    return this.contractService.createContractByCountry(
+      createContractByCountry,
+    );
   }
 
   @Delete()
