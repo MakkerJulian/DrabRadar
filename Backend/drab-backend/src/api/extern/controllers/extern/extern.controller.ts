@@ -1,4 +1,4 @@
-import { Controller, Get, Headers, Param, Query, Req } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ExternService } from '../../services/extern/extern.service';
 import { Public } from 'src/api/auth/metaData';
 
@@ -13,7 +13,14 @@ export class ExternController {
     @Query('latitude') latitude,
     @Query('longitude') longitude,
     @Query('elevation') elevation,
+    @Query('country') country,
   ) {
-    return this.externService.get(token, latitude, longitude, elevation);
+    return this.externService.get(
+      token,
+      latitude,
+      longitude,
+      elevation,
+      country,
+    );
   }
 }

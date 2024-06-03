@@ -9,7 +9,7 @@ export class SubscriptionService {
   constructor(
     @InjectRepository(Subscription)
     private readonly subscriptionRepository: Repository<Subscription>,
-  ) { }
+  ) {}
 
   getSubscriptions() {
     return this.subscriptionRepository.find({ relations: ['customer'] });
@@ -77,7 +77,13 @@ export class SubscriptionService {
   getByToken(token: string) {
     return this.subscriptionRepository.findOne({
       where: { token: token },
-      relations: ['customer', 'contracts', 'contracts.weatherstations'],
+      relations: [
+        'customer',
+        'contracts',
+        'contracts.weatherstations',
+        'contracts.weatherstations.geolocation',
+        'contracts.weatherstations.geolocation.country',
+      ],
     });
   }
 

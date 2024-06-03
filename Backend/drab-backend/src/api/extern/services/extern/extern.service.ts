@@ -25,11 +25,12 @@ export class ExternService {
     latitude: number,
     longitude: number,
     elevation: number,
+    country: string,
   ) {
     const newToken = token ?? '1';
     const subscription = await this.subscriptionService.getByToken(newToken);
 
-    if (!subscription) return new ImATeapotException();
+    if (!subscription) return new ImATeapotException('No subscription found');
 
     let allowedStations = subscription.contracts
       .map((contract) => {
@@ -61,18 +62,23 @@ export class ExternService {
     const long = longitude ?? -1;
     const elev = elevation ?? 0;
 
-    allowedStations = allowedStations.map((station) => {
+    allowedStations = allowedStations.filter((station) => {
       // console.log(station.latitude, lat, typeof(station.latitude), typeof(lat), Math.round(station.latitude) >= lat);
       // console.log(station.longitude, long, typeof(station.longitude), typeof(long), station.longitude >= long);
       // console.log(station.elevation, elev, typeof(station.elevation), typeof(elev), station.elevation >= elev);
 
-      if (
+      return (
         Math.round(station.latitude) >= lat &&
         Math.round(station.longitude) >= long &&
         Math.round(station.elevation) >= elev
-      )
-        return station;
+      );
     });
+
+    if (country) {
+      allowedStations = allowedStations.filter(
+        (station) => station.geolocation.country.name === country,
+      );
+    }
 
     allowedStations = allowedStations.filter((station) => station);
 
@@ -81,7 +87,6 @@ export class ExternService {
         return await this.weatherDataService.findByStation(station.name);
       }),
     );
-
     const data = (await allowedStationsWithData).flat();
 
     // console.log(data);
