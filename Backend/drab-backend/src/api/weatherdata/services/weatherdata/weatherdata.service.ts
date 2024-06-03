@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, MoreThan } from 'typeorm';
 import { WeatherData } from 'src/typeorm/weatherdata.entity';
 import { CreateWeatherdataDto } from 'src/dto/weatherdata.dto';
 import { SimpleLinearRegression } from 'ml-regression-simple-linear';
@@ -123,17 +123,45 @@ export class WeatherdataService {
   deleteAll() {
     return this.weatherdataRepository.clear();
   }
-  findByStation(stationNumber) {
-    return this.weatherdataRepository.find({
-      where: { weatherstation: { name: stationNumber } },
-      relations: [
-        'weatherstation',
-        'weatherstation.geolocation',
-        'weatherstation.geolocation.country',
-      ],
-      order: {
-        datetime: 'DESC',
-      },
-    });
+
+  findBy(country: string | undefined, lat: number, lon: number, elev: number) {
+    if (country) {
+      return this.weatherdataRepository.find({
+        relations: [
+          'weatherstation',
+          'weatherstation.geolocation',
+          'weatherstation.geolocation.country',
+        ],
+        where: {
+          weatherstation: {
+            latitude: MoreThan(lat),
+            longitude: MoreThan(lon),
+            elevation: MoreThan(elev),
+            geolocation: { country: { name: country } },
+          },
+        },
+        order: {
+          datetime: 'DESC',
+        },
+      });
+    } else {
+      return this.weatherdataRepository.find({
+        relations: [
+          'weatherstation',
+          'weatherstation.geolocation',
+          'weatherstation.geolocation.country',
+        ],
+        where: {
+          weatherstation: {
+            latitude: MoreThan(lat),
+            longitude: MoreThan(lon),
+            elevation: MoreThan(elev),
+          },
+        },
+        order: {
+          datetime: 'DESC',
+        },
+      });
+    }
   }
 }

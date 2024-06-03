@@ -32,16 +32,12 @@ export class ExternService {
 
     if (!subscription) return new ImATeapotException('No subscription found');
 
+    const lat = latitude ?? -1;
+    const long = longitude ?? -1;
+    const elev = elevation ?? 0;
+
     let allowedStations = subscription.contracts
       .map((contract) => {
-        // console.log(
-        //   Math.abs(this.dateDiffInDays(new Date(), contract.lastCallDate)),
-        // );
-        // console.log(contract.level);
-        // console.log(
-        //   Math.abs(this.dateDiffInDays(new Date(), contract.lastCallDate)) <
-        //     7 && contract.level < 2,
-        // );
         if (
           //mag niet meer dan 1 keer per week voor level 1 en 2
           Math.abs(this.dateDiffInDays(new Date(), contract.lastCallDate)) <
@@ -56,39 +52,14 @@ export class ExternService {
       .filter((station) => station)
       .flat();
 
-    // console.log(allowedStations);
-
-    const lat = latitude ?? -1;
-    const long = longitude ?? -1;
-    const elev = elevation ?? 0;
-
-    allowedStations = allowedStations.filter((station) => {
-      // console.log(station.latitude, lat, typeof(station.latitude), typeof(lat), Math.round(station.latitude) >= lat);
-      // console.log(station.longitude, long, typeof(station.longitude), typeof(long), station.longitude >= long);
-      // console.log(station.elevation, elev, typeof(station.elevation), typeof(elev), station.elevation >= elev);
-
-      return (
-        Math.round(station.latitude) >= lat &&
-        Math.round(station.longitude) >= long &&
-        Math.round(station.elevation) >= elev
-      );
-    });
-
-    if (country) {
-      allowedStations = allowedStations.filter(
-        (station) => station.geolocation.country.name === country,
-      );
-    }
-
     allowedStations = allowedStations.filter((station) => station);
 
-    const allowedStationsWithData = Promise.all(
-      allowedStations.map(async (station) => {
-        return await this.weatherDataService.findByStation(station.name);
-      }),
-    );
-    const data = (await allowedStationsWithData).flat();
-
+    let data = await this.weatherDataService.findBy(country, lat, long, elev);
+    data = data.filter((weatherdata) => {
+      return allowedStations.some(
+        (station) => station.name === weatherdata.weatherstation.name,
+      );
+    });
     // console.log(data);
 
     return data;
