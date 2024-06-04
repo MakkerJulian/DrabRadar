@@ -1,4 +1,8 @@
-import { ImATeapotException, Injectable } from '@nestjs/common';
+import {
+  ImATeapotException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ContractService } from 'src/api/contract/services/contract/contract.service';
 import { SubscriptionService } from 'src/api/subscription/services/subscription/subscription.service';
 import { WeatherdataService } from 'src/api/weatherdata/services/weatherdata/weatherdata.service';
@@ -30,7 +34,7 @@ export class ExternService {
     const newToken = token ?? '1';
     const subscription = await this.subscriptionService.getByToken(newToken);
 
-    if (!subscription) return new ImATeapotException('No subscription found');
+    if (!subscription) throw new UnauthorizedException('No subscription found');
 
     const lat = latitude ?? -1;
     const long = longitude ?? -1;
