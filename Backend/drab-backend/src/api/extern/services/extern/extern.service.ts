@@ -68,4 +68,35 @@ export class ExternService {
 
     return data;
   }
+
+  async getCountry(
+    token: string,
+    country: string,
+  ) {
+    const newToken = token ?? '1';
+    const subscription = await this.subscriptionService.getByToken(newToken);
+
+    if (!subscription) throw new UnauthorizedException('No subscription found');
+
+
+    let allowedStations = subscription.contracts
+      .map((contract) => {
+        this.contractService.updateLastCallDate(contract.id);
+        return contract.weatherstations;
+      })
+      .filter((station) => station)
+      .flat();
+
+    allowedStations = allowedStations.filter((station) => station);
+
+    let data = await this.weatherDataService.findBy(country, lat, long, elev);
+    data = data.filter((weatherdata) => {
+      return allowedStations.some(
+        (station) => station.name === weatherdata.weatherstation.name,
+      );
+    });
+    // console.log(data);
+
+    return data;
+  }
 }

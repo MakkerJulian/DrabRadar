@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Subscription } from './subscription.entity';
 import { Weatherstation } from './weatherstation.entity';
+import { Country } from './country.entity';
 
 @Entity()
 export class Contract {
@@ -27,4 +28,7 @@ export class Contract {
 
   @Column({ nullable: true })
   lastCallDate: Date;
+
+  @ManyToOne(() => Country, (country) => country.code)
+  country : Country;
 }
