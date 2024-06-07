@@ -82,17 +82,6 @@ export class ExternService {
     const long = -1;
     const elev = 0;
 
-
-    let allowedStations = subscription.contracts
-      .map((contract) => {
-        this.contractService.updateLastCallDate(contract.id);
-        return contract.weatherstations;
-      })
-      .filter((station) => station)
-      .flat();
-
-    allowedStations = allowedStations.filter((station) => station);
-
     let data = await this.weatherDataService.findBy(country, lat, long, elev);
     // console.log(data);
 
