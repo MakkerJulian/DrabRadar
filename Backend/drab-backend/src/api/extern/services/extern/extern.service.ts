@@ -78,6 +78,10 @@ export class ExternService {
 
     if (!subscription) throw new UnauthorizedException('No subscription found');
 
+    const lat = -1;
+    const long = -1;
+    const elev = 0;
+
 
     let allowedStations = subscription.contracts
       .map((contract) => {
@@ -90,11 +94,6 @@ export class ExternService {
     allowedStations = allowedStations.filter((station) => station);
 
     let data = await this.weatherDataService.findBy(country, lat, long, elev);
-    data = data.filter((weatherdata) => {
-      return allowedStations.some(
-        (station) => station.name === weatherdata.weatherstation.name,
-      );
-    });
     // console.log(data);
 
     return data;
