@@ -26,15 +26,7 @@ export class ExternController {
 
   @Public()
   @Get('/country')
-  getByCountry(
-    @Query('token') token,
-    @Query('country') country,
-  ) {
-    return this.externService.getCountry(
-      token,
-      country,
-    );
+  getByCountry(@Query('token') token, @Query('country') country) {
+    return this.externService.getCountry(token, country);
   }
-
-
 }

@@ -30,5 +30,5 @@ export class Contract {
   lastCallDate: Date;
 
   @ManyToOne(() => Country, (country) => country.code)
-  country : Country;
+  country: Country;
 }

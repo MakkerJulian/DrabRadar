@@ -1,8 +1,4 @@
-import {
-  ImATeapotException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ContractService } from 'src/api/contract/services/contract/contract.service';
 import { SubscriptionService } from 'src/api/subscription/services/subscription/subscription.service';
 import { WeatherdataService } from 'src/api/weatherdata/services/weatherdata/weatherdata.service';
@@ -69,10 +65,7 @@ export class ExternService {
     return data;
   }
 
-  async getCountry(
-    token: string,
-    country: string,
-  ) {
+  async getCountry(token: string, country: string) {
     const newToken = token ?? '1';
     const subscription = await this.subscriptionService.getByToken(newToken);
 
@@ -82,7 +75,7 @@ export class ExternService {
     const long = -1;
     const elev = 0;
 
-    let data = await this.weatherDataService.findBy(country, lat, long, elev);
+    const data = await this.weatherDataService.findBy(country, lat, long, elev);
     // console.log(data);
 
     return data;
