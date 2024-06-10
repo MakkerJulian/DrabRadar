@@ -74,7 +74,14 @@ export const CustomerDetails = () => {
     }
 
     const createContractBasedOnCountry = (subscriptionId: number) => {
-        axiosInstance.post('/contract/country', { subscriptionId: subscriptionId, country: usedCountry?.code, level : "3"}).then(() => {
+        const newContract = {
+            ...newContractForm,
+            subscriptionId: subscriptionId,
+            level: "3",
+            country: usedCountry?.code
+        }
+
+        axiosInstance.post('/contract/country', newContract).then(() => {
             enqueueSnackbar('Contract created', { variant: 'success' });
             setOpenNewContractCountry(false);
             axiosInstance.get<Customer>(`/customer/${customer?.id}`).then((response) => {
@@ -394,7 +401,7 @@ export const CustomerDetails = () => {
                                                 backgroundColor: 'darkgreen',
                                             }
                                         }}
-                                        onClick={() => { setOpenNewContractCountry(true); setUsedWeatherstations([]); }}
+                                        onClick={() => { setOpenNewContractCountry(true); }}
                                     >
                                         Create contract based on country
                                     </Button>
@@ -461,7 +468,7 @@ export const CustomerDetails = () => {
                     open={openNewContractCountry}
                     title="Add new Contract"
                     setOpen={setOpenNewContractCountry}
-                    onSubmit={handleSubmit(() => createContractBasedOnCountry(customer.subscription.id))}
+                    onSubmit={() => createContractBasedOnCountry(customer.subscription.id)}
                 >
                     <Typography>Level 4</Typography>
                     <Autocomplete

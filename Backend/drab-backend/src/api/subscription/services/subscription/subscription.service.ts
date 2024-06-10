@@ -88,6 +88,7 @@ export class SubscriptionService {
         'contracts.weatherstations',
         'contracts.weatherstations.geolocation',
         'contracts.weatherstations.geolocation.country',
+        'contracts.country',
       ],
     });
   }

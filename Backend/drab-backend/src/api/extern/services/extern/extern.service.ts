@@ -81,10 +81,14 @@ export class ExternService {
       .map((contract) => contract.country.name);
 
     if (allowedCountries.includes(country)) {
-      const data = await this.weatherDataService.findBy(country, lat, long, elev);
+      const data = await this.weatherDataService.findBy(
+        country,
+        lat,
+        long,
+        elev,
+      );
       return data;
-    }
-    else {
+    } else {
       throw new UnauthorizedException('No Access');
     }
   }
