@@ -7,6 +7,7 @@ import {
   CreateContractDtoByCountry,
 } from 'src/dto/contract.dto';
 import { WeatherstationService } from 'src/api/weatherstation/services/weatherstation/weatherstation.service';
+import { Country } from 'src/typeorm/country.entity';
 
 @Injectable()
 export class ContractService {
@@ -14,7 +15,7 @@ export class ContractService {
     @InjectRepository(Contract)
     private readonly contractRepository: Repository<Contract>,
     private readonly weatherstationService: WeatherstationService,
-  ) {}
+  ) { }
 
   createContract(createContractDto: CreateContractDto) {
     const weatherstations = createContractDto.weatherstations.map((station) => {
@@ -33,29 +34,27 @@ export class ContractService {
   async createContractByCountry(
     createContractByCountry: CreateContractDtoByCountry,
   ) {
-    const weatherstations =
-      await this.weatherstationService.getWeatherstationsByCountry(
-        createContractByCountry.country,
-      );
-    weatherstations.map((station) => {
-      const newContract = {
-        subscription: createContractByCountry.subscriptionId,
-        level: createContractByCountry.level,
-        weatherstations: [{ name: station.name }],
-      };
-      this.contractRepository.save(newContract);
-    });
-    return this.contractRepository.find();
+
+    const newContract = {
+      subscription: createContractByCountry.subscriptionId,
+      level: createContractByCountry.level,
+      weatherstations: [],
+      country: {code : createContractByCountry.country},
+    };
+    this.contractRepository.save(newContract);
+    return this.contractRepository.find({relations: ["country"]});
   }
 
-  findContractByID(id: number) {
-    return this.contractRepository.findOne({ where: { id: id } });
+  async findContractByID(id: number) {
+    const contract = await this.contractRepository.findOne({ where: { id: id }, relations:["country"] });
+    console.log(contract)
+    return contract;
   }
 
   async updateContractByWeatherstationId(id: number, name: string) {
     const contract = await this.contractRepository.findOne({
       where: { id: id },
-      relations: ['weatherstations'],
+      relations: ['weatherstations', 'country'],
     });
     const newWeatherstations = contract.weatherstations.filter(
       (station) => station.name !== name,
@@ -69,7 +68,7 @@ export class ContractService {
 
   getContracts() {
     return this.contractRepository.find({
-      relations: ['subscription', 'weatherstations', 'subscription.customer'],
+      relations: ['subscription', 'weatherstations', 'subscription.customer', 'country'],
     });
   }
 

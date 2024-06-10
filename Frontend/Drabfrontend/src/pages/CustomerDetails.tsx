@@ -74,7 +74,14 @@ export const CustomerDetails = () => {
     }
 
     const createContractBasedOnCountry = (subscriptionId: number) => {
-        axiosInstance.post('/contract/country', { subscriptionId: subscriptionId, country: usedCountry?.name, level: newContractForm.level }).then(() => {
+        const newContract = {
+            ...newContractForm,
+            subscriptionId: subscriptionId,
+            level: "3",
+            country: usedCountry?.code
+        }
+
+        axiosInstance.post('/contract/country', newContract).then(() => {
             enqueueSnackbar('Contract created', { variant: 'success' });
             setOpenNewContractCountry(false);
             axiosInstance.get<Customer>(`/customer/${customer?.id}`).then((response) => {
@@ -302,7 +309,8 @@ export const CustomerDetails = () => {
                                         {contract.level === 0 ? "Contract level 1, daily updates for 1 station" :
                                             contract.level === 1 ? "Contract level 2, daily updates for multiple stations" :
                                                 contract.level === 2 ? "Contract level 3, live updates for 1 station" :
-                                                    "Unknown level"}
+                                                    contract.level === 3 ? "Contract level 4, live updates for 1 country" :
+                                                        "Unknown level"}
                                     </Typography>
                                     <Typography variant='h5'>Weatherstations</Typography>
                                     {contract.weatherstations.map(ws => (
@@ -355,6 +363,9 @@ export const CustomerDetails = () => {
                                             </Grid>
                                         </Grid>
                                     ))}
+                                    <Typography>
+                                        {contract.country ? contract.country.name : ""}
+                                    </Typography>
                                 </AccordionDetails>
                             </Accordion>
                         ))}
@@ -390,7 +401,7 @@ export const CustomerDetails = () => {
                                                 backgroundColor: 'darkgreen',
                                             }
                                         }}
-                                        onClick={() => { setOpenNewContractCountry(true); setUsedWeatherstations([]); }}
+                                        onClick={() => { setOpenNewContractCountry(true); }}
                                     >
                                         Create contract based on country
                                     </Button>
@@ -457,22 +468,9 @@ export const CustomerDetails = () => {
                     open={openNewContractCountry}
                     title="Add new Contract"
                     setOpen={setOpenNewContractCountry}
-                    onSubmit={handleSubmit(() => createContractBasedOnCountry(customer.subscription.id))}
+                    onSubmit={() => createContractBasedOnCountry(customer.subscription.id)}
                 >
-                    <TextField
-                        sx={{ width: '40%', margin: '20px' }}
-                        label="Level"
-                        select
-                        value={newContractForm.level}
-                        {...register('level', { required: "name can't be empty" })}
-                        onChange={handleChange}
-                        helperText={errors.level?.message?.toString()}
-                        error={errors.level?.message !== undefined}
-                    >
-                        <MenuItem value="0">Level 1</MenuItem>
-                        <MenuItem value="1">Level 2</MenuItem>
-                        <MenuItem value="2">Level 3</MenuItem>
-                    </TextField>
+                    <Typography>Level 4</Typography>
                     <Autocomplete
                         disablePortal
                         disabled={handleDisable()}

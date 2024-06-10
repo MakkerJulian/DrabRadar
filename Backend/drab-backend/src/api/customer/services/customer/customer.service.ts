@@ -30,6 +30,7 @@ export class CustomerService {
         'subscription.contracts',
         'subscription.contracts.weatherstations',
         'subscription.contracts.weatherstations.geolocation.country',
+        'subscription.contracts.country',
       ],
     });
   }

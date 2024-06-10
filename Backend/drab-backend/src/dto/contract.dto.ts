@@ -17,7 +17,7 @@ export class CreateContractDtoByCountry {
   subscriptionId: number;
 
   @IsNotEmpty()
-  @IsIn(['0', '1', '2'])
+  @IsIn(['0', '1', '2', '3'])
   level: number;
 
   @IsNotEmpty()
