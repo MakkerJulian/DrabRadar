@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ContractService } from 'src/api/contract/services/contract/contract.service';
 import { SubscriptionService } from 'src/api/subscription/services/subscription/subscription.service';
 import { WeatherdataService } from 'src/api/weatherdata/services/weatherdata/weatherdata.service';
+import { Contract } from 'src/typeorm/contract.entity';
 
 @Injectable()
 export class ExternService {
@@ -9,7 +10,7 @@ export class ExternService {
     private subscriptionService: SubscriptionService,
     private weatherDataService: WeatherdataService,
     private contractService: ContractService,
-  ) {}
+  ) { }
 
   dateDiffInDays(a, b) {
     if (b === null) return 8;
@@ -41,7 +42,7 @@ export class ExternService {
         if (
           //mag niet meer dan 1 keer per week voor level 1 en 2
           Math.abs(this.dateDiffInDays(new Date(), contract.lastCallDate)) <
-            7 &&
+          7 &&
           contract.level < 2
         ) {
           return;
@@ -75,9 +76,16 @@ export class ExternService {
     const long = -1;
     const elev = 0;
 
-    const data = await this.weatherDataService.findBy(country, lat, long, elev);
-    // console.log(data);
+    const allowedCountries = subscription.contracts
+      .filter((contract) => contract.country)
+      .map((contract) => contract.country.name);
 
-    return data;
+    if (allowedCountries.includes(country)) {
+      const data = await this.weatherDataService.findBy(country, lat, long, elev);
+      return data;
+    }
+    else {
+      throw new UnauthorizedException('No Access');
+    }
   }
 }

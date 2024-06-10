@@ -74,7 +74,7 @@ export const CustomerDetails = () => {
     }
 
     const createContractBasedOnCountry = (subscriptionId: number) => {
-        axiosInstance.post('/contract/country', { subscriptionId: subscriptionId, country: usedCountry?.code, level: newContractForm.level }).then(() => {
+        axiosInstance.post('/contract/country', { subscriptionId: subscriptionId, country: usedCountry?.code, level : "3"}).then(() => {
             enqueueSnackbar('Contract created', { variant: 'success' });
             setOpenNewContractCountry(false);
             axiosInstance.get<Customer>(`/customer/${customer?.id}`).then((response) => {
@@ -463,21 +463,7 @@ export const CustomerDetails = () => {
                     setOpen={setOpenNewContractCountry}
                     onSubmit={handleSubmit(() => createContractBasedOnCountry(customer.subscription.id))}
                 >
-                    <TextField
-                        sx={{ width: '40%', margin: '20px' }}
-                        label="Level"
-                        select
-                        value={newContractForm.level}
-                        {...register('level', { required: "name can't be empty" })}
-                        onChange={handleChange}
-                        helperText={errors.level?.message?.toString()}
-                        error={errors.level?.message !== undefined}
-                    >
-                        <MenuItem value="0">Level 1</MenuItem>
-                        <MenuItem value="1">Level 2</MenuItem>
-                        <MenuItem value="2">Level 3</MenuItem>
-                        <MenuItem value="3">Level 4</MenuItem>
-                    </TextField>
+                    <Typography>Level 4</Typography>
                     <Autocomplete
                         disablePortal
                         disabled={handleDisable()}
