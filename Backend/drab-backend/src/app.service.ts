@@ -7,7 +7,6 @@ import { CustomerService } from './api/customer/services/customer/customer.servi
 import { AccountService } from './api/account/services/account/account.service';
 import { SubscriptionService } from './api/subscription/services/subscription/subscription.service';
 import { ContractService } from './api/contract/services/contract/contract.service';
-import { WeatherdataService } from './api/weatherdata/services/weatherdata/weatherdata.service';
 
 @Injectable()
 export class AppService {
@@ -20,7 +19,6 @@ export class AppService {
     private readonly accountServie: AccountService,
     private readonly subscriptionService: SubscriptionService,
     private readonly contractService: ContractService,
-    private readonly weatherdataService: WeatherdataService,
   ) {
     this.seedDatabase();
   }
