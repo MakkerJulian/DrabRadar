@@ -15,7 +15,7 @@ export default class WeatherDataSeeder implements Seeder {
 
     await weatherdataRepository.clear();
 
-    const weatherstations = await weatherstationRepository.find({ take: 1 });
+    const weatherstations = await weatherstationRepository.find();
 
     let counter = 1;
     const length = weatherstations.length;
