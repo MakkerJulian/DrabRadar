@@ -39,7 +39,7 @@ export default class WeatherDataSeeder implements Seeder {
                 : Math.random() * 40 - 20;
               weatherdata.windspeed = prev
                 ? prev.windspeed + Math.random() * 2 - 1
-                : Math.random() * 100;
+                : Math.random() * 40;
               weatherdata.s_airpressure = prev
                 ? prev.s_airpressure + Math.random() * 2 - 1
                 : Math.random() * 550 + 500;
