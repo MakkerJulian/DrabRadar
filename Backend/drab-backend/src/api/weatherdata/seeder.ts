@@ -2,7 +2,6 @@ import { WeatherData } from 'src/typeorm/weatherdata.entity';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
 import { Weatherstation } from 'src/typeorm/weatherstation.entity';
-import * as Promise from 'bluebird';
 
 export default class WeatherDataSeeder implements Seeder {
   async run(
@@ -17,40 +16,40 @@ export default class WeatherDataSeeder implements Seeder {
 
     const weatherstations = await weatherstationRepository.find();
 
-    const concurrency = 50; // Adjust this number based on your system's capabilities more is faster but more resource intensive
-    await Promise.map(
-      weatherstations,
-      async (station: Weatherstation) => {
-        console.log(`Inserting weatherdata for station ${station.name}...`);
-        const prevTemp = null;
-        const prevWindspeed = null;
-        const prevAirpressure = null;
-        const prevPrecipitation = null;
-        const data = await Promise.all(
-          Array(10)
-            .fill('')
-            .map(async () => {
-              const weatherdata = await weatherdataFactory.make();
-              weatherdata.weatherstation = station;
-              weatherdata.temp = prevTemp
-                ? prevTemp + Math.random() * 2 - 1
-                : Math.random() * 100 - 50;
-              weatherdata.windspeed = prevWindspeed
-                ? prevWindspeed + Math.random() * 2 - 1
-                : Math.random() * 100;
-              weatherdata.s_airpressure = prevAirpressure
-                ? prevAirpressure + Math.random() * 2 - 1
-                : Math.random() * 100;
-              weatherdata.precipitation = prevPrecipitation
-                ? prevPrecipitation + Math.random() * 2 - 1
-                : Math.random() * 100;
+    weatherstations.forEach(async (station) => {
+      let prevTemp = null;
+      let prevWindspeed = null;
+      let prevAirpressure = null;
+      let prevPrecipitation = null;
+      const data = await Promise.all(
+        Array(10)
+          .fill('')
+          .map(async () => {
+            const weatherdata = await weatherdataFactory.make();
+            weatherdata.weatherstation = station;
+            weatherdata.temp = prevTemp
+              ? prevTemp + Math.random() * 2 - 1
+              : Math.random() * 100 - 50;
+            weatherdata.windspeed = prevWindspeed
+              ? prevWindspeed + Math.random() * 2 - 1
+              : Math.random() * 100;
+            weatherdata.s_airpressure = prevAirpressure
+              ? prevAirpressure + Math.random() * 2 - 1
+              : Math.random() * 100;
+            weatherdata.precipitation = prevPrecipitation
+              ? prevPrecipitation + Math.random() * 2 - 1
+              : Math.random() * 100;
 
-              return weatherdata;
-            }),
-        );
-        weatherdataRepository.insert(data);
-      },
-      { concurrency },
-    );
+            // Update the previous values for the next iteration
+            prevTemp = weatherdata.temp;
+            prevWindspeed = weatherdata.windspeed;
+            prevAirpressure = weatherdata.s_airpressure;
+            prevPrecipitation = weatherdata.precipitation;
+
+            return weatherdata;
+          }),
+      );
+      await weatherdataRepository.insert(data);
+    });
   }
 }
