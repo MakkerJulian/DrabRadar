@@ -12,7 +12,7 @@ export class WeatherdataService {
     private readonly weatherdataRepository: Repository<WeatherData>,
     @InjectRepository(Storing)
     private readonly storingRepository: Repository<Storing>,
-  ) {}
+  ) { }
 
   async createWeatherdata(createWeatherdataDtos: {
     WEATHERDATA: CreateWeatherdataDto[];
@@ -164,4 +164,23 @@ export class WeatherdataService {
       });
     }
   }
+  findByCountry(country: string) {
+
+    return this.weatherdataRepository.find({
+      relations: [
+        'weatherstation',
+        'weatherstation.geolocation',
+        'weatherstation.geolocation.country',
+      ],
+      where: {
+        weatherstation: {
+          geolocation: { country: { name: country } },
+        },
+      },
+      order: {
+        datetime: 'DESC',
+      },
+    });
+  }
 }
+

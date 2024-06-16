@@ -72,21 +72,12 @@ export class ExternService {
 
     if (!subscription) throw new UnauthorizedException('No subscription found');
 
-    const lat = -1;
-    const long = -1;
-    const elev = 0;
-
     const allowedCountries = subscription.contracts
       .filter((contract) => contract.country)
       .map((contract) => contract.country.name);
 
     if (allowedCountries.includes(country)) {
-      const data = await this.weatherDataService.findBy(
-        country,
-        lat,
-        long,
-        elev,
-      );
+      const data = await this.weatherDataService.findByCountry(country);
       return data;
     } else {
       throw new UnauthorizedException('No Access');
